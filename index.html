@@ -169,20 +169,21 @@ var N = {C:"การแข่งขัน (Competing)", Co:"การร่ว�
 var AnimalName = {C:"ฉลาม", Co:"นกฮูก", Cm:"สุนัขจิ้งจอก", Av:"เต่า", Ac:"หมีเท็ดดี้"};
 var K = ["Co","C","Av","Ac","Cm"];
 
-var ImgCandidates = {
-  C: ['Shark_2.png', 'Shark.png', 'image_5307e0.png'], 
-  Co: ['OWL_2.png', 'OWL.png', 'image_5307d8.png'], 
-  Cm: ['Fox_2.png', 'Fox.png', 'image_5307db.png'], 
-  Av: ['Turtle_2.png', 'Turtle.png', 'image_5307f9.png'], 
-  Ac: ['Teddy_2.png', 'Teddy.png', 'image_5307dd.png']
+// อัปเดตชื่อไฟล์รูปภาพให้ตรงกับโฟลเดอร์ใน GitHub
+var PrimaryImg = {
+  C: 'Shark.png', 
+  Co: 'OWL.png', 
+  Cm: 'Fox.png', 
+  Av: 'Turtle.png', 
+  Ac: 'Teddy.png'
 };
 
 var SvgFallback = {
-  Co: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%236d4fd6'/><circle cx='38' cy='42' r='14' fill='%23fff'/><circle cx='62' cy='42' r='14' fill='%23fff'/><circle cx='38' cy='42' r='6' fill='%231f1d2b'/><circle cx='62' cy='42' r='6' fill='%231f1d2b'/><polygon points='50,48 44,58 56,58' fill='%23f4a261'/><path d='M30,70 Q50,85 70,70' stroke='%23fff' stroke-width='4' fill='none'/><text x='50' y='92' font-size='11' text-anchor='middle' fill='%23fff' font-weight='bold'>นกฮูก</text></svg>",
-  C: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%231f1d2b'/><polygon points='20,50 80,50 50,20' fill='%23a09db5'/><circle cx='60' cy='45' r='5' fill='%23fff'/><circle cx='60' cy='45' r='2' fill='%231f1d2b'/><polygon points='40,50 45,60 50,50 55,60 60,50' fill='%23fff'/><text x='50' y='92' font-size='11' text-anchor='middle' fill='%23fff' font-weight='bold'>ฉลาม</text></svg>",
-  Cm: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23e76f51'/><polygon points='25,25 40,40 20,45' fill='%23fff'/><polygon points='75,25 60,40 80,45' fill='%23fff'/><polygon points='50,70 35,50 65,50' fill='%23fff'/><circle cx='50' cy='65' r='4' fill='%231f1d2b'/><circle cx='38' cy='45' r='4' fill='%231f1d2b'/><circle cx='62' cy='45' r='4' fill='%231f1d2b'/><text x='50' y='92' font-size='11' text-anchor='middle' fill='%23fff' font-weight='bold'>สุนัขจิ้งจอก</text></svg>",
-  Av: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23285a48'/><ellipse cx='50' cy='52' rx='30' ry='22' fill='%234cc79a'/><circle cx='72' cy='45' r='10' fill='%2362e3b1'/><circle cx='74' cy='43' r='2' fill='%231f1d2b'/><text x='50' y='92' font-size='11' text-anchor='middle' fill='%23fff' font-weight='bold'>เต่า</text></svg>",
-  Ac: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23f4a261'/><circle cx='30' cy='30' r='12' fill='%23e76f51'/><circle cx='70' cy='30' r='12' fill='%23e76f51'/><circle cx='50' cy='52' r='22' fill='%23ffe599'/><circle cx='42' cy='46' r='3' fill='%231f1d2b'/><circle cx='58' cy='46' r='3' fill='%231f1d2b'/><ellipse cx='50' cy='54' rx='5' ry='3' fill='%231f1d2b'/><text x='50' y='92' font-size='11' text-anchor='middle' fill='%23fff' font-weight='bold'>หมีเท็ดดี้</text></svg>"
+  Co: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJz48Y2lyY2xlIGN4PSc1MCcgY3k9JzUwJyByPSc0NScgZmlsbD0nIzZkNGZkNicvPjxjaXJjbGUgY3g9JzM4JyBjeT0nNDInIHI9JzE0JyBmaWxsPScjZmZmJy8+PGNpcmNsZSBjeD0nNjInIGN5PSc0Micgcj0nMTQnIGZpbGw9JyNmZmYnLz48Y2lyY2xlIGN4PSczOCcgY3k9JzQyJyByPSc2JyBmaWxsPScjMWYxZDJiJy8+PGNpcmNsZSBjeD0nNjInIGN5PSc0Micgcj0nNicgZmlsbD0nIzFmMWQyYicvPjxwb2x5Z29uIHBvaW50cz0nNTAsNDggNDQsNTggNTYsNTgnIGZpbGw9JyNmNGExNjEnLz48cGF0aCBkPSdNMzAsNzAgUTUwLDg1IDcwLDcwJyBzdHJva2U9JyNmZmYnIHN0cm9rZS13aWR0aD0nNCcgZmlsbD0nbm9uZScvPjx0ZXh0IHg9JzUwJyB5PSc5MicgZm9udC1zaXplPScxMScgdGV4dC1hbmNob3I9J21pZGRsZScgZmlsbD0nI2ZmZicgZm9udC13ZWlnaHQ9J2JvbGQnPk9XTCAt นกฮูกPC90ZXh0Pjwvc3ZnPg==",
+  C: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJz48Y2lyY2xlIGN4PSc1MCcgY3k9JzUwJyByPSc0NScgZmlsbD0nIzFmMWQyYicvPjxwb2x5Z29uIHBvaW50cz0nMjAsNTAgODAsNTAgNTAsMjAnIGZpbGw9JyNhMDlkYjUnLz48Y2lyY2xlIGN4PSc2MCcgY3k9JzQ1JyByPSc1JyBmaWxsPScjZmZmJy8+PGNpcmNsZSBjeD0nNjAnIGN5PSc0NScgcj0nMicgZmlsbD0nIzFmMWQyYicvPjxwb2x5Z29uIHBvaW50cz0nNDAsNTAgNDUsNjAgNTAsNTAgNTUsNjAgNjAsNTAnIGZpbGw9JyNmZmYnLz48dGV4dCB4PSc1MCcgeT0nOTInIGZvbnQtc2l6ZT0nMTEnIHRleHQtYW5jaG9yPSdtaWRkbGUnIGZpbGw9JyNmZmYnIGZvbnQtd2VpZ2h0PSdib2xkJz5TaGFyayAt ฉลามPC90ZXh0Pjwvc3ZnPg==",
+  Cm: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJz48Y2lyY2xlIGN4PSc1MCcgY3k9JzUwJyByPSc0NScgZmlsbD0nI2U3NmY1MScvPjxwb2x5Z29uIHBvaW50cz0nMjUsMjUgNDAsNDAgMjAsNDUnIGZpbGw9JyNmZmYnLz48cG9seWdvbiBwb2ludHM9Jzc1LDI1IDYwLDQwIDgwLDQ1JyBmaWxsPScjZmZmJy8+PHBvbHlnb24gcG9pbnRzPSc1MCw3MCAzNSw1MCA2NSw1MCcgZmlsbD0nI2ZmZicvPjxjaXJjbGUgY3g9JzUwJyBjeT0nNjUnIHI9JzQnIGZpbGw9JyMxZjFkMmInLz48Y2lyY2xlIGN4PSczOCcgY3k9JzQ1JyByPSc0JyBmaWxsPScjMWYxZDJiJy8+PGNpcmNsZSBjeD0nNjInIGN5PSc0NScgcj0nNCcgZmlsbD0nIzFmMWQyYicvPjx0ZXh0IHg9JzUwJyB5PSc5MicgZm9udC1zaXplPScxMScgdGV4dC1hbmNob3I9J21pZGRsZScgZmlsbD0nI2ZmZicgZm9udC13ZWlnaHQ9J2JvbGQnPkZveCAt สุนัขจิ้งจอกPC90ZXh0Pjwvc3ZnPg==",
+  Av: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJz48Y2lyY2xlIGN4PSc1MCcgY3k9JzUwJyByPSc0NScgZmlsbD0nIzI4NWE0OCcvPjxlbGxpcHNlIGN4PSc1MCcgY3k9JzUyJyByeD0nMzAnIHJ5PScyMicgZmlsbD0nIzRjYzc5YScvPjxjaXJjbGUgY3g9Jzc2JyBjeT0nNDUnIHI9JzEwJyBmaWxsPScjNjJlM2IxJy8+PGNpcmNsZSBjeD0nNzgnIGN5PSc0Mycgcj0nMicgZmlsbD0nIzFmMWQyYicvPjx0ZXh0IHg9JzUwJyB5PSc5MicgZm9udC1zaXplPScxMScgdGV4dC1hbmNob3I9J21pZGRsZScgZmlsbD0nI2ZmZicgZm9udC13ZWlnaHQ9J2JvbGQnPlR1cnRsZSAt เต่าPC90ZXh0Pjwvc3ZnPg==",
+  Ac: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJz48Y2lyY2xlIGN4PSc1MCcgY3k9JzUwJyByPSc0NScgZmlsbD0nI2Y0YTI2MScvPjxjaXJjbGUgY3g9JzMwJyBjeT0nMzAnIHI9JzEyJyBmaWxsPScjZTc2ZjUxJy8+PGNpcmNsZSBjeD0nNzBhIGN5PSczMCcgcj0nMTInIGZpbGw9JyNlNzZmNTEnLz48Y2lyY2xlIGN4PSc1MCcgY3k9JzUyJyByPScyMicgZmlsbD0nI2ZmZTU5OScvPjxjaXJjbGUgY3g9JzQyJyBjeT0nNDYnIHI9JzMnIGZpbGw9JyMxZjFkMmInLz48Y2lyY2xlIGN4PSc1OCcgY3k9JzQ2JyByPSczJyBmaWxsPScjMWYxZDJiJy8+PGVsbGlwc2UgY3g9JzUwJyBjeT0nNTQnIHJ4PSc1JyByeT0nMycgZmlsbD0nIzFmMWQyYicvPjx0ZXh0IHg9JzUwJyB5PSc5MicgZm9udC1zaXplPScxMScgdGV4dC1hbmNob3I9J21pZGRsZScgZmlsbD0nI2ZmZicgZm9udC13ZWlnaHQ9J2JvbGQnPlRlZGR5IC0 หมีเท็ดดี้PC90ZXh0Pjwvc3ZnPg=="
 };
 
 var Desc = {
@@ -193,13 +194,15 @@ var Desc = {
   Cm: "สุนัขจิ้งจอกมีความใส่ใจในระดับปานกลางทั้งต่อเป้าหมายของตนและต่อความสัมพันธ์กับผู้อื่น สุนัขจิ้งจอกมักจะแสวงหาการประนีประนอม พวกเขายอมสละเป้าหมายบางส่วนของตนและชักชวนให้อีกฝ่ายในความขัดแย้งยอมสละเป้าหมายบางส่วนของตนเช่นกัน พวกเขาแสวงหาทางออกของความขัดแย้งที่ทั้งสองฝ่ายได้อะไรบางอย่าง ซึ่งก็คือจุดกึ่งกลางระหว่างจุดยืนที่สุดโต่งสองฝั่ง พวกเขายินดีที่จะเสียสละเป้าหมายบางส่วนเพื่อหาข้อตกลงเพื่อผลประโยชน์ส่วนรวม"
 };
 
-// ฟังก์ชันสร้าง img ที่มีระบบดักจับ SVG สำรองป้องกันรูปหลุด
+function handleImgError(imgElement, catKey) {
+  imgElement.onerror = null;
+  imgElement.src = SvgFallback[catKey];
+}
+
 function getImgHtml(cat, extraStyle) {
-  var list = ImgCandidates[cat];
   var altText = AnimalName[cat];
-  var fallbackSvg = SvgFallback[cat];
   var style = extraStyle || "width:100px; height:100px; object-fit:contain; margin-bottom:10px;";
-  return '<img src="' + list[0] + '" onerror="this.onerror=null; this.src=\'' + fallbackSvg + '\';" style="' + style + '" alt="' + altText + '">';
+  return '<img src="' + PrimaryImg[cat] + '" onerror="handleImgError(this, \'' + cat + '\')" style="' + style + '" alt="' + altText + '">';
 }
 
 var Q=[
@@ -270,7 +273,6 @@ function updateView() {
   
   if(currentStep === 14) { 
     document.getElementById("btnNext").style.display = "none"; 
-    // แสดงปุ่มบันทึกเฉพาะเมื่อตอบข้อ 15 เรียบร้อยแล้วเท่านั้น
     if(ans[14]) {
       document.getElementById("submitCard").style.display = "block";
     } else {
@@ -293,7 +295,6 @@ qs.addEventListener("change",function(e){
   playHappySound(); 
   document.getElementById("pg").style.width = ((Object.keys(ans).length / 15) * 100) + "%";
   
-  // หากเลือกคำตอบของข้อ 15 แล้ว ให้แสดงปุ่มบันทึกทันที
   if(currentStep === 14) {
     document.getElementById("submitCard").style.display = "block";
     document.getElementById("submitCard").scrollIntoView({behavior:"smooth"});
