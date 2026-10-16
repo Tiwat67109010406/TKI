@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>แบบประเมินรูปแบบการจัดการความขัดแย้ง (TKI) - ให้คะแนน 1-4</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#f6f5fb;--card:#fff;--tx:#1f1d2b;--mut:#6b6880;--bd:#dedbed;--ac:#6d4fd6;--acs:#ece8fb;--ok:#1d9a6c;--warn:#e63946}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15141c;--card:#1f1e2a;--tx:#ecebf5;--mut:#a09db5;--bd:#34324a;--ac:#9a84f0;--acs:#2b2842;--ok:#4cc79a;--warn:#ff6b6b}}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:"Noto Sans Thai",system-ui,sans-serif;line-height:1.6}
+.w{max-width:720px;margin:0 auto;padding:20px 16px 48px}
+h1{font-size:1.4rem;margin:8px 0; color:var(--ac)}
+h2{font-size:1.2rem;margin-top:0}
+.mut{color:var(--mut);font-size:.92rem}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px;margin:14px 0;box-shadow:0 2px 8px rgba(0,0,0,0.02)}
+.q{font-weight:600;margin-bottom:12px; font-size: 1.05rem}
+.scale-container{display:flex; flex-direction:column; gap:8px;}
+label.o{display:flex;gap:10px;align-items:center;padding:12px;border:1px solid var(--bd);border-radius:10px;cursor:pointer;transition:all 0.2s}
+label.o:has(input:checked){background:var(--acs);border-color:var(--ac)}
+input[type=radio]{margin:0;accent-color:var(--ac);transform:scale(1.2)}
+input[type=text], select, textarea{font:inherit;width:100%;padding:12px;border-radius:8px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);margin-bottom:12px}
+input[type=text]:focus, select:focus, textarea:focus{outline:none;border-color:var(--ac)}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding:8px 0;z-index:5;border-bottom:1px solid var(--bd)}
+.pg{height:8px;background:var(--bd);border-radius:6px;overflow:hidden}.pg i{display:block;height:100%;width:0;background:var(--ac);transition:width .3s}
+button{font:inherit;font-weight:600;border:0;border-radius:10px;padding:12px 20px;background:var(--ac);color:#fff;cursor:pointer;margin:4px 6px 4px 0;transition:opacity 0.2s}
+button:hover{opacity:0.9}
+button.s{background:var(--bd);color:var(--tx)}
+button.danger{background:var(--warn);color:#fff}
+button.warning{background:#f39c12;color:#fff}
+button.test-del{background:#e67e22;color:#fff}
+button.del-btn{background:rgba(230,57,70,0.1);color:var(--warn);padding:4px 10px;font-size:0.8rem;border-radius:6px;}
+button.del-btn:hover{background:var(--warn);color:#fff;}
+.r{margin:10px 0}.r b{display:flex;justify-content:space-between}.r .t{height:14px;background:var(--bd);border-radius:7px;overflow:hidden}.r .t i{display:block;height:100%;background:var(--ac)}
+.r.top .t i{background:var(--ok)}
+#res, #adminPanel{display:none}
+.err{color:var(--warn);font-weight:600;display:none;background:#ffe5e5;padding:10px;border-radius:8px;margin-bottom:14px}
+@media (prefers-color-scheme:dark){.err{background:#3a1c1c}}
+.admin-section{margin-top:60px;padding-top:20px;border-top:2px dashed var(--bd);text-align:center}
+.acc-header {display: flex;justify-content: space-between;align-items: center;cursor: pointer;padding: 12px 16px;background: var(--acs);border-radius: 10px;user-select: none;}
+.acc-header:hover { opacity: 0.95; }
+.acc-body { display: none; padding-top: 14px; }
+.acc-body.open { display: block; }
+.badge {display: inline-block;padding: 2px 8px;border-radius: 6px;font-size: 0.8rem;font-weight: bold;margin-right: 6px;}
+.badge-pre {background: #e1f0ff;color: #1d72b8;border: 1px solid #b3d7ff;}
+.badge-post {background: #e6f9f0;color: #1d9a6c;border: 1px solid #a3e6cb;}
+@media (prefers-color-scheme:dark){
+  .badge-pre { background: #1c334a; color: #72b6ff; border-color: #2b4c6f; }
+  .badge-post { background: #1c3b30; color: #62e3b1; border-color: #285a48; }
+}
+</style>
+</head>
+<body>
+<div class="w">
+<h1>แบบประเมิน TKI: การจัดการความขัดแย้ง</h1>
+<p class="mut">ระดับคะแนน: 1 = แทบจะไม่ | 2 = บางครั้ง | 3 = บ่อยครั้ง | 4 = เสมอ</p>
+
+<!-- 1. ข้อมูลผู้ประเมิน -->
+<div class="card" id="infoCard" style="border:2px solid var(--ac)">
+  <h2>📋 ข้อมูลผู้ประเมิน</h2>
+  <label style="display:block;margin-bottom:6px;font-weight:600;margin-top:10px;">ชื่อ-นามสกุล <span style="color:var(--warn)">*</span></label>
+  <input type="text" id="uname" placeholder="เช่น นายสมชาย ใจดี" required>
+  <label style="display:block;margin-bottom:6px;font-weight:600;">รหัสนิสิต (11 หลัก) <span style="color:var(--warn)">*</span></label>
+  <input type="text" id="uid" placeholder="กรอกตัวเลข 11 หลัก" maxlength="11" required>
+  <label style="display:block;margin-bottom:6px;font-weight:600;">ระยะเวลาการทำประเมิน <span style="color:var(--warn)">*</span></label>
+  <select id="when">
+    <option value="Pre-test (ก่อนทำโครงการ)">Pre-test (ก่อนทำโครงการ)</option>
+    <option value="Post-test (หลังทำโครงการ)">Post-test (หลังทำโครงการ)</option>
+  </select>
+</div>
+
+<!-- Progress Bar -->
+<div class="bar"><div class="pg"><i id="pg"></i></div><div class="mut" id="cnt" style="margin-top:6px;font-weight:600;">ตอบแล้ว 0/15 ข้อ</div></div>
+<div class="err" id="err"></div>
+
+<!-- 2. แบบทดสอบ 15 ข้อ -->
+<div id="qs"></div>
+
+<!-- 3. ปุ่มบันทึก -->
+<div class="card" id="submitCard" style="border:2px solid var(--ac); text-align:center;">
+  <button id="go">บันทึกและดูผลคะแนน</button>
+  <button class="s" id="rs">ล้างคำตอบ</button>
+</div>
+
+<!-- 4. สรุปผล -->
+<div id="res">
+  <div class="card" style="border:2px solid var(--ac)">
+    <h2>สรุปผลการประเมินของคุณ <span id="rName" style="color:var(--ac)"></span></h2>
+    <p class="mut">รหัสนิสิต: <span id="rUid" style="font-weight:600"></span><br>
+    ช่วงเวลา: <span id="rWhen" style="font-weight:600"></span><br>
+    วันที่และเวลา: <span id="rDate" style="font-weight:600"></span></p>
+    
+    <div style="max-width:400px; margin:20px auto;"><canvas id="radarChart"></canvas></div>
+    <div id="bars"></div>
+    <div style="margin-top:16px;padding:12px;background:var(--acs);border-radius:8px;">
+      <p id="read" style="margin:0;font-size:1.1rem;"></p>
+    </div>
+    
+    <div style="margin-top:20px;">
+      <label style="display:block;margin-bottom:6px;font-weight:600;">รูปแบบการจัดการความขัดแย้งที่ฉันอยากจะพัฒนาคือ:</label>
+      <input type="text" id="devGoal" placeholder="กรอกรูปแบบที่ต้องการพัฒนา...">
+      <label style="display:block;margin-bottom:6px;font-weight:600;">ฉันจะฝึกฝนรูปแบบการจัดการความขัดแย้งนี้ได้อย่างไร?:</label>
+      <textarea id="devPlan" rows="3" placeholder="กรอกแนวทางการฝึกฝนของคุณ..."></textarea>
+      <button id="savePlan" style="width:100%; margin-top:8px;">บันทึกแผนพัฒนาตนเอง</button>
+    </div>
+  </div>
+</div>
+
+<!-- ระบบหลังบ้าน (Admin) -->
+<div class="admin-section">
+  <button class="s" id="toggleAdmin">🔒 เปิดระบบหลังบ้าน (ดูข้อมูลทั้งหมด)</button>
+</div>
+
+<div id="adminPanel">
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+      <h2>📊 ระบบหลังบ้าน (Admin Dashboard)</h2>
+      <button class="s" id="closeAdmin">ปิด</button>
+    </div>
+    <div id="adminList"></div>
+    <div style="margin-top:20px; display:flex; flex-wrap:wrap; gap:10px;">
+      <button class="danger" id="clrAll" style="flex:1;">ลบข้อมูลทั้งหมด</button>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+var N={C:"การแข่งขัน (Competing)",Co:"การร่วมมือ (Collaborating)",Cm:"การประนีประนอม (Compromising)",Av:"การหลีกเลี่ยง (Avoiding)",Ac:"การโอนอ่อนผ่อนตาม (Accommodating)"},K=["Co","C","Av","Ac","Cm"];
+var Q=[
+  {q:"1. ฉันพูดคุยถึงปัญหากับผู้อื่นเพื่อพยายามหาทางออกที่ตอบสนองความต้องการของทุกคน", c:"Co"},
+  {q:"2. ฉันพยายามเจรจาต่อรองและใช้วิธีการแบบถ้อยทีถ้อยอาศัย (ให้และรับ) เพื่อแก้ปัญหา", c:"Cm"},
+  {q:"3. ฉันพยายามทำตามความคาดหวังของผู้อื่น", c:"Ac"},
+  {q:"4. ฉันจะโต้แย้งในเรื่องของฉันและยืนกรานถึงข้อดีในมุมมองของฉัน", c:"C"},
+  {q:"5. เมื่อมีความขัดแย้ง ฉันจะรวบรวมข้อมูลให้ได้มากที่สุดและเปิดโอกาสให้มีการสื่อสารกันอย่างต่อเนื่อง", c:"Co"},
+  {q:"6. เมื่อฉันพบว่าตัวเองอยู่ในการโต้เถียง ฉันมักจะพูดน้อยมากและพยายามปลีกตัวออกมาให้เร็วที่สุด", c:"Av"},
+  {q:"7. ฉันพยายามมองความขัดแย้งจากทั้งสองฝ่าย ฉันต้องการอะไร? อีกฝ่ายต้องการอะไร? มีประเด็นอะไรเกี่ยวข้องบ้าง?", c:"Co"},
+  {q:"8. ฉันชอบที่จะประนีประนอมเมื่อต้องแก้ปัญหาและก้าวผ่านมันไป", c:"Cm"},
+  {q:"9. ฉันพบว่าความขัดแย้งเป็นเรื่องน่าตื่นเต้น ฉันสนุกกับการประลองปัญญาที่มักจะตามมา", c:"C"},
+  {q:"10. การมีความคิดเห็นไม่ตรงกับผู้อื่นทำให้ฉันรู้สึกอึดอัดและวิตกกังวล", c:"Av"},
+  {q:"11. ฉันพยายามทำตามความต้องการของเพื่อนและครอบครัว", c:"Ac"},
+  {q:"12. ฉันสามารถคิดได้ว่าอะไรควรทำ และฉันก็มักจะเป็นฝ่ายถูก", c:"C"},
+  {q:"13. เพื่อแก้ปัญหาทางตัน ฉันจะประนีประนอมพบกันคนละครึ่งทาง", c:"Cm"},
+  {q:"14. ฉันอาจจะไม่ได้ในสิ่งที่ต้องการ แต่มันก็เป็นเพียงราคาเล็กน้อยที่ต้องจ่ายเพื่อรักษาความสงบเอาไว้", c:"Ac"},
+  {q:"15. ฉันหลีกเลี่ยงความรู้สึกที่ไม่ดีโดยเก็บความไม่ลงรอยกันที่มีต่อผู้อื่นไว้กับตัวเอง", c:"Av"}
+];
+var scales = [
+  {v:1, l:"1 = แทบจะไม่ (Rarely)"},
+  {v:2, l:"2 = บางครั้ง (Sometimes)"},
+  {v:3, l:"3 = บ่อยครั้ง (Often)"},
+  {v:4, l:"4 = เสมอ (Always)"}
+];
+
+var ans={}, KEY="tki_project_15q";
+var qs=document.getElementById("qs"), myRadarChart=null, adminCharts={};
+
+// สร้างข้อสอบ
+Q.forEach(function(q,i){
+ var d=document.createElement("div");d.className="card";d.id="q"+i;
+ var html = '<div class="q">'+q.q+'</div><div class="scale-container">';
+ scales.forEach(function(s){
+   html += '<label class="o"><input type="radio" name="q'+i+'" value="'+s.v+'" data-cat="'+q.c+'"><span>'+s.l+'</span></label>';
+ });
+ html += '</div>'; d.innerHTML = html; qs.appendChild(d);
+});
+
+function upd(){var n=Object.keys(ans).length;document.getElementById("cnt").textContent="ตอบแล้ว "+n+"/15 ข้อ";document.getElementById("pg").style.width=(n/15*100)+"%";}
+qs.addEventListener("change",function(e){var m=e.target.name.slice(1);ans[m]={val:parseInt(e.target.value), cat:e.target.dataset.cat};upd();});
+
+function loadData(){try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return []}}
+function saveData(a){try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){}}
+
+function createRadarChart(canvasId, scores) {
+  var ctx = document.getElementById(canvasId).getContext('2d');
+  return new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: ['ร่วมมือ', 'แข่งขัน', 'หลีกเลี่ยง', 'โอนอ่อน', 'ประนีประนอม'],
+      datasets: [{
+        label: 'คะแนน TKI',
+        data: [scores.Co, scores.C, scores.Av, scores.Ac, scores.Cm],
+        backgroundColor: 'rgba(109, 79, 214, 0.2)', borderColor: '#6d4fd6', pointBackgroundColor: '#6d4fd6', borderWidth: 2
+      }]
+    },
+    options: { responsive: true, maintainAspectRatio: true, scales: { r: { min: 0, max: 12, ticks: { stepSize: 3 } } } }
+  });
+}
+
+function renderAdminList(){
+ var h=loadData(), el=document.getElementById("adminList"); el.innerHTML = ""; adminCharts = {};
+ if(!h.length){ el.innerHTML='<p class="mut" style="text-align:center;padding:20px;">ยังไม่มีข้อมูลผู้ประเมินในระบบ</p>'; return; }
+ h.forEach(function(r, idx){
+   var mx = Math.max.apply(null, K.map(function(k){return r.s[k]}));
+   var tops = K.filter(function(k){return r.s[k]===mx}).map(function(k){return N[k]});
+   var card = document.createElement("div"); card.className = "card"; card.style.margin = "10px 0"; card.style.padding = "10px";
+   var canvasId = "adminChart_" + idx;
+   var barsHtml = K.map(function(k){
+     return '<div class="r'+(r.s[k]===mx?" top":"")+'"><b><span>'+N[k]+'</span><span>'+r.s[k]+'/12</span></b><div class="t"><i style="width:'+(r.s[k]/12*100)+'%"></i></div></div>';
+   }).join("");
+   
+   var isPre = r.w && r.w.indexOf("Pre") !== -1;
+   card.innerHTML = 
+     '<div class="acc-header" onclick="toggleAcc('+idx+', event)">'+
+       '<div style="flex:1;"><div><span class="badge '+(isPre?"badge-pre":"badge-post")+'">'+(isPre?"Pre-test":"Post-test")+'</span><b style="color:var(--ac); font-size:1.05rem;">'+r.n+'</b></div>'+
+       '<div class="mut" style="font-size:0.85rem;margin-top:2px;">รหัส: '+r.id+' | <span>'+r.d+'</span></div></div>'+
+       '<div style="display:flex;align-items:center;gap:10px;"><button class="del-btn" onclick="deleteSingle('+idx+', event)">🗑️ ลบ</button><span id="accIcon_'+idx+'">▼</span></div>'+
+     '</div>'+
+     '<div class="acc-body" id="accBody_'+idx+'">'+
+       '<div style="max-width:320px; margin:10px auto;"><canvas id="'+canvasId+'"></canvas></div>'+
+       '<div>'+barsHtml+'</div>'+
+       (r.plan?'<div style="margin-top:10px;padding:8px;background:#fff9e6;border-radius:6px;font-size:0.9rem;"><b>อยากพัฒนา:</b> '+r.plan.goal+'<br><b>วิธีฝึก:</b> '+r.plan.how+'</div>':'')+
+     '</div>';
+   el.appendChild(card); adminCharts[idx] = { canvasId: canvasId, scores: r.s, instance: null };
+ });
+}
+
+function toggleAcc(idx, e){
+  if(e && e.target.tagName === "BUTTON") return;
+  var body = document.getElementById("accBody_" + idx), icon = document.getElementById("accIcon_" + idx);
+  if(body.classList.contains("open")){ body.classList.remove("open"); icon.textContent = "▼"; } 
+  else {
+    body.classList.add("open"); icon.textContent = "▲";
+    if(!adminCharts[idx].instance) adminCharts[idx].instance = createRadarChart(adminCharts[idx].canvasId, adminCharts[idx].scores);
+  }
+}
+function deleteSingle(idx, e){
+  if(e) e.stopPropagation();
+  var h = loadData(); if(confirm("ต้องการลบข้อมูลประวัติใช่หรือไม่?")){ h.splice(idx, 1); saveData(h); renderAdminList(); }
+}
+
+var currentUserId = null;
+document.getElementById("go").onclick=function(){
+ var miss=[];for(var i=0;i<15;i++)if(!ans[i])miss.push(i+1);
+ var uName=document.getElementById("uname").value.trim(), uId=document.getElementById("uid").value.trim(), er=document.getElementById("err"), msgs=[];
+ if(!uName) msgs.push("กรุณากรอกชื่อ-นามสกุล");
+ if(!uId) msgs.push("กรุณากรอกรหัสนิสิต");
+ if(miss.length) msgs.push("ยังตอบไม่ครบ (ขาดข้อ: "+miss.join(", ")+")");
+ 
+ if(msgs.length){
+   er.innerHTML = msgs.join("<br>"); er.style.display="block";
+   if(!uName || !uId) document.getElementById("infoCard").scrollIntoView({behavior:"smooth"});
+   else document.getElementById("q"+(miss[0]-1)).scrollIntoView({behavior:"smooth",block:"center"}); 
+   return;
+ }
+ er.style.display="none";
+ 
+ var s={C:0,Co:0,Cm:0,Av:0,Ac:0};
+ for(var k in ans){ s[ans[k].cat] += ans[k].val; }
+ 
+ var w=document.getElementById("when").value, mx=Math.max.apply(null,K.map(function(k){return s[k]})), nowStr=new Date().toLocaleString("th-TH");
+ document.getElementById("rName").textContent="("+uName+")"; document.getElementById("rUid").textContent=uId; document.getElementById("rWhen").textContent=w; document.getElementById("rDate").textContent=nowStr;
+ document.getElementById("bars").innerHTML=K.map(function(k){return '<div class="r'+(s[k]===mx?" top":"")+'"><b><span>'+N[k]+'</span><span>'+s[k]+'/12</span></b><div class="t"><i style="width:'+(s[k]/12*100)+'%"></i></div></div>'}).join("");
+ 
+ var tops=K.filter(function(k){return s[k]===mx}).map(function(k){return N[k]});
+ document.getElementById("read").innerHTML="รูปแบบการจัดการความขัดแย้งที่คุณชอบใช้คือ:<br><b style='color:var(--ac)'>"+tops.join(" และ ")+"</b>";
+
+ if(myRadarChart) myRadarChart.destroy(); myRadarChart = createRadarChart('radarChart', s);
+ 
+ var h=loadData(); currentUserId = Date.now();
+ h.push({id_ref: currentUserId, n:uName, id:uId, w:w, d:nowStr, s:s}); saveData(h); renderAdminList();
+ 
+ document.getElementById("res").style.display="block"; document.getElementById("res").scrollIntoView({behavior:"smooth"});
+ document.getElementById("go").textContent="บันทึกคะแนนเรียบร้อย"; document.getElementById("go").disabled=true; document.getElementById("go").style.opacity=0.5;
+};
+
+document.getElementById("savePlan").onclick=function(){
+  var goal = document.getElementById("devGoal").value.trim(), plan = document.getElementById("devPlan").value.trim();
+  if(!goal || !plan) { alert("กรุณากรอกข้อมูลแผนพัฒนาตนเองให้ครบ"); return; }
+  var h=loadData();
+  var idx = h.findIndex(function(x){return x.id_ref === currentUserId});
+  if(idx > -1) { h[idx].plan = {goal: goal, how: plan}; saveData(h); alert("บันทึกแผนพัฒนาตนเองเรียบร้อยแล้ว!"); renderAdminList(); }
+};
+
+document.getElementById("rs").onclick=function(){
+ ans={}; document.querySelectorAll("input[type=radio]").forEach(function(r){r.checked=false});
+ document.getElementById("uname").value=""; document.getElementById("uid").value="";
+ document.getElementById("devGoal").value=""; document.getElementById("devPlan").value="";
+ document.getElementById("res").style.display="none"; document.getElementById("go").textContent="บันทึกและดูผลคะแนน"; document.getElementById("go").disabled=false; document.getElementById("go").style.opacity=1; document.getElementById("err").style.display="none"; upd(); window.scrollTo({top:0, behavior:"smooth"});
+};
+
+var adm=document.getElementById("adminPanel");
+document.getElementById("toggleAdmin").onclick=function(){
+ var pass = prompt("กรุณากรอกรหัสผ่าน:");
+ if(pass === "EE33") { renderAdminList(); adm.style.display="block"; adm.scrollIntoView({behavior:"smooth"}); } 
+ else if(pass !== null) { alert("รหัสผ่านไม่ถูกต้อง!"); }
+};
+document.getElementById("closeAdmin").onclick=function(){ adm.style.display="none"; };
+document.getElementById("clrAll").onclick=function(){ if(confirm("ต้องการลบข้อมูลทั้งหมด?")){ saveData([]); renderAdminList(); } };
+</script>
+</body>
+</html>
