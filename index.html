@@ -32,6 +32,17 @@ button.warning{background:var(--warn2);color:#fff}
 button.success{background:var(--ok);color:#fff}
 button.del-btn{background:rgba(230,57,70,0.1);color:var(--warn);padding:4px 10px;font-size:0.8rem;border-radius:6px;}
 button.del-btn:hover{background:var(--warn);color:#fff;}
+/* CSS สำหรับปุ่มอ่านเสียง */
+button.speak-btn {
+  background: var(--acs); color: var(--ac); border: 1px solid var(--bd); 
+  border-radius: 50%; width: 44px; height: 44px; padding: 0; 
+  display: flex; align-items: center; justify-content: center; 
+  cursor: pointer; margin-left: 12px; flex-shrink: 0; font-size: 1.3rem;
+  transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+button.speak-btn:hover { background: var(--ac); color: #fff; transform: scale(1.1); }
+button.speak-btn:active { transform: scale(0.95); }
+
 .r{margin:10px 0}.r b{display:flex;justify-content:space-between;align-items:center;font-size:0.95rem;}.r .t{height:14px;background:var(--bd);border-radius:7px;overflow:hidden}.r .t i{display:block;height:100%;background:var(--ac)}
 .r.top .t i{background:var(--ok)}
 #res, #adminPanel, #submitCard{display:none}
@@ -45,7 +56,6 @@ button.del-btn:hover{background:var(--warn);color:#fff;}
 .badge-pre {background: #e1f0ff;color: #1d72b8;border: 1px solid #b3d7ff;}
 .badge-post {background: #e6f9f0;color: #1d9a6c;border: 1px solid #a3e6cb;}
 .dom-card {background: var(--acs); border-radius: 12px; padding: 16px; margin: 16px 0;}
-/* ซ่อนพื้นหลังสีขาวของรูปภาพให้อัตโนมัติด้วย blend-mode */
 .dom-card img { mix-blend-mode: multiply; }
 .finish-banner {background: var(--ok); color: #fff; padding: 18px; border-radius: 12px; text-align: center; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(29, 154, 108, 0.2);}
 @media (prefers-color-scheme:dark){
@@ -69,7 +79,6 @@ button.del-btn:hover{background:var(--warn);color:#fff;}
 </div>
 
 <div id="testArea">
-  <!-- 1. ข้อมูลผู้ประเมิน -->
   <div class="card" id="infoCard" style="border:2px solid var(--ac)">
     <h2>📋 ข้อมูลเบื้องต้น</h2>
     <label style="display:block;margin-bottom:6px;font-weight:600;margin-top:10px;">ชื่อ-นามสกุล <span style="color:var(--warn)">*</span></label>
@@ -83,23 +92,20 @@ button.del-btn:hover{background:var(--warn);color:#fff;}
     </select>
   </div>
 
-  <!-- 2. แบบทดสอบ 15 ข้อ -->
   <div id="qs"></div>
 
-  <!-- Navigation Buttons -->
   <div class="nav-buttons" id="navPanel">
     <button class="s" id="btnPrev" style="display:none;">◀ ย้อนกลับ</button>
     <button id="btnNext" style="margin-left:auto;">ถัดไป ▶</button>
   </div>
 
-  <!-- 3. ปุ่มบันทึก (ปรากฏเฉพาะเมื่อตอบข้อ 15 เสร็จสิ้น) -->
   <div class="card" id="submitCard" style="border:2px solid var(--ok); text-align:center; margin-top:20px;">
     <h3 style="margin-top:0; color:var(--ok);">ตอบคำถามครบ 15 ข้อเรียบร้อยแล้ว! 🎉</h3>
     <button class="success" id="go" style="width:100%; font-size:1.1rem; padding:14px;">💾 บันทึกและดูผลคะแนน</button>
   </div>
 </div>
 
-<!-- 4. หน้าสรุปผลหลังทำแบบทดสอบเสร็จสิ้น -->
+<!-- หน้าสรุปผลหลังทำแบบทดสอบเสร็จสิ้น -->
 <div id="res">
   <div class="finish-banner">
     <h2 style="margin:0; color:#fff;">🎉 การทำแบบทดสอบเสร็จสิ้น!</h2>
@@ -112,16 +118,11 @@ button.del-btn:hover{background:var(--warn);color:#fff;}
     ช่วงเวลา: <span id="rWhen" style="font-weight:600"></span><br>
     วันที่และเวลา: <span id="rDate" style="font-weight:600"></span></p>
     
-    <!-- กราฟเรดาร์ (5 เหลี่ยม) -->
     <div style="max-width:400px; margin:20px auto;"><canvas id="radarChart"></canvas></div>
     
-    <!-- ตัวที่โดดเด่นพร้อมรูปและคำอธิบาย -->
     <div id="domResult"></div>
-
     <hr style="border:0; border-top:1px dashed var(--bd); margin:20px 0;">
-
     <h3 style="color:var(--ac);">คะแนนของคุณในแต่ละด้าน</h3>
-    <!-- หลอดคะแนน -->
     <div id="bars"></div>
     
     <div style="margin-top:30px;">
@@ -132,7 +133,6 @@ button.del-btn:hover{background:var(--warn);color:#fff;}
       <button class="success" id="savePlan" style="width:100%; margin-top:8px;">บันทึกแผนพัฒนาตนเอง</button>
     </div>
 
-    <!-- ปุ่มวนกลับสู่หน้าแรก -->
     <button class="s" id="btnRestartHome" style="width:100%; margin-top:20px; padding:14px; font-size:1rem; border:2px solid var(--ac); color:var(--ac); background:transparent;">🔄 กลับสู่หน้าแรก (เริ่มทำแบบทดสอบใหม่)</button>
   </div>
 </div>
@@ -141,20 +141,17 @@ button.del-btn:hover{background:var(--warn);color:#fff;}
 <div class="admin-section">
   <button class="s" id="toggleAdmin">🔒 เปิดระบบหลังบ้าน (Admin)</button>
 </div>
-
 <div id="adminPanel">
   <div class="card" style="border:2px dashed var(--ac)">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
       <h2>📊 ระบบหลังบ้าน (Admin)</h2>
       <button class="s" id="closeAdmin" style="padding:6px 12px;">ปิด</button>
     </div>
-    
     <div style="display:flex; gap:10px; margin-bottom:10px; flex-wrap:wrap;">
       <button class="success" id="genMock" style="flex:1; padding:10px 5px; min-width:30%;">✨ สร้าง Test</button>
       <button class="warning" id="clrTest" style="flex:1; padding:10px 5px; min-width:30%;">🧹 ลบเฉพาะ Test</button>
       <button class="danger" id="clrAll" style="flex:1; padding:10px 5px; min-width:30%;">🗑️ ลบทั้งหมด</button>
     </div>
-
     <div id="adminList"></div>
   </div>
 </div>
@@ -170,14 +167,7 @@ var N = {C:"การแข่งขัน (Competing)", Co:"การร่ว�
 var AnimalName = {C:"ฉลาม", Co:"นกฮูก", Cm:"สุนัขจิ้งจอก", Av:"เต่า", Ac:"หมีเท็ดดี้"};
 var K = ["Co","C","Av","Ac","Cm"];
 
-var PrimaryImg = {
-  C: 'Shark.png', 
-  Co: 'OWL.png', 
-  Cm: 'Fox.png', 
-  Av: 'Turtle.png', 
-  Ac: 'Teddy.png'
-};
-
+var PrimaryImg = { C: 'Shark.png', Co: 'OWL.png', Cm: 'Fox.png', Av: 'Turtle.png', Ac: 'Teddy.png' };
 var SvgFallback = {
   Co: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJz48Y2lyY2xlIGN4PSc1MCcgY3k9JzUwJyByPSc0NScgZmlsbD0nIzZkNGZkNicvPjxjaXJjbGUgY3g9JzM4JyBjeT0nNDInIHI9JzE0JyBmaWxsPScjZmZmJy8+PGNpcmNsZSBjeD0nNjInIGN5PSc0Micgcj0nMTQnIGZpbGw9JyNmZmYnLz48Y2lyY2xlIGN4PSczOCcgY3k9JzQyJyByPSc2JyBmaWxsPScjMWYxZDJiJy8+PGNpcmNsZSBjeD0nNjInIGN5PSc0Micgcj0nNicgZmlsbD0nIzFmMWQyYicvPjxwb2x5Z29uIHBvaW50cz0nNTAsNDggNDQsNTggNTYsNTgnIGZpbGw9JyNmNGExNjEnLz48cGF0aCBkPSdNMzAsNzAgUTUwLDg1IDcwLDcwJyBzdHJva2U9JyNmZmYnIHN0cm9rZS13aWR0aD0nNCcgZmlsbD0nbm9uZScvPjx0ZXh0IHg9JzUwJyB5PSc5MicgZm9udC1zaXplPScxMScgdGV4dC1hbmNob3I9J21pZGRsZScgZmlsbD0nI2ZmZicgZm9udC13ZWlnaHQ9J2JvbGQnPk9XTCAt นกฮูกPC90ZXh0Pjwvc3ZnPg==",
   C: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJz48Y2lyY2xlIGN4PSc1MCcgY3k9JzUwJyByPSc0NScgZmlsbD0nIzFmMWQyYicvPjxwb2x5Z29uIHBvaW50cz0nMjAsNTAgODAsNTAgNTAsMjAnIGZpbGw9JyNhMDlkYjUnLz48Y2lyY2xlIGN4PSc2MCcgY3k9JzQ1JyByPSc1JyBmaWxsPScjZmZmJy8+PGNpcmNsZSBjeD0nNjAnIGN5PSc0NScgcj0nMicgZmlsbD0nIzFmMWQyYicvPjxwb2x5Z29uIHBvaW50cz0nNDAsNTAgNDUsNjAgNTAsNTAgNTUsNjAgNjAsNTAnIGZpbGw9JyNmZmYnLz48dGV4dCB4PSc1MCcgeT0nOTInIGZvbnQtc2l6ZT0nMTEnIHRleHQtYW5jaG9yPSdtaWRkbGUnIGZpbGw9JyNmZmYnIGZvbnQtd2VpZ2h0PSdib2xkJz5TaGFyayAt ฉลามPC90ZXh0Pjwvc3ZnPg==",
@@ -187,23 +177,15 @@ var SvgFallback = {
 };
 
 var Desc = {
-  Co: "นกฮูกให้ความสำคัญอย่างมากทั้งต่อเป้าหมายและความสัมพันธ์ พวกเขามองว่าความขัดแย้งคือปัญหาที่ต้องแก้ไข และแสวงหาทางออกที่บรรลุทั้งเป้าหมายของตนเองและเป้าหมายของอีกฝ่าย นกฮูกมองว่าความขัดแย้งเป็นวิธีหนึ่งในการปรับปรุงความสัมพันธ์โดยการลดความตึงเครียดระหว่างคนสองคน พวกเขาพยายามเริ่มการสนทนาที่ระบุว่าความขัดแย้งเป็นปัญหา และพยายามแก้ไขความตึงเครียดและรักษาความสัมพันธ์โดยแสวงหาทางออกที่ตอบสนองความต้องการทั้งของตนเองและอีกฝ่าย",
-  Av: "เต่ามักจะให้ความสำคัญกับการหลีกเลี่ยงการเผชิญหน้ามากกว่าเป้าหมายหรือความสัมพันธ์ พวกเขามักจะพบว่าง่ายกว่าที่จะถอนตัวจากความขัดแย้งมากกว่าที่จะเผชิญหน้ากับมัน สิ่งนี้อาจรวมถึงการยอมล้มเลิกความสัมพันธ์หรือเป้าหมายที่เกี่ยวข้องกับความขัดแย้งนั้นไปเลยอย่างสิ้นเชิง",
-  C: "ฉลามมักจะให้ความสำคัญกับเป้าหมายของตนเหนือความสัมพันธ์ ซึ่งหมายความว่าหากถูกบังคับให้เลือก พวกเขาจะพยายามบรรลุเป้าหมายของตนแม้ว่าจะต้องสูญเสียความสัมพันธ์ที่เกี่ยวข้องไปก็ตาม โดยทั่วไปฉลามมักจะกังวลเรื่องการบรรลุเป้าหมายมากกว่าการเป็นที่ชื่นชอบของผู้อื่น พวกเขาอาจพยายามบังคับให้คู่กรณีโอนอ่อนยอมรับทางออกของความขัดแย้งโดยใช้อำนาจที่เหนือกว่า",
-  Ac: "หมีเท็ดดี้มักจะให้ความสำคัญกับความสัมพันธ์มากกว่าเป้าหมายของตนเอง หากถูกบังคับให้เลือก หมีเท็ดดี้มักจะยอมเสียสละเป้าหมายของตนเพื่อรักษาความสัมพันธ์ไว้ โดยทั่วไปหมีเท็ดดี้ต้องการให้ผู้อื่นชื่นชอบ และชอบที่จะหลีกเลี่ยงความขัดแย้งเพราะพวกเขาเชื่อว่าการพูดถึงเรื่องนี้จะทำลายความสัมพันธ์ หมีเท็ดดี้พยายามประนีประนอมไกล่เกลี่ยความขัดแย้งเพื่อป้องกันไม่ให้ความสัมพันธ์เสียหาย",
-  Cm: "สุนัขจิ้งจอกมีความใส่ใจในระดับปานกลางทั้งต่อเป้าหมายของตนและต่อความสัมพันธ์กับผู้อื่น สุนัขจิ้งจอกมักจะแสวงหาการประนีประนอม พวกเขายอมสละเป้าหมายบางส่วนของตนและชักชวนให้อีกฝ่ายในความขัดแย้งยอมสละเป้าหมายบางส่วนของตนเช่นกัน พวกเขาแสวงหาทางออกของความขัดแย้งที่ทั้งสองฝ่ายได้อะไรบางอย่าง ซึ่งก็คือจุดกึ่งกลางระหว่างจุดยืนที่สุดโต่งสองฝั่ง พวกเขายินดีที่จะเสียสละเป้าหมายบางส่วนเพื่อหาข้อตกลงเพื่อผลประโยชน์ส่วนรวม"
+  Co: "นกฮูกให้ความสำคัญอย่างมากทั้งต่อเป้าหมายและความสัมพันธ์...",
+  Av: "เต่ามักจะให้ความสำคัญกับการหลีกเลี่ยงการเผชิญหน้ามากกว่าเป้าหมาย...",
+  C: "ฉลามมักจะให้ความสำคัญกับเป้าหมายของตนเหนือความสัมพันธ์...",
+  Ac: "หมีเท็ดดี้มักจะให้ความสำคัญกับความสัมพันธ์มากกว่าเป้าหมายของตนเอง...",
+  Cm: "สุนัขจิ้งจอกมีความใส่ใจในระดับปานกลางทั้งต่อเป้าหมายของตนและต่อความสัมพันธ์..."
 };
 
-function handleImgError(imgElement, catKey) {
-  imgElement.onerror = null;
-  imgElement.src = SvgFallback[catKey];
-}
-
-function getImgHtml(cat, extraStyle) {
-  var altText = AnimalName[cat];
-  var style = extraStyle || "width:180px; height:180px; object-fit:contain; margin-bottom:10px;";
-  return '<img src="' + PrimaryImg[cat] + '" onerror="handleImgError(this, \'' + cat + '\')" style="' + style + '" alt="' + altText + '">';
-}
+function handleImgError(imgElement, catKey) { imgElement.onerror = null; imgElement.src = SvgFallback[catKey]; }
+function getImgHtml(cat, extraStyle) { return '<img src="' + PrimaryImg[cat] + '" onerror="handleImgError(this, \'' + cat + '\')" style="' + (extraStyle||"width:180px;height:180px;") + '" alt="' + AnimalName[cat] + '">'; }
 
 var Q=[
   {q:"1. ฉันพูดคุยถึงปัญหากับผู้อื่นเพื่อพยายามหาทางออกที่ตอบสนองความต้องการของทุกคน", c:"Co"},
@@ -229,23 +211,60 @@ var scales = [
   {v:4, l:"4 = เสมอ (Always)"}
 ];
 
+// โหลดเสียงล่วงหน้าสำหรับบางเบราว์เซอร์ (เช่น Chrome)
+if ('speechSynthesis' in window) { window.speechSynthesis.onvoiceschanged = function() { window.speechSynthesis.getVoices(); }; }
+
+// ฟังก์ชันอ่านข้อความ
+function speakText(idx) {
+  if (!('speechSynthesis' in window)) {
+    alert("เบราว์เซอร์ของคุณไม่รองรับการอ่านออกเสียง");
+    return;
+  }
+  
+  // ยกเลิกเสียงที่กำลังเล่นอยู่
+  window.speechSynthesis.cancel();
+  
+  // ตัดตัวเลขข้อด้านหน้าออก (เช่น "1. ") เพื่อให้อ่านแค่โจทย์
+  var textToRead = Q[idx].q.replace(/^\d+\.\s*/, '');
+  var msg = new SpeechSynthesisUtterance(textToRead);
+  msg.lang = 'th-TH'; // กำหนดภาษาไทย
+  
+  // ดึงรายการเสียงที่มีในเครื่อง
+  var voices = window.speechSynthesis.getVoices();
+  var thaiVoices = voices.filter(function(v) { return v.lang.indexOf('th') !== -1; });
+  
+  // พยายามหาเสียงผู้ชาย (มักจะมีคำว่า male ในชื่อเสียงของระบบปฏิบัติการ)
+  var maleVoice = thaiVoices.find(function(v) { return v.name.toLowerCase().indexOf('male') !== -1; });
+  
+  if (maleVoice) {
+    msg.voice = maleVoice;
+  } else if (thaiVoices.length > 0) {
+    // ถ้าหาเสียงผู้ชายไม่เจอ ให้ใช้เสียงภาษาไทยที่มี (มักเป็นผู้หญิง)
+    msg.voice = thaiVoices[0];
+    // ปรับคีย์เสียงให้ทุ้มต่ำลง เพื่อจำลองให้คล้ายเสียงผู้ชายมากขึ้น
+    msg.pitch = 0.6; 
+  }
+
+  // ปรับความเร็วการอ่าน
+  msg.rate = 1.0;
+  
+  window.speechSynthesis.speak(msg);
+}
+
 var ans={};
 var qs=document.getElementById("qs"), myRadarChart=null, adminCharts={};
 var currentStep = 0; 
-
 var audioCtx;
+
 function playHappySound() {
   try {
     if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     if (audioCtx.state === 'suspended') audioCtx.resume();
     var t = audioCtx.currentTime;
     function playTone(freq, startTime, duration) {
-      var osc = audioCtx.createOscillator();
-      var gain = audioCtx.createGain();
-      osc.type = 'square';
-      osc.frequency.value = freq;
-      gain.gain.setValueAtTime(0, startTime);
-      gain.gain.linearRampToValueAtTime(0.05, startTime + 0.01);
+      var osc = audioCtx.createOscillator(); var gain = audioCtx.createGain();
+      osc.type = 'square'; osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0, startTime); gain.gain.linearRampToValueAtTime(0.05, startTime + 0.01);
       gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
       osc.connect(gain); gain.connect(audioCtx.destination);
       osc.start(startTime); osc.stop(startTime + duration);
@@ -254,9 +273,17 @@ function playHappySound() {
   } catch(e) { console.log("Audio not supported"); }
 }
 
+// สร้างคำถามพร้อมปุ่มลำโพง
 Q.forEach(function(q,i){
  var d=document.createElement("div"); d.className="card"; d.id="q"+i; d.style.display = "none";
- var html = '<div class="q">'+q.q+'</div><div class="scale-container">';
+ 
+ // ส่วน Header ของข้อคำถาม แบ่งฝั่งข้อความ และ ปุ่มลำโพง
+ var html = '<div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">';
+ html += '<div class="q" style="margin-bottom:0;">'+q.q+'</div>';
+ html += '<button type="button" class="speak-btn" onclick="speakText('+i+')" title="ฟังเสียงอ่านโจทย์">🔊</button>';
+ html += '</div>';
+
+ html += '<div class="scale-container">';
  scales.forEach(function(s){ html += '<label class="o"><input type="radio" name="q'+i+'" value="'+s.v+'" data-cat="'+q.c+'"><span>'+s.l+'</span></label>'; });
  html += '</div>'; d.innerHTML = html; qs.appendChild(d);
 });
@@ -268,16 +295,11 @@ function updateView() {
   }
   document.getElementById("q"+currentStep).style.display = "block";
   document.getElementById("infoCard").style.display = (currentStep === 0) ? "block" : "none";
-  
   document.getElementById("btnPrev").style.display = (currentStep === 0) ? "none" : "inline-block";
   
   if(currentStep === 14) { 
     document.getElementById("btnNext").style.display = "none"; 
-    if(ans[14]) {
-      document.getElementById("submitCard").style.display = "block";
-    } else {
-      document.getElementById("submitCard").style.display = "none";
-    }
+    document.getElementById("submitCard").style.display = ans[14] ? "block" : "none";
   } else { 
     document.getElementById("btnNext").style.display = "inline-block"; 
     document.getElementById("submitCard").style.display = "none"; 
@@ -286,6 +308,10 @@ function updateView() {
   var answeredCount = Object.keys(ans).length;
   document.getElementById("cnt").textContent = "ข้อที่ " + (currentStep + 1) + " / 15";
   document.getElementById("pg").style.width = ((answeredCount / 15) * 100) + "%";
+  
+  // กดหยุดเสียงทุกครั้งที่เปลี่ยนข้อ
+  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+  
   window.scrollTo({top:0, behavior:"smooth"});
 }
 
@@ -294,7 +320,6 @@ qs.addEventListener("change",function(e){
   ans[m] = {val:parseInt(e.target.value), cat:e.target.dataset.cat};
   playHappySound(); 
   document.getElementById("pg").style.width = ((Object.keys(ans).length / 15) * 100) + "%";
-  
   if(currentStep === 14) {
     document.getElementById("submitCard").style.display = "block";
     document.getElementById("submitCard").scrollIntoView({behavior:"smooth"});
@@ -305,10 +330,7 @@ document.getElementById("btnNext").onclick = function() {
   if (currentStep === 0) {
     var uName = document.getElementById("uname").value.trim(), uId = document.getElementById("uid").value.trim();
     if (!uName || !uId) { alert("⚠️ กรุณากรอกชื่อ-นามสกุล และรหัสนิสิตให้ครบถ้วนก่อน"); document.getElementById("infoCard").scrollIntoView({behavior:"smooth"}); return; }
-    if (uId.length !== 11 || !/^\d{11}$/.test(uId)) {
-      alert("⚠️ กรุณากรอกรหัสนิสิตเป็นตัวเลข 11 หลักให้ถูกต้อง");
-      document.getElementById("uid").focus(); return;
-    }
+    if (uId.length !== 11 || !/^\d{11}$/.test(uId)) { alert("⚠️ กรุณากรอกรหัสนิสิตเป็นตัวเลข 11 หลักให้ถูกต้อง"); document.getElementById("uid").focus(); return; }
   }
   if (!ans[currentStep]) { alert("⚠️ กรุณาเลือกคำตอบก่อนไปข้อถัดไป"); return; }
   if (currentStep < 14) { currentStep++; updateView(); }
@@ -332,6 +354,7 @@ function createRadarChart(canvasId, scores) {
 var currentUserId = null;
 document.getElementById("go").onclick=function(){
   if (!ans[14]) { alert("⚠️ กรุณาเลือกคำตอบข้อ 15 ก่อนทำการบันทึก"); return; }
+  if ('speechSynthesis' in window) window.speechSynthesis.cancel(); // ปิดเสียงเมื่อกดบันทึก
   
   var uName=document.getElementById("uname").value.trim(), uId=document.getElementById("uid").value.trim();
   var s={C:0,Co:0,Cm:0,Av:0,Ac:0};
@@ -344,25 +367,15 @@ document.getElementById("go").onclick=function(){
   document.getElementById("testArea").style.display = "none";
   document.getElementById("topBar").style.display = "none";
   document.getElementById("res").style.display = "block";
-  
   document.getElementById("rName").textContent = uName + " (" + domTkiNames + ")"; 
-  document.getElementById("rUid").textContent=uId; 
-  document.getElementById("rWhen").textContent=w; 
-  document.getElementById("rDate").textContent=nowStr;
+  document.getElementById("rUid").textContent=uId; document.getElementById("rWhen").textContent=w; document.getElementById("rDate").textContent=nowStr;
   
-  document.getElementById("bars").innerHTML=K.map(function(k){
-    return '<div class="r'+(s[k]===mx?" top":"")+'"><b><span>'+N[k]+'</span><span>'+s[k]+'/12</span></b><div class="t"><i style="width:'+(s[k]/12*100)+'%"></i></div></div>'
-  }).join("");
+  document.getElementById("bars").innerHTML=K.map(function(k){ return '<div class="r'+(s[k]===mx?" top":"")+'"><b><span>'+N[k]+'</span><span>'+s[k]+'/12</span></b><div class="t"><i style="width:'+(s[k]/12*100)+'%"></i></div></div>' }).join("");
   
   var domHtml = tops.map(function(k){
-    return '<div class="dom-card" style="text-align:center;">' +
-           getImgHtml(k, "width:180px; height:180px; object-fit:contain; margin-bottom:10px;") +
-           '<h3 style="color:var(--ac); margin:0 0 10px 0;">' + AnimalName[k] + ' - ' + N[k] + '</h3>' +
-           '<p style="text-align:left; font-size:0.95rem; margin:0;">' + Desc[k] + '</p>' +
-           '</div>';
+    return '<div class="dom-card" style="text-align:center;">' + getImgHtml(k, "width:180px; height:180px; object-fit:contain; margin-bottom:10px;") + '<h3 style="color:var(--ac); margin:0 0 10px 0;">' + AnimalName[k] + ' - ' + N[k] + '</h3>' + '<p style="text-align:left; font-size:0.95rem; margin:0;">' + Desc[k] + '</p></div>';
   }).join("");
   document.getElementById("domResult").innerHTML = domHtml;
-
   if(myRadarChart) myRadarChart.destroy(); myRadarChart = createRadarChart('radarChart', s);
   
   var h=loadData(); currentUserId = Date.now();
@@ -376,30 +389,19 @@ document.getElementById("savePlan").onclick=function(){
   var h=loadData(), idx = h.findIndex(function(x){return x.id_ref === currentUserId});
   if(idx > -1) { h[idx].plan = {goal: goal, how: plan}; saveData(h); this.textContent = "✅ บันทึกเรียบร้อย!"; this.style.opacity = 0.7; renderAdminList(); }
 };
-
 document.getElementById("btnRestartHome").onclick=function(){ location.reload(); };
 
 function renderAdminList(){
  var h=loadData(), el=document.getElementById("adminList"); el.innerHTML = ""; adminCharts = {};
  if(!h.length){ el.innerHTML='<p class="mut" style="text-align:center;padding:20px;">ยังไม่มีข้อมูลในระบบ</p>'; return; }
- 
  h.forEach(function(r, idx){
    var mx = Math.max.apply(null, K.map(function(k){return r.s[k]}));
    var tops = K.filter(function(k){return r.s[k]===mx});
    var domTkiNames = tops.map(function(k){ return N[k].split(" (")[0] }).join(", ");
-
    var card = document.createElement("div"); card.className = "card"; card.style.margin = "10px 0"; card.style.padding = "10px";
    var canvasId = "adminChart_" + idx;
    var barsHtml = K.map(function(k){ return '<div class="r'+(r.s[k]===mx?" top":"")+'"><b><span>'+N[k]+'</span><span>'+r.s[k]+'/12</span></b><div class="t"><i style="width:'+(r.s[k]/12*100)+'%"></i></div></div>'; }).join("");
    
-   var adminDomHtml = tops.map(function(k){
-     return '<div class="dom-card" style="text-align:center; padding:12px; margin:12px 0;">' +
-            getImgHtml(k, "width:100px; height:100px; object-fit:contain; margin-bottom:6px;") +
-            '<h4 style="color:var(--ac); margin:0 0 6px 0;">' + AnimalName[k] + ' - ' + N[k] + '</h4>' +
-            '<p style="text-align:left; font-size:0.88rem; margin:0; line-height:1.5;">' + Desc[k] + '</p>' +
-            '</div>';
-   }).join("");
-
    var isPre = r.w && r.w.indexOf("Pre") !== -1;
    card.innerHTML = 
      '<div class="acc-header" onclick="toggleAcc('+idx+', event)">'+
@@ -410,10 +412,9 @@ function renderAdminList(){
      '<div class="acc-body" id="accBody_'+idx+'">'+
        '<div style="max-width:320px; margin:10px auto;"><canvas id="'+canvasId+'"></canvas></div>'+
        '<div>'+barsHtml+'</div>'+
-       adminDomHtml +
        '<div style="margin-top:10px;padding:12px;background:#fff9e6;border:1px solid #ffe599;border-radius:8px;font-size:0.9rem;">' +
-         '<b>รูปแบบการจัดการความขัดแย้งที่ฉันอยากจะพัฒนาคือ:</b><br>' + (r.plan && r.plan.goal ? r.plan.goal : '<span class="mut">- ยังไม่ได้บันทึก -</span>') + '<br><br>' +
-         '<b>ฉันจะฝึกฝนรูปแบบการจัดการความขัดแย้งนี้ได้อย่างไร?:</b><br>' + (r.plan && r.plan.how ? r.plan.how : '<span class="mut">- ยังไม่ได้บันทึก -</span>') +
+         '<b>อยากพัฒนา:</b> ' + (r.plan && r.plan.goal ? r.plan.goal : '<span class="mut">-</span>') + '<br>' +
+         '<b>วิธีฝึกฝน:</b> ' + (r.plan && r.plan.how ? r.plan.how : '<span class="mut">-</span>') +
        '</div>'+
      '</div>';
    el.appendChild(card); adminCharts[idx] = { canvasId: canvasId, scores: r.s, instance: null };
@@ -426,63 +427,28 @@ function toggleAcc(idx, e){
   if(body.classList.contains("open")){ body.classList.remove("open"); icon.textContent = "▼"; } 
   else { body.classList.add("open"); icon.textContent = "▲"; if(!adminCharts[idx].instance) adminCharts[idx].instance = createRadarChart(adminCharts[idx].canvasId, adminCharts[idx].scores); }
 }
-
-function deleteSingle(idx, e){
-  if(e) e.stopPropagation();
-  var h = loadData(); if(confirm("ต้องการลบข้อมูลประวัตินี้ใช่หรือไม่?")){ h.splice(idx, 1); saveData(h); renderAdminList(); }
-}
+function deleteSingle(idx, e){ if(e) e.stopPropagation(); var h = loadData(); if(confirm("ต้องการลบข้อมูลประวัตินี้ใช่หรือไม่?")){ h.splice(idx, 1); saveData(h); renderAdminList(); } }
 
 var adm=document.getElementById("adminPanel");
-document.getElementById("toggleAdmin").onclick=function(){
- var pass = prompt("กรุณากรอกรหัสผ่าน:");
- if(pass === "EE33") { renderAdminList(); adm.style.display="block"; adm.scrollIntoView({behavior:"smooth"}); } 
- else if(pass !== null) { alert("รหัสผ่านไม่ถูกต้อง!"); }
-};
+document.getElementById("toggleAdmin").onclick=function(){ var pass = prompt("กรุณากรอกรหัสผ่าน:"); if(pass === "EE33") { renderAdminList(); adm.style.display="block"; adm.scrollIntoView({behavior:"smooth"}); } else if(pass !== null) { alert("รหัสผ่านไม่ถูกต้อง!"); } };
 document.getElementById("closeAdmin").onclick=function(){ adm.style.display="none"; };
-
 document.getElementById("clrAll").onclick=function(){ if(confirm("⚠️ ต้องการลบข้อมูลทั้งหมดจริงๆ ใช่หรือไม่? (กู้คืนไม่ได้)")){ saveData([]); renderAdminList(); } };
-
 document.getElementById("clrTest").onclick=function(){ 
   if(confirm("🧹 ต้องการลบข้อมูลที่ชื่อขึ้นต้นด้วยคำว่า 'Test' ทั้งหมดใช่หรือไม่?")){ 
-    var h = loadData();
-    var filtered = h.filter(function(x) { return !x.n.toLowerCase().startsWith("test"); });
-    if(h.length !== filtered.length) {
-      saveData(filtered); 
-      renderAdminList();
-      alert("ลบข้อมูล Test ทั้งหมดเรียบร้อยแล้ว");
-    } else {
-      alert("ไม่มีข้อมูล Test ให้ลบ");
-    }
+    var h = loadData(), filtered = h.filter(function(x) { return !x.n.toLowerCase().startsWith("test"); });
+    if(h.length !== filtered.length) { saveData(filtered); renderAdminList(); alert("ลบข้อมูล Test ทั้งหมดเรียบร้อยแล้ว"); } else { alert("ไม่มีข้อมูล Test ให้ลบ"); }
   } 
 };
-
 document.getElementById("genMock").onclick=function(){
   var h = loadData();
-  
   for(var i = 0; i < 10; i++) {
-    var num = i + 1;
-    var numStr = (num < 10) ? "0" + num : num;
+    var num = i + 1, numStr = (num < 10) ? "0" + num : num;
     var s = { C: Math.floor(Math.random()*5)+3, Co: Math.floor(Math.random()*5)+3, Cm: Math.floor(Math.random()*5)+3, Av: Math.floor(Math.random()*5)+3, Ac: Math.floor(Math.random()*5)+3 };
-    var targetTrait = K[i % 5];
-    s[targetTrait] = Math.floor(Math.random()*3) + 10;
+    var targetTrait = K[i % 5]; s[targetTrait] = Math.floor(Math.random()*3) + 10;
     var w = (num <= 5) ? "Pre-test (ก่อนทำโครงการ)" : "Post-test (หลังทำโครงการ)";
-    
-    var goalSample = N[targetTrait].split(" (")[0];
-    var howSample = "หมั่นฝึกฝนฟังความคิดเห็นของผู้อื่น และลองใช้แนวทางนี้เมื่อเจอความขัดแย้งในการทำงาน";
-
-    h.push({
-      id_ref: Date.now() + i, 
-      n: "Test " + num, 
-      id: "67000000" + numStr.toString().padStart(3, '0'), 
-      w: w, 
-      d: new Date().toLocaleString("th-TH"), 
-      s: s,
-      plan: { goal: goalSample, how: howSample }
-    });
+    h.push({ id_ref: Date.now() + i, n: "Test " + num, id: "67000000" + numStr.toString().padStart(3, '0'), w: w, d: new Date().toLocaleString("th-TH"), s: s, plan: { goal: N[targetTrait].split(" (")[0], how: "ตัวอย่างการฝึกฝน..." } });
   }
-  
-  saveData(h); renderAdminList(); 
-  alert("✨ สร้างข้อมูล Test สำเร็จ 10 รายการ");
+  saveData(h); renderAdminList(); alert("✨ สร้างข้อมูล Test สำเร็จ 10 รายการ");
 };
 </script>
 </body>
