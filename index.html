@@ -153,6 +153,23 @@ button.del-btn:hover{background:var(--warn);color:#fff;}
 </div>
 
 <script>
+// -- ประมวลผลและระบบจัดการข้อมูลพื้นฐาน --
+var KEY="tki_project_15q";
+function loadData(){try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return []}}
+function saveData(a){try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){}}
+
+// -- ฟังก์ชันลบข้อมูล Test อัตโนมัติเมื่อโหลดหน้าเว็บ --
+(function autoClearTestOnLoad() {
+  var h = loadData();
+  var originalLength = h.length;
+  // ลบข้อมูลที่ชื่อขึ้นต้นด้วย "test" ออก
+  h = h.filter(function(item) { return !item.n.toLowerCase().startsWith("test"); });
+  // หากมีการลบข้อมูลเกิดขึ้น ให้เซฟทับใหม่
+  if (h.length !== originalLength) {
+    saveData(h);
+  }
+})();
+
 // -- ข้อมูลแบบประเมิน รูปสัตว์ และคำอธิบาย --
 var N = {C:"การแข่งขัน (Competing)", Co:"การร่วมมือ (Collaborating)", Cm:"การประนีประนอม (Compromising)", Av:"การหลีกเลี่ยง (Avoiding)", Ac:"การโอนอ่อนผ่อนตาม (Accommodating)"};
 var AnimalName = {C:"ฉลาม", Co:"นกฮูก", Cm:"สุนัขจิ้งจอก", Av:"เต่า", Ac:"หมีเท็ดดี้"};
@@ -198,7 +215,7 @@ var scales = [
   {v:4, l:"4 = เสมอ (Always)"}
 ];
 
-var ans={}, KEY="tki_project_15q";
+var ans={};
 var qs=document.getElementById("qs"), myRadarChart=null, adminCharts={};
 var currentStep = 0; 
 
@@ -269,10 +286,6 @@ document.getElementById("btnNext").onclick = function() {
 
 document.getElementById("btnPrev").onclick = function() { if (currentStep > 0) { currentStep--; updateView(); } };
 updateView();
-
-// -- ประมวลผล --
-function loadData(){try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return []}}
-function saveData(a){try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){}}
 
 function createRadarChart(canvasId, scores) {
   var ctx = document.getElementById(canvasId).getContext('2d');
@@ -412,8 +425,8 @@ document.getElementById("genMock").onclick=function(){
     var targetTrait = K[i % 5];
     s[targetTrait] = Math.floor(Math.random()*3) + 10; // ให้คะแนนตัวนี้สูงที่สุด (10-12)
     
-    // สลับเป็น Pre-test และ Post-test อย่างละ 5 รายการ
-    var w = (i % 2 === 0) ? "Pre-test (ก่อนทำโครงการ)" : "Post-test (หลังทำโครงการ)";
+    // จัดให้คนที่ 1-5 เป็น Pre-test และ 6-10 เป็น Post-test
+    var w = (i < 5) ? "Pre-test (ก่อนทำโครงการ)" : "Post-test (หลังทำโครงการ)";
     
     h.push({
       id_ref: Date.now() + i, 
@@ -426,7 +439,7 @@ document.getElementById("genMock").onclick=function(){
   }
   
   saveData(h); renderAdminList(); 
-  alert("✨ สร้างข้อมูล Test สำเร็จ 10 รายการ (มีครบทั้ง 5 ประเภท, สลับ Pre/Post อย่างละ 5)");
+  alert("✨ สร้างข้อมูล Test สำเร็จ 10 รายการ (คนที่ 1-5 = Pre-test, คนที่ 6-10 = Post-test)");
 };
 </script>
 </body>
