@@ -13,268 +13,277 @@
 body{margin:0;background:var(--bg);color:var(--tx);font-family:"Noto Sans Thai",system-ui,sans-serif;line-height:1.6}
 .w{max-width:720px;margin:0 auto;padding:20px 16px 48px}
 h1{font-size:1.4rem;margin:8px 0; color:var(--ac); text-align:center;}
-h2{font-size:1.2rem;margin-top:0}
 .mut{color:var(--mut);font-size:.92rem; text-align:center;}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:20px;margin:14px 0;box-shadow:0 4px 12px rgba(0,0,0,0.03)}
-.q{font-weight:600;margin-bottom:16px; font-size: 1.15rem; color:var(--tx);}
-.scale-container{display:flex; flex-direction:column; gap:10px;}
-label.o{display:flex;gap:12px;align-items:center;padding:14px;border:2px solid var(--bd);border-radius:12px;cursor:pointer;transition:all 0.2s; background:var(--bg)}
-label.o:hover{border-color:#b5a6f2}
-label.o:has(input:checked){background:var(--acs);border-color:var(--ac); transform:scale(1.02); box-shadow:0 2px 8px rgba(109, 79, 214, 0.2)}
-input[type=radio]{margin:0;accent-color:var(--ac);transform:scale(1.3)}
-input[type=text], select, textarea{font:inherit;width:100%;padding:14px;border-radius:10px;border:2px solid var(--bd);background:var(--bg);color:var(--tx);margin-bottom:12px; transition:border-color 0.2s}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px;margin:14px 0;box-shadow:0 2px 8px rgba(0,0,0,0.02)}
+.q{font-weight:600;margin-bottom:12px; font-size: 1.1rem; color: var(--ac);}
+.scale-container{display:flex; flex-direction:column; gap:8px;}
+label.o{display:flex;gap:10px;align-items:center;padding:12px;border:1px solid var(--bd);border-radius:10px;cursor:pointer;transition:all 0.2s}
+label.o:has(input:checked){background:var(--acs);border-color:var(--ac);transform:scale(1.02);}
+input[type=radio]{margin:0;accent-color:var(--ac);transform:scale(1.2)}
+input[type=text], select, textarea{font:inherit;width:100%;padding:12px;border-radius:8px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);margin-bottom:12px}
 input[type=text]:focus, select:focus, textarea:focus{outline:none;border-color:var(--ac)}
-button{font:inherit;font-weight:600;border:0;border-radius:10px;padding:14px 24px;background:var(--ac);color:#fff;cursor:pointer;transition:all 0.2s; font-size:1rem;}
-button:hover{opacity:0.9; transform:translateY(-1px)}
-button:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding:12px 0;z-index:5;border-bottom:1px solid var(--bd)}
+.pg{height:10px;background:var(--bd);border-radius:6px;overflow:hidden}.pg i{display:block;height:100%;width:0;background:var(--ac);transition:width .4s ease-out}
+button{font:inherit;font-weight:600;border:0;border-radius:10px;padding:12px 20px;background:var(--ac);color:#fff;cursor:pointer;margin:4px 6px 4px 0;transition:all 0.2s}
+button:hover{opacity:0.9; transform:translateY(-1px);}
 button.s{background:var(--bd);color:var(--tx)}
 button.danger{background:var(--warn);color:#fff}
-button.test-btn{background:#2a9d8f;color:#fff; margin-bottom:8px; font-size:0.9rem; padding:10px 16px;}
-button.del-btn{background:rgba(230,57,70,0.1);color:var(--warn);padding:6px 12px;font-size:0.85rem;border-radius:8px; margin-left:auto;}
+button.success{background:var(--ok);color:#fff}
+button.del-btn{background:rgba(230,57,70,0.1);color:var(--warn);padding:4px 10px;font-size:0.8rem;border-radius:6px;}
 button.del-btn:hover{background:var(--warn);color:#fff;}
-
-/* Progress Gauge */
-.progress-container{position:sticky;top:env(safe-area-inset-top,10px);background:var(--card);padding:14px 20px;border-radius:14px;z-index:10;box-shadow:0 4px 15px rgba(0,0,0,0.05); border:1px solid var(--bd); margin-bottom:20px; display:none;}
-.pg-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-weight:bold;color:var(--ac)}
-.pg-bar-bg{height:12px;background:var(--bg);border-radius:10px;overflow:hidden; border:1px solid var(--bd) inset;}
-.pg-bar-fill{height:100%;width:0%;background:linear-gradient(90deg, #9a84f0, #6d4fd6);border-radius:10px;transition:width 0.4s cubic-bezier(0.4, 0, 0.2, 1); position:relative;}
-
-.wizard-nav{display:flex;justify-content:space-between;margin-top:20px; gap:10px;}
-.q-card{display:none; animation:fadeIn 0.4s ease}
-@keyframes fadeIn{from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:translateY(0)}}
-
-.r{margin:10px 0}.r b{display:flex;justify-content:space-between; margin-bottom:4px;}.r .t{height:16px;background:var(--bd);border-radius:8px;overflow:hidden}.r .t i{display:block;height:100%;background:var(--ac); border-radius:8px;}
+.r{margin:10px 0}.r b{display:flex;justify-content:space-between}.r .t{height:14px;background:var(--bd);border-radius:7px;overflow:hidden}.r .t i{display:block;height:100%;background:var(--ac)}
 .r.top .t i{background:var(--ok)}
-#res, #adminPanel, #step-questions{display:none}
-.err{color:var(--warn);font-weight:600;display:none;background:#ffe5e5;padding:12px;border-radius:10px;margin-bottom:14px; text-align:center;}
-@media (prefers-color-scheme:dark){.err{background:#3a1c1c}}
+#res, #adminPanel, #submitCard{display:none}
+.nav-buttons{display:flex; justify-content:space-between; margin-top:20px;}
 .admin-section{margin-top:60px;padding-top:20px;border-top:2px dashed var(--bd);text-align:center}
-.acc-header {display: flex;align-items: center;cursor: pointer;padding: 14px 16px;background: var(--acs);border-radius: 10px;user-select: none; margin-bottom:5px;}
+.acc-header {display: flex;justify-content: space-between;align-items: center;cursor: pointer;padding: 12px 16px;background: var(--acs);border-radius: 10px;user-select: none;}
 .acc-header:hover { opacity: 0.95; }
-.acc-body { display: none; padding:16px; background:var(--bg); border-radius:10px; margin-bottom:15px; border:1px solid var(--bd); }
-.acc-body.open { display: block; animation:fadeIn 0.3s ease;}
-.badge {display: inline-block;padding: 4px 10px;border-radius: 8px;font-size: 0.8rem;font-weight: bold;margin-right: 10px;}
-.badge-pre {background: #e1f0ff;color: #1d72b8;}
-.badge-post {background: #e6f9f0;color: #1d9a6c;}
+.acc-body { display: none; padding-top: 14px; }
+.acc-body.open { display: block; }
+.badge {display: inline-block;padding: 2px 8px;border-radius: 6px;font-size: 0.8rem;font-weight: bold;margin-right: 6px;}
+.badge-pre {background: #e1f0ff;color: #1d72b8;border: 1px solid #b3d7ff;}
+.badge-post {background: #e6f9f0;color: #1d9a6c;border: 1px solid #a3e6cb;}
 @media (prefers-color-scheme:dark){
-  .badge-pre { background: #1c334a; color: #72b6ff;}
-  .badge-post { background: #1c3b30; color: #62e3b1;}
+  .badge-pre { background: #1c334a; color: #72b6ff; border-color: #2b4c6f; }
+  .badge-post { background: #1c3b30; color: #62e3b1; border-color: #285a48; }
 }
 </style>
 </head>
 <body>
 <div class="w">
-<h1>แบบประเมินรูปแบบการจัดการความขัดแย้ง (TKI)</h1>
-<p class="mut">ค้นหาสไตล์การรับมือกับความขัดแย้งของคุณ</p>
+<h1>แบบประเมิน TKI: การจัดการความขัดแย้ง</h1>
+<p class="mut">ค้นหารูปแบบการรับมือกับความขัดแย้งของคุณ</p>
 
-<!-- Step 0: ข้อมูลผู้ประเมิน -->
-<div id="step-info">
-  <div class="card" style="border:2px solid var(--ac)">
+<!-- Progress Bar -->
+<div class="bar" id="topBar">
+  <div style="display:flex; justify-content:space-between; margin-bottom:6px; font-weight:bold; font-size:0.95rem;">
+    <span>ความคืบหน้า</span>
+    <span id="cnt" style="color:var(--ac);">ข้อที่ 1 / 15</span>
+  </div>
+  <div class="pg"><i id="pg"></i></div>
+</div>
+
+<div id="testArea">
+  <!-- 1. ข้อมูลผู้ประเมิน -->
+  <div class="card" id="infoCard" style="border:2px solid var(--ac)">
     <h2>📋 ข้อมูลเบื้องต้น</h2>
     <label style="display:block;margin-bottom:6px;font-weight:600;margin-top:10px;">ชื่อ-นามสกุล <span style="color:var(--warn)">*</span></label>
     <input type="text" id="uname" placeholder="เช่น นายสมชาย ใจดี" required>
-    
     <label style="display:block;margin-bottom:6px;font-weight:600;">รหัสนิสิต <span style="color:var(--warn)">*</span></label>
     <input type="text" id="uid" placeholder="กรอกรหัสนิสิต" required>
-    
-    <label style="display:block;margin-bottom:6px;font-weight:600;">การประเมินนี้สำหรับช่วงเวลาใด? <span style="color:var(--warn)">*</span></label>
+    <label style="display:block;margin-bottom:6px;font-weight:600;">ระยะเวลาการทำประเมิน <span style="color:var(--warn)">*</span></label>
     <select id="when">
       <option value="Pre-test (ก่อนทำโครงการ)">Pre-test (ก่อนทำโครงการ)</option>
       <option value="Post-test (หลังทำโครงการ)">Post-test (หลังทำโครงการ)</option>
     </select>
-    
-    <div class="err" id="info-err"></div>
-    <button id="btn-start" style="width:100%; margin-top:10px;">🚀 เริ่มทำแบบประเมิน</button>
+  </div>
+
+  <!-- 2. แบบทดสอบ 15 ข้อ -->
+  <div id="qs"></div>
+
+  <!-- Navigation Buttons -->
+  <div class="nav-buttons" id="navPanel">
+    <button class="s" id="btnPrev" style="display:none;">◀ ย้อนกลับ</button>
+    <button id="btnNext" style="margin-left:auto;">ถัดไป ▶</button>
+  </div>
+
+  <!-- 3. ปุ่มบันทึก (หน้าสุดท้าย) -->
+  <div class="card" id="submitCard" style="border:2px solid var(--ok); text-align:center;">
+    <h3 style="margin-top:0; color:var(--ok);">ตอบครบถ้วนแล้ว! 🎉</h3>
+    <button class="success" id="go" style="width:100%; font-size:1.1rem; padding:14px;">💾 บันทึกและดูผลคะแนน</button>
+    <button class="s" id="rs" style="width:100%; margin-top:10px;">ล้างข้อมูลและเริ่มใหม่</button>
   </div>
 </div>
 
-<!-- Progress Bar -->
-<div class="progress-container" id="pg-container">
-  <div class="pg-header">
-    <span id="pg-text">ข้อที่ 1 / 15</span>
-    <span id="pg-percent">0%</span>
-  </div>
-  <div class="pg-bar-bg">
-    <div class="pg-bar-fill" id="pg-fill"></div>
-  </div>
-</div>
-
-<!-- Step 1-15: แบบทดสอบ -->
-<div id="step-questions">
-  <div id="qs-container"></div>
-  <div class="err" id="q-err"></div>
-  <div class="wizard-nav">
-    <button class="s" id="btn-prev">⬅️ ย้อนกลับ</button>
-    <button id="btn-next" style="flex:1; margin-left:10px;">ถัดไป ➡️</button>
-  </div>
-</div>
-
-<!-- สรุปผล -->
+<!-- 4. สรุปผล -->
 <div id="res">
   <div class="card" style="border:2px solid var(--ac)">
-    <h2 style="text-align:center;">🎉 สรุปผลการประเมินของคุณ</h2>
-    <div style="text-align:center; margin-bottom:20px;">
-      <span style="font-size:1.2rem; font-weight:bold; color:var(--ac);" id="rName"></span><br>
-      <span class="mut" id="rUid"></span> | <span class="mut" id="rWhen"></span>
-    </div>
+    <h2>สรุปผลการประเมินของคุณ <span id="rName" style="color:var(--ac)"></span></h2>
+    <p class="mut">รหัสนิสิต: <span id="rUid" style="font-weight:600"></span><br>
+    ช่วงเวลา: <span id="rWhen" style="font-weight:600"></span><br>
+    วันที่และเวลา: <span id="rDate" style="font-weight:600"></span></p>
     
-    <div style="max-width:400px; margin:0 auto 20px;"><canvas id="radarChart"></canvas></div>
+    <div style="max-width:400px; margin:20px auto;"><canvas id="radarChart"></canvas></div>
     <div id="bars"></div>
-    
-    <div style="margin-top:20px;padding:16px;background:var(--acs);border-radius:12px;text-align:center;">
-      <p id="read" style="margin:0;font-size:1.1rem;line-height:1.5;"></p>
+    <div style="margin-top:16px;padding:12px;background:var(--acs);border-radius:8px;">
+      <p id="read" style="margin:0;font-size:1.1rem;"></p>
     </div>
     
-    <div style="margin-top:24px; border-top:1px solid var(--bd); padding-top:20px;">
-      <h3 style="margin-top:0; color:var(--ac);">🎯 แผนพัฒนาตนเอง</h3>
-      <label style="display:block;margin-bottom:6px;font-weight:600;">รูปแบบที่ฉันอยากจะพัฒนาคือ:</label>
-      <input type="text" id="devGoal" placeholder="เช่น การร่วมมือ (Collaborating)...">
-      <label style="display:block;margin-bottom:6px;font-weight:600;">ฉันจะฝึกฝนได้อย่างไร?:</label>
-      <textarea id="devPlan" rows="3" placeholder="ระบุวิธีที่จะนำไปใช้จริง..."></textarea>
-      <button id="savePlan" style="width:100%; margin-top:8px;">💾 บันทึกแผนพัฒนาตนเอง</button>
+    <div style="margin-top:20px;">
+      <label style="display:block;margin-bottom:6px;font-weight:600;">รูปแบบการจัดการความขัดแย้งที่ฉันอยากจะพัฒนาคือ:</label>
+      <input type="text" id="devGoal" placeholder="เช่น การร่วมมือ (Collaborating)">
+      <label style="display:block;margin-bottom:6px;font-weight:600;">ฉันจะฝึกฝนรูปแบบการจัดการความขัดแย้งนี้ได้อย่างไร?:</label>
+      <textarea id="devPlan" rows="3" placeholder="กรอกแนวทางการฝึกฝนของคุณ..."></textarea>
+      <button class="success" id="savePlan" style="width:100%; margin-top:8px;">บันทึกแผนพัฒนาตนเอง</button>
     </div>
-    
-    <button class="s" id="rs" style="width:100%; margin-top:12px;">ทำแบบประเมินใหม่อีกครั้ง</button>
   </div>
 </div>
 
 <!-- ระบบหลังบ้าน (Admin) -->
 <div class="admin-section">
-  <button class="s" id="toggleAdmin">🔒 เปิดระบบหลังบ้าน (ผู้ดูแลระบบ)</button>
+  <button class="s" id="toggleAdmin">🔒 เปิดระบบหลังบ้าน (Admin)</button>
 </div>
 
 <div id="adminPanel">
-  <div class="card">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px; flex-wrap:wrap; gap:10px;">
-      <h2 style="margin:0;">📊 ข้อมูลผู้ประเมินทั้งหมด</h2>
-      <button class="s" id="closeAdmin">ปิด x</button>
+  <div class="card" style="border:2px dashed var(--ac)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+      <h2>📊 ระบบหลังบ้าน (Admin)</h2>
+      <button class="s" id="closeAdmin" style="padding:6px 12px;">ปิด</button>
     </div>
     
-    <div style="background:#f8f9fa; padding:12px; border-radius:10px; margin-bottom:16px; border:1px dashed #ccc;">
-      <b style="display:block; margin-bottom:8px; font-size:0.9rem;">🛠️ เครื่องมือทดสอบ (สำหรับ Admin):</b>
-      <button class="test-btn" id="mockPre">➕ จำลองข้อมูล (Pre-test)</button>
-      <button class="test-btn" id="mockPost">➕ จำลองข้อมูล (Post-test)</button>
+    <div style="display:flex; gap:10px; margin-bottom:16px;">
+      <button class="success" id="genMock" style="flex:1;">✨ สร้างข้อมูลจำลอง (Test)</button>
+      <button class="danger" id="clrAll" style="flex:1;">🗑️ ลบข้อมูลทั้งหมด</button>
     </div>
 
     <div id="adminList"></div>
-    <div style="margin-top:20px;">
-      <button class="danger" id="clrAll" style="width:100%;">🗑️ ลบข้อมูลทั้งหมดทิ้ง</button>
-    </div>
   </div>
 </div>
 
 </div>
 
 <script>
-// --- ฟังก์ชันสร้างเสียง 8-Bit (Web Audio API) ---
-var audioCtx = null;
+// -- ข้อมูลแบบประเมิน --
+var N={C:"การแข่งขัน (Competing)",Co:"การร่วมมือ (Collaborating)",Cm:"การประนีประนอม (Compromising)",Av:"การหลีกเลี่ยง (Avoiding)",Ac:"การโอนอ่อนผ่อนตาม (Accommodating)"},K=["Co","C","Av","Ac","Cm"];
+var Q=[
+  {q:"1. ฉันพูดคุยถึงปัญหากับผู้อื่นเพื่อพยายามหาทางออกที่ตอบสนองความต้องการของทุกคน", c:"Co"},
+  {q:"2. ฉันพยายามเจรจาต่อรองและใช้วิธีการแบบถ้อยทีถ้อยอาศัย (ให้และรับ) เพื่อแก้ปัญหา", c:"Cm"},
+  {q:"3. ฉันพยายามทำตามความคาดหวังของผู้อื่น", c:"Ac"},
+  {q:"4. ฉันจะโต้แย้งในเรื่องของฉันและยืนกรานถึงข้อดีในมุมมองของฉัน", c:"C"},
+  {q:"5. เมื่อมีความขัดแย้ง ฉันจะรวบรวมข้อมูลให้ได้มากที่สุดและเปิดโอกาสให้มีการสื่อสารกันอย่างต่อเนื่อง", c:"Co"},
+  {q:"6. เมื่อฉันพบว่าตัวเองอยู่ในการโต้เถียง ฉันมักจะพูดน้อยมากและพยายามปลีกตัวออกมาให้เร็วที่สุด", c:"Av"},
+  {q:"7. ฉันพยายามมองความขัดแย้งจากทั้งสองฝ่าย ฉันต้องการอะไร? อีกฝ่ายต้องการอะไร? มีประเด็นอะไรเกี่ยวข้องบ้าง?", c:"Co"},
+  {q:"8. ฉันชอบที่จะประนีประนอมเมื่อต้องแก้ปัญหาและก้าวผ่านมันไป", c:"Cm"},
+  {q:"9. ฉันพบว่าความขัดแย้งเป็นเรื่องน่าตื่นเต้น ฉันสนุกกับการประลองปัญญาที่มักจะตามมา", c:"C"},
+  {q:"10. การมีความคิดเห็นไม่ตรงกับผู้อื่นทำให้ฉันรู้สึกอึดอัดและวิตกกังวล", c:"Av"},
+  {q:"11. ฉันพยายามทำตามความต้องการของเพื่อนและครอบครัว", c:"Ac"},
+  {q:"12. ฉันสามารถคิดได้ว่าอะไรควรทำ และฉันก็มักจะเป็นฝ่ายถูก", c:"C"},
+  {q:"13. เพื่อแก้ปัญหาทางตัน ฉันจะประนีประนอมพบกันคนละครึ่งทาง", c:"Cm"},
+  {q:"14. ฉันอาจจะไม่ได้ในสิ่งที่ต้องการ แต่มันก็เป็นเพียงราคาเล็กน้อยที่ต้องจ่ายเพื่อรักษาความสงบเอาไว้", c:"Ac"},
+  {q:"15. ฉันหลีกเลี่ยงความรู้สึกที่ไม่ดีโดยเก็บความไม่ลงรอยกันที่มีต่อผู้อื่นไว้กับตัวเอง", c:"Av"}
+];
+var scales = [
+  {v:1, l:"1 = แทบจะไม่ (Rarely)"},
+  {v:2, l:"2 = บางครั้ง (Sometimes)"},
+  {v:3, l:"3 = บ่อยครั้ง (Often)"},
+  {v:4, l:"4 = เสมอ (Always)"}
+];
+
+var ans={}, KEY="tki_project_15q";
+var qs=document.getElementById("qs"), myRadarChart=null, adminCharts={};
+var currentStep = 0; // เก็บสเตจปัจจุบัน (0 - 14)
+
+// -- ระบบสร้างเสียง 8-bit (Web Audio API) --
+var audioCtx;
 function play8BitSound() {
   try {
-    if (!audioCtx) { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
-    if (audioCtx.state === 'suspended') { audioCtx.resume(); }
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
     
     var osc = audioCtx.createOscillator();
     var gainNode = audioCtx.createGain();
     
+    osc.type = 'square'; // เสียง 8-bit แบบเครื่องเกมเก่า
+    osc.frequency.setValueAtTime(440, audioCtx.currentTime); 
+    osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.1); 
+    
+    gainNode.gain.setValueAtTime(0.05, audioCtx.currentTime); // ความดัง
+    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+    
     osc.connect(gainNode);
     gainNode.connect(audioCtx.destination);
-    
-    // ตั้งค่าเสียงใสๆ แบบเกม 16-bit
-    osc.type = 'triangle'; 
-    osc.frequency.setValueAtTime(600, audioCtx.currentTime); 
-    osc.frequency.exponentialRampToValueAtTime(1000, audioCtx.currentTime + 0.1); // เสียงสไลด์ขึ้นเล็กน้อย
-    
-    // ตั้งค่าความดังเสียง (เฟดออกอย่างรวดเร็ว)
-    gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime); // ความดัง
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-    
-    osc.start(audioCtx.currentTime);
+    osc.start();
     osc.stop(audioCtx.currentTime + 0.1);
-  } catch (e) { console.log("Audio not supported"); }
+  } catch(e) { console.log("Audio not supported"); }
 }
-// -------------------------------------------------
 
-var N={C:"การแข่งขัน (Competing)",Co:"การร่วมมือ (Collaborating)",Cm:"การประนีประนอม (Compromising)",Av:"การหลีกเลี่ยง (Avoiding)",Ac:"การโอนอ่อนผ่อนตาม (Accommodating)"},K=["Co","C","Av","Ac","Cm"];
-var Q=[
-  {q:"ฉันพูดคุยถึงปัญหากับผู้อื่นเพื่อพยายามหาทางออกที่ตอบสนองความต้องการของทุกคน", c:"Co"},
-  {q:"ฉันพยายามเจรจาต่อรองและใช้วิธีการแบบถ้อยทีถ้อยอาศัยเพื่อแก้ปัญหา", c:"Cm"},
-  {q:"ฉันพยายามทำตามความคาดหวังของผู้อื่น", c:"Ac"},
-  {q:"ฉันจะโต้แย้งในเรื่องของฉันและยืนกรานถึงข้อดีในมุมมองของฉัน", c:"C"},
-  {q:"เมื่อมีความขัดแย้ง ฉันจะรวบรวมข้อมูลให้ได้มากที่สุดและเปิดสื่อสารกันอย่างต่อเนื่อง", c:"Co"},
-  {q:"เมื่อฉันพบว่าตัวเองอยู่ในการโต้เถียง ฉันมักจะพูดน้อยมากและปลีกตัวออกมาให้เร็วที่สุด", c:"Av"},
-  {q:"ฉันพยายามมองความขัดแย้งจากทั้งสองฝ่าย เพื่อหาว่าแต่ละฝ่ายต้องการอะไร", c:"Co"},
-  {q:"ฉันชอบที่จะประนีประนอมเมื่อต้องแก้ปัญหาและก้าวผ่านมันไป", c:"Cm"},
-  {q:"ฉันพบว่าความขัดแย้งเป็นเรื่องน่าตื่นเต้น และสนุกกับการประลองปัญญา", c:"C"},
-  {q:"การมีความคิดเห็นไม่ตรงกับผู้อื่นทำให้ฉันรู้สึกอึดอัดและวิตกกังวล", c:"Av"},
-  {q:"ฉันพยายามทำตามความต้องการของเพื่อนและครอบครัว", c:"Ac"},
-  {q:"ฉันสามารถคิดได้ว่าอะไรควรทำ และฉันก็มักจะเป็นฝ่ายถูก", c:"C"},
-  {q:"เพื่อแก้ปัญหาทางตัน ฉันจะประนีประนอมพบกันคนละครึ่งทาง", c:"Cm"},
-  {q:"ฉันอาจจะไม่ได้ในสิ่งที่ต้องการ แต่มันก็เป็นเพียงราคาเล็กน้อยที่ต้องจ่ายเพื่อรักษาความสงบ", c:"Ac"},
-  {q:"ฉันหลีกเลี่ยงความรู้สึกที่ไม่ดีโดยเก็บความไม่ลงรอยกันไว้กับตัวเอง", c:"Av"}
-];
-var scales=[{v:1,l:"1 = แทบจะไม่ (Rarely)"},{v:2,l:"2 = บางครั้ง (Sometimes)"},{v:3,l:"3 = บ่อยครั้ง (Often)"},{v:4,l:"4 = เสมอ (Always)"}];
-var ans={}, KEY="tki_project_wizard", currentQ=0, totalQ=15, myRadarChart=null, adminCharts={}, currentUserId=null;
-
-var qsContainer=document.getElementById("qs-container");
+// -- สร้าง DOM สำหรับข้อสอบทีละข้อ --
 Q.forEach(function(q,i){
- var d=document.createElement("div"); d.className="card q-card"; d.id="qCard"+i;
- var html = '<div class="mut">ข้อที่ '+(i+1)+' จาก 15</div><div class="q">'+q.q+'</div><div class="scale-container">';
+ var d=document.createElement("div"); 
+ d.className="card"; 
+ d.id="q"+i;
+ d.style.display = "none"; // ซ่อนไว้ก่อน
+ 
+ var html = '<div class="q">'+q.q+'</div><div class="scale-container">';
  scales.forEach(function(s){
    html += '<label class="o"><input type="radio" name="q'+i+'" value="'+s.v+'" data-cat="'+q.c+'"><span>'+s.l+'</span></label>';
  });
- html += '</div>'; d.innerHTML = html; qsContainer.appendChild(d);
- 
- d.querySelectorAll('input[type="radio"]').forEach(r => {
-    r.addEventListener('change', function(e){
-       play8BitSound(); // 🎵 เรียกฟังก์ชันเสียงตรงนี้
-       ans[i] = {val:parseInt(e.target.value), cat:e.target.dataset.cat};
-       document.getElementById('q-err').style.display = 'none';
-       if(i < 14) { setTimeout(goNext, 350); } 
-    });
- });
+ html += '</div>'; d.innerHTML = html; qs.appendChild(d);
 });
 
-document.getElementById('btn-start').onclick = function(){
-  var nm = document.getElementById("uname").value.trim(), uid = document.getElementById("uid").value.trim();
-  if(!nm || !uid) { 
-    var err = document.getElementById("info-err"); err.innerHTML = "⚠️ กรุณากรอกชื่อและรหัสนิสิตให้ครบถ้วน"; err.style.display="block"; return; 
+// -- ระบบ Pagination (เปลี่ยนหน้า) --
+function updateView() {
+  // ซ่อนข้อสอบทั้งหมด
+  for(var i=0; i<15; i++) {
+    document.getElementById("q"+i).style.display = "none";
   }
-  document.getElementById("step-info").style.display = "none";
-  document.getElementById("step-questions").style.display = "block";
-  document.getElementById("pg-container").style.display = "block";
+  // แสดงเฉพาะข้อปัจจุบัน
+  document.getElementById("q"+currentStep).style.display = "block";
+  // แสดง/ซ่อน ข้อมูลเบื้องต้น
+  document.getElementById("infoCard").style.display = (currentStep === 0) ? "block" : "none";
   
-  // ปลุกระบบเสียงให้พร้อมทำงานตอนกดปุ่มเริ่ม (Browser Policy)
-  if (!audioCtx) { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
-  if (audioCtx.state === 'suspended') { audioCtx.resume(); }
+  // อัปเดตปุ่ม Navigation
+  document.getElementById("btnPrev").style.display = (currentStep === 0) ? "none" : "inline-block";
+  if(currentStep === 14) {
+    document.getElementById("btnNext").style.display = "none";
+    document.getElementById("submitCard").style.display = "block";
+  } else {
+    document.getElementById("btnNext").style.display = "inline-block";
+    document.getElementById("submitCard").style.display = "none";
+  }
 
-  showQ(0);
+  // อัปเดต Progress Bar
+  var answeredCount = Object.keys(ans).length;
+  document.getElementById("cnt").textContent = "ข้อที่ " + (currentStep + 1) + " / 15";
+  document.getElementById("pg").style.width = ((answeredCount / 15) * 100) + "%";
+
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+// บันทึกคำตอบเมื่อเลือก + เล่นเสียง
+qs.addEventListener("change",function(e){
+  var m = e.target.name.slice(1);
+  ans[m] = {val:parseInt(e.target.value), cat:e.target.dataset.cat};
+  play8BitSound(); // เล่นเสียงตรงนี้!
+  
+  // อัปเดตเกจทันที
+  var answeredCount = Object.keys(ans).length;
+  document.getElementById("pg").style.width = ((answeredCount / 15) * 100) + "%";
+});
+
+// ปุ่ม ถัดไป
+document.getElementById("btnNext").onclick = function() {
+  if (currentStep === 0) {
+    var uName = document.getElementById("uname").value.trim();
+    var uId = document.getElementById("uid").value.trim();
+    if (!uName || !uId) {
+      alert("⚠️ กรุณากรอกชื่อ-นามสกุล และรหัสนิสิตให้ครบถ้วนก่อน");
+      document.getElementById("infoCard").scrollIntoView({behavior:"smooth"});
+      return;
+    }
+  }
+  if (!ans[currentStep]) {
+    alert("⚠️ กรุณาเลือกคำตอบก่อนไปข้อถัดไป");
+    return;
+  }
+  if (currentStep < 14) {
+    currentStep++;
+    updateView();
+  }
 };
 
-function showQ(idx) {
-  currentQ = idx;
-  document.querySelectorAll('.q-card').forEach((el, i) => { el.style.display = (i === idx) ? 'block' : 'none'; });
-  var percent = ((idx) / totalQ) * 100;
-  if(idx===14 && ans[14]) percent = 100; 
-  document.getElementById('pg-fill').style.width = percent + '%';
-  document.getElementById('pg-text').textContent = 'ข้อที่ ' + (idx + 1) + ' / 15';
-  document.getElementById('pg-percent').textContent = Math.round(percent) + '%';
-  
-  document.getElementById('btn-prev').style.visibility = (idx === 0) ? 'hidden' : 'visible';
-  document.getElementById('btn-next').innerHTML = (idx === 14) ? 'บันทึกคำตอบ 💾' : 'ถัดไป ➡️';
-  document.getElementById('q-err').style.display = 'none';
-  window.scrollTo({top: 0, behavior: 'smooth'});
-}
-
-function goNext(){
-  if(!ans[currentQ]) { 
-    var err = document.getElementById("q-err"); err.innerHTML = "⚠️ กรุณาเลือกคำตอบก่อนไปข้อถัดไป"; err.style.display="block"; return; 
+// ปุ่ม ย้อนกลับ
+document.getElementById("btnPrev").onclick = function() {
+  if (currentStep > 0) {
+    currentStep--;
+    updateView();
   }
-  if(currentQ < 14) { showQ(currentQ + 1); } 
-  else { submitResult(); } 
-}
-document.getElementById('btn-next').onclick = goNext;
-document.getElementById('btn-prev').onclick = function(){ if(currentQ > 0) showQ(currentQ - 1); };
+};
 
+// เริ่มต้นแสดงผลหน้าแรก
+updateView();
+
+// -- ระบบประมวลผล --
 function loadData(){try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return []}}
 function saveData(a){try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){}}
 
@@ -283,9 +292,10 @@ function createRadarChart(canvasId, scores) {
   return new Chart(ctx, {
     type: 'radar',
     data: {
-      labels: ['ร่วมมือ (Co)', 'แข่งขัน (C)', 'หลีกเลี่ยง (Av)', 'โอนอ่อน (Ac)', 'ประนีประนอม (Cm)'],
+      labels: ['ร่วมมือ', 'แข่งขัน', 'หลีกเลี่ยง', 'โอนอ่อน', 'ประนีประนอม'],
       datasets: [{
-        label: 'คะแนน TKI', data: [scores.Co, scores.C, scores.Av, scores.Ac, scores.Cm],
+        label: 'คะแนน TKI',
+        data: [scores.Co, scores.C, scores.Av, scores.Ac, scores.Cm],
         backgroundColor: 'rgba(109, 79, 214, 0.2)', borderColor: '#6d4fd6', pointBackgroundColor: '#6d4fd6', borderWidth: 2
       }]
     },
@@ -293,59 +303,62 @@ function createRadarChart(canvasId, scores) {
   });
 }
 
-function submitResult(){
-  var uName=document.getElementById("uname").value.trim(), uId=document.getElementById("uid").value.trim(), w=document.getElementById("when").value;
+var currentUserId = null;
+document.getElementById("go").onclick=function(){
+  if (!ans[14]) { alert("⚠️ กรุณาตอบคำถามข้อสุดท้ายให้เรียบร้อย"); return; }
+  
+  var uName=document.getElementById("uname").value.trim(), uId=document.getElementById("uid").value.trim();
   var s={C:0,Co:0,Cm:0,Av:0,Ac:0};
   for(var k in ans){ s[ans[k].cat] += ans[k].val; }
   
-  document.getElementById('pg-fill').style.width = '100%';
-  document.getElementById('pg-percent').textContent = '100%';
+  var w=document.getElementById("when").value, mx=Math.max.apply(null,K.map(function(k){return s[k]})), nowStr=new Date().toLocaleString("th-TH");
   
-  var mx=Math.max.apply(null,K.map(function(k){return s[k]})), nowStr=new Date().toLocaleString("th-TH");
-  document.getElementById("rName").textContent=uName; document.getElementById("rUid").textContent="รหัส: " + uId; document.getElementById("rWhen").textContent=w;
+  // ซ่อนหน้าทดสอบ แสดงหน้าสรุปผล
+  document.getElementById("testArea").style.display = "none";
+  document.getElementById("topBar").style.display = "none";
+  document.getElementById("res").style.display = "block";
   
+  document.getElementById("rName").textContent="("+uName+")"; document.getElementById("rUid").textContent=uId; document.getElementById("rWhen").textContent=w; document.getElementById("rDate").textContent=nowStr;
   document.getElementById("bars").innerHTML=K.map(function(k){return '<div class="r'+(s[k]===mx?" top":"")+'"><b><span>'+N[k]+'</span><span>'+s[k]+'/12</span></b><div class="t"><i style="width:'+(s[k]/12*100)+'%"></i></div></div>'}).join("");
+  
   var tops=K.filter(function(k){return s[k]===mx}).map(function(k){return N[k]});
-  document.getElementById("read").innerHTML="รูปแบบการจัดการความขัดแย้งที่คุณโดดเด่นที่สุดคือ:<br><b style='color:var(--ac); font-size:1.2rem;'>"+tops.join(" และ ")+"</b>";
+  document.getElementById("read").innerHTML="รูปแบบการจัดการความขัดแย้งที่คุณชอบใช้คือ:<br><b style='color:var(--ac)'>"+tops.join(" และ ")+"</b>";
 
   if(myRadarChart) myRadarChart.destroy(); myRadarChart = createRadarChart('radarChart', s);
   
   var h=loadData(); currentUserId = Date.now();
   h.push({id_ref: currentUserId, n:uName, id:uId, w:w, d:nowStr, s:s}); saveData(h); renderAdminList();
-  
-  document.getElementById("step-questions").style.display="none"; 
-  document.getElementById("pg-container").style.display="none"; 
-  document.getElementById("res").style.display="block"; 
   window.scrollTo({top:0, behavior:"smooth"});
-}
+};
 
 document.getElementById("savePlan").onclick=function(){
   var goal = document.getElementById("devGoal").value.trim(), plan = document.getElementById("devPlan").value.trim();
-  if(!goal || !plan) { alert("กรุณากรอกข้อมูลให้ครบถ้วน"); return; }
-  var h=loadData(), idx = h.findIndex(function(x){return x.id_ref === currentUserId});
+  if(!goal || !plan) { alert("กรุณากรอกข้อมูลแผนพัฒนาตนเองให้ครบ"); return; }
+  var h=loadData();
+  var idx = h.findIndex(function(x){return x.id_ref === currentUserId});
   if(idx > -1) { 
     h[idx].plan = {goal: goal, how: plan}; saveData(h); 
-    this.textContent = "✅ บันทึกสำเร็จ!"; this.style.background = "var(--ok)";
-    setTimeout(()=>{ this.textContent="💾 บันทึกแผนพัฒนาตนเอง"; this.style.background="var(--ac)"; }, 2000);
+    this.textContent = "✅ บันทึกเรียบร้อย!";
+    this.style.opacity = 0.7;
     renderAdminList(); 
   }
 };
 
 document.getElementById("rs").onclick=function(){
- ans={}; currentQ=0; document.querySelectorAll("input[type=radio]").forEach(function(r){r.checked=false});
- document.getElementById("uname").value=""; document.getElementById("uid").value="";
- document.getElementById("devGoal").value=""; document.getElementById("devPlan").value="";
- document.getElementById("res").style.display="none"; document.getElementById("step-info").style.display="block";
- window.scrollTo({top:0, behavior:"smooth"});
+  if(confirm("ต้องการเริ่มทำใหม่ทั้งหมดใช่หรือไม่?")) {
+    location.reload(); // รีเฟรชหน้าเพื่อล้างข้อมูลง่ายที่สุด
+  }
 };
 
+// -- ระบบหลังบ้าน (Admin) --
 function renderAdminList(){
  var h=loadData(), el=document.getElementById("adminList"); el.innerHTML = ""; adminCharts = {};
- if(!h.length){ el.innerHTML='<p class="mut" style="padding:20px; text-align:center;">ยังไม่มีข้อมูลในระบบ</p>'; return; }
- 
- h.reverse().forEach(function(r, idx){ 
+ if(!h.length){ el.innerHTML='<p class="mut" style="text-align:center;padding:20px;">ยังไม่มีข้อมูลในระบบ</p>'; return; }
+ // เรียงลำดับใหม่ล่าสุดขึ้นก่อน
+ h.slice().reverse().forEach(function(r, loopIdx){
+   var idx = h.length - 1 - loopIdx; // index จริงใน array
    var mx = Math.max.apply(null, K.map(function(k){return r.s[k]}));
-   var card = document.createElement("div"); 
+   var card = document.createElement("div"); card.className = "card"; card.style.margin = "10px 0"; card.style.padding = "10px";
    var canvasId = "adminChart_" + idx;
    var barsHtml = K.map(function(k){
      return '<div class="r'+(r.s[k]===mx?" top":"")+'"><b><span>'+N[k]+'</span><span>'+r.s[k]+'/12</span></b><div class="t"><i style="width:'+(r.s[k]/12*100)+'%"></i></div></div>';
@@ -354,14 +367,14 @@ function renderAdminList(){
    var isPre = r.w && r.w.indexOf("Pre") !== -1;
    card.innerHTML = 
      '<div class="acc-header" onclick="toggleAcc('+idx+', event)">'+
-       '<span class="badge '+(isPre?"badge-pre":"badge-post")+'">'+(isPre?"Pre":"Post")+'</span>'+
-       '<div style="flex:1;"><b>'+r.n+'</b><div class="mut" style="font-size:0.8rem;">รหัส: '+r.id+' | '+r.d+'</div></div>'+
-       '<button class="del-btn" onclick="deleteSingle('+idx+', event)">ลบ</button>'+
+       '<div style="flex:1;"><div><span class="badge '+(isPre?"badge-pre":"badge-post")+'">'+(isPre?"Pre-test":"Post-test")+'</span><b style="color:var(--ac); font-size:1.05rem;">'+r.n+'</b></div>'+
+       '<div class="mut" style="font-size:0.85rem;margin-top:2px;">รหัส: '+r.id+' | <span>'+r.d+'</span></div></div>'+
+       '<div style="display:flex;align-items:center;gap:10px;"><button class="del-btn" onclick="deleteSingle('+idx+', event)">🗑️ ลบ</button><span id="accIcon_'+idx+'">▼</span></div>'+
      '</div>'+
      '<div class="acc-body" id="accBody_'+idx+'">'+
-       '<div style="max-width:300px; margin:0 auto 10px;"><canvas id="'+canvasId+'"></canvas></div>'+
+       '<div style="max-width:320px; margin:10px auto;"><canvas id="'+canvasId+'"></canvas></div>'+
        '<div>'+barsHtml+'</div>'+
-       (r.plan?'<div style="margin-top:14px;padding:10px;background:#fffbe6;border:1px solid #ffe58f;border-radius:8px;font-size:0.9rem;"><b>🎯 อยากพัฒนา:</b> '+r.plan.goal+'<br><b>📝 วิธีฝึก:</b> '+r.plan.how+'</div>':'')+
+       (r.plan?'<div style="margin-top:10px;padding:8px;background:#fff9e6;border-radius:6px;font-size:0.9rem;"><b>เป้าหมาย:</b> '+r.plan.goal+'<br><b>วิธีฝึก:</b> '+r.plan.how+'</div>':'')+
      '</div>';
    el.appendChild(card); adminCharts[idx] = { canvasId: canvasId, scores: r.s, instance: null };
  });
@@ -369,51 +382,59 @@ function renderAdminList(){
 
 function toggleAcc(idx, e){
   if(e && e.target.tagName === "BUTTON") return;
-  var body = document.getElementById("accBody_" + idx);
-  if(body.classList.contains("open")){ body.classList.remove("open"); } 
+  var body = document.getElementById("accBody_" + idx), icon = document.getElementById("accIcon_" + idx);
+  if(body.classList.contains("open")){ body.classList.remove("open"); icon.textContent = "▼"; } 
   else {
-    document.querySelectorAll('.acc-body').forEach(el => el.classList.remove('open')); 
-    body.classList.add("open");
+    body.classList.add("open"); icon.textContent = "▲";
     if(!adminCharts[idx].instance) adminCharts[idx].instance = createRadarChart(adminCharts[idx].canvasId, adminCharts[idx].scores);
   }
 }
 
 function deleteSingle(idx, e){
   if(e) e.stopPropagation();
-  var h = loadData().reverse(); 
-  if(confirm("ยืนยันการลบข้อมูลนี้?")){ h.splice(idx, 1); saveData(h.reverse()); renderAdminList(); }
+  var h = loadData(); if(confirm("ต้องการลบข้อมูลประวัตินี้ใช่หรือไม่?")){ h.splice(idx, 1); saveData(h); renderAdminList(); }
 }
 
 var adm=document.getElementById("adminPanel");
 document.getElementById("toggleAdmin").onclick=function(){
- var pass = prompt("รหัสผ่าน Admin:");
+ var pass = prompt("กรุณากรอกรหัสผ่าน:");
  if(pass === "EE33") { renderAdminList(); adm.style.display="block"; adm.scrollIntoView({behavior:"smooth"}); } 
  else if(pass !== null) { alert("รหัสผ่านไม่ถูกต้อง!"); }
 };
 document.getElementById("closeAdmin").onclick=function(){ adm.style.display="none"; };
-document.getElementById("clrAll").onclick=function(){ if(confirm("⚠️ ลบข้อมูลผู้ประเมินทั้งหมดทิ้งอย่างถาวร?")){ saveData([]); renderAdminList(); } };
+document.getElementById("clrAll").onclick=function(){ if(confirm("⚠️ ต้องการลบข้อมูลทั้งหมดจริงๆ ใช่หรือไม่? (กู้คืนไม่ได้)")){ saveData([]); renderAdminList(); } };
 
-function createMockData(type) {
-  var s={C:0,Co:0,Cm:0,Av:0,Ac:0};
-  for(let i=0; i<15; i++) {
-    var randomVal = Math.floor(Math.random() * 4) + 1; 
-    s[Q[i].c] += randomVal;
-  }
-  var h=loadData(), randomId = Math.floor(Math.random()*9000)+1000;
+// ปุ่มสร้าง Mock Data สำหรับเทสระบบ
+document.getElementById("genMock").onclick=function(){
+  var h = loadData();
+  var mockNames = ["นายสมมติ ทดสอบระบบ", "นางสาวเรียนดี ขยันยิ่ง", "ด.ช.มานี มีแชร์", "Mr. John Doe"];
+  var types = ["Pre-test (ก่อนทำโครงการ)", "Post-test (หลังทำโครงการ)"];
+  
+  // สุ่มข้อมูล
+  var rName = mockNames[Math.floor(Math.random() * mockNames.length)];
+  var rType = types[Math.floor(Math.random() * types.length)];
+  var s = {
+    C: Math.floor(Math.random()*9)+3,
+    Co: Math.floor(Math.random()*9)+3,
+    Cm: Math.floor(Math.random()*9)+3,
+    Av: Math.floor(Math.random()*9)+3,
+    Ac: Math.floor(Math.random()*9)+3
+  };
+  
   h.push({
-    id_ref: Date.now(),
-    n: "นิสิตทดสอบ " + randomId,
-    id: "6610" + randomId + "21",
-    w: type,
-    d: new Date().toLocaleString("th-TH"),
+    id_ref: Date.now(), 
+    n: rName, 
+    id: "66" + Math.floor(Math.random()*1000000000), 
+    w: rType, 
+    d: new Date().toLocaleString("th-TH"), 
     s: s,
-    plan: {goal: "ทดสอบเป้าหมาย (ระบบจำลอง)", how: "ทดสอบแผนพัฒนาตนเอง (ระบบจำลอง)"}
+    plan: {goal: "จำลองคำตอบเป้าหมาย", how: "จำลองแนวทางการฝึกฝน"}
   });
-  saveData(h); renderAdminList(); alert("จำลองข้อมูล " + type + " สำเร็จ!");
-}
-document.getElementById("mockPre").onclick = function() { createMockData("Pre-test (ก่อนทำโครงการ)"); };
-document.getElementById("mockPost").onclick = function() { createMockData("Post-test (หลังทำโครงการ)"); };
-
+  
+  saveData(h);
+  renderAdminList();
+  alert("สร้างข้อมูลจำลองสำเร็จ 1 รายการ!");
+};
 </script>
 </body>
 </html>
