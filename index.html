@@ -132,7 +132,7 @@ button.del-btn:hover{background:var(--warn);color:#fff;}
     </div>
     
     <div style="display:flex; gap:10px; margin-bottom:16px;">
-      <button class="success" id="genMock" style="flex:1;">✨ สร้างข้อมูลจำลอง (Test)</button>
+      <button class="success" id="genMock" style="flex:1;">✨ สร้างข้อมูล Test 10 รายการ</button>
       <button class="danger" id="clrAll" style="flex:1;">🗑️ ลบข้อมูลทั้งหมด</button>
     </div>
 
@@ -173,27 +173,31 @@ var ans={}, KEY="tki_project_15q";
 var qs=document.getElementById("qs"), myRadarChart=null, adminCharts={};
 var currentStep = 0; // เก็บสเตจปัจจุบัน (0 - 14)
 
-// -- ระบบสร้างเสียง 8-bit (Web Audio API) --
+// -- ระบบสร้างเสียง 8-bit ตือดือดื๊อ (Web Audio API) --
 var audioCtx;
-function play8BitSound() {
+function playHappySound() {
   try {
     if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     if (audioCtx.state === 'suspended') audioCtx.resume();
     
-    var osc = audioCtx.createOscillator();
-    var gainNode = audioCtx.createGain();
+    var t = audioCtx.currentTime;
     
-    osc.type = 'square'; // เสียง 8-bit แบบเครื่องเกมเก่า
-    osc.frequency.setValueAtTime(440, audioCtx.currentTime); 
-    osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.1); 
+    function playTone(freq, startTime, duration) {
+      var osc = audioCtx.createOscillator();
+      var gain = audioCtx.createGain();
+      osc.type = 'square';
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0, startTime);
+      gain.gain.linearRampToValueAtTime(0.05, startTime + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      osc.start(startTime); osc.stop(startTime + duration);
+    }
     
-    gainNode.gain.setValueAtTime(0.05, audioCtx.currentTime); // ความดัง
-    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
-    
-    osc.connect(gainNode);
-    gainNode.connect(audioCtx.destination);
-    osc.start();
-    osc.stop(audioCtx.currentTime + 0.1);
+    // คอร์ด C Major ไต่ระดับให้ฟีลดีใจ (C5, E5, G5)
+    playTone(523.25, t, 0.1);         // ตือ
+    playTone(659.25, t + 0.08, 0.1);  // ดือ
+    playTone(783.99, t + 0.16, 0.15); // ดื๊อ
   } catch(e) { console.log("Audio not supported"); }
 }
 
@@ -213,16 +217,12 @@ Q.forEach(function(q,i){
 
 // -- ระบบ Pagination (เปลี่ยนหน้า) --
 function updateView() {
-  // ซ่อนข้อสอบทั้งหมด
   for(var i=0; i<15; i++) {
     document.getElementById("q"+i).style.display = "none";
   }
-  // แสดงเฉพาะข้อปัจจุบัน
   document.getElementById("q"+currentStep).style.display = "block";
-  // แสดง/ซ่อน ข้อมูลเบื้องต้น
   document.getElementById("infoCard").style.display = (currentStep === 0) ? "block" : "none";
   
-  // อัปเดตปุ่ม Navigation
   document.getElementById("btnPrev").style.display = (currentStep === 0) ? "none" : "inline-block";
   if(currentStep === 14) {
     document.getElementById("btnNext").style.display = "none";
@@ -232,7 +232,6 @@ function updateView() {
     document.getElementById("submitCard").style.display = "none";
   }
 
-  // อัปเดต Progress Bar
   var answeredCount = Object.keys(ans).length;
   document.getElementById("cnt").textContent = "ข้อที่ " + (currentStep + 1) + " / 15";
   document.getElementById("pg").style.width = ((answeredCount / 15) * 100) + "%";
@@ -244,14 +243,12 @@ function updateView() {
 qs.addEventListener("change",function(e){
   var m = e.target.name.slice(1);
   ans[m] = {val:parseInt(e.target.value), cat:e.target.dataset.cat};
-  play8BitSound(); // เล่นเสียงตรงนี้!
+  playHappySound(); // เล่นเสียง "ตือดือดื๊อ"
   
-  // อัปเดตเกจทันที
   var answeredCount = Object.keys(ans).length;
   document.getElementById("pg").style.width = ((answeredCount / 15) * 100) + "%";
 });
 
-// ปุ่ม ถัดไป
 document.getElementById("btnNext").onclick = function() {
   if (currentStep === 0) {
     var uName = document.getElementById("uname").value.trim();
@@ -272,7 +269,6 @@ document.getElementById("btnNext").onclick = function() {
   }
 };
 
-// ปุ่ม ย้อนกลับ
 document.getElementById("btnPrev").onclick = function() {
   if (currentStep > 0) {
     currentStep--;
@@ -280,7 +276,6 @@ document.getElementById("btnPrev").onclick = function() {
   }
 };
 
-// เริ่มต้นแสดงผลหน้าแรก
 updateView();
 
 // -- ระบบประมวลผล --
@@ -313,7 +308,6 @@ document.getElementById("go").onclick=function(){
   
   var w=document.getElementById("when").value, mx=Math.max.apply(null,K.map(function(k){return s[k]})), nowStr=new Date().toLocaleString("th-TH");
   
-  // ซ่อนหน้าทดสอบ แสดงหน้าสรุปผล
   document.getElementById("testArea").style.display = "none";
   document.getElementById("topBar").style.display = "none";
   document.getElementById("res").style.display = "block";
@@ -345,18 +339,15 @@ document.getElementById("savePlan").onclick=function(){
 };
 
 document.getElementById("rs").onclick=function(){
-  if(confirm("ต้องการเริ่มทำใหม่ทั้งหมดใช่หรือไม่?")) {
-    location.reload(); // รีเฟรชหน้าเพื่อล้างข้อมูลง่ายที่สุด
-  }
+  if(confirm("ต้องการเริ่มทำใหม่ทั้งหมดใช่หรือไม่?")) location.reload(); 
 };
 
 // -- ระบบหลังบ้าน (Admin) --
 function renderAdminList(){
  var h=loadData(), el=document.getElementById("adminList"); el.innerHTML = ""; adminCharts = {};
  if(!h.length){ el.innerHTML='<p class="mut" style="text-align:center;padding:20px;">ยังไม่มีข้อมูลในระบบ</p>'; return; }
- // เรียงลำดับใหม่ล่าสุดขึ้นก่อน
  h.slice().reverse().forEach(function(r, loopIdx){
-   var idx = h.length - 1 - loopIdx; // index จริงใน array
+   var idx = h.length - 1 - loopIdx; 
    var mx = Math.max.apply(null, K.map(function(k){return r.s[k]}));
    var card = document.createElement("div"); card.className = "card"; card.style.margin = "10px 0"; card.style.padding = "10px";
    var canvasId = "adminChart_" + idx;
@@ -404,36 +395,39 @@ document.getElementById("toggleAdmin").onclick=function(){
 document.getElementById("closeAdmin").onclick=function(){ adm.style.display="none"; };
 document.getElementById("clrAll").onclick=function(){ if(confirm("⚠️ ต้องการลบข้อมูลทั้งหมดจริงๆ ใช่หรือไม่? (กู้คืนไม่ได้)")){ saveData([]); renderAdminList(); } };
 
-// ปุ่มสร้าง Mock Data สำหรับเทสระบบ
+// ปุ่มสร้าง Mock Data 10 ชุด (Pre-test 5, Post-test 5)
 document.getElementById("genMock").onclick=function(){
   var h = loadData();
-  var mockNames = ["นายสมมติ ทดสอบระบบ", "นางสาวเรียนดี ขยันยิ่ง", "ด.ช.มานี มีแชร์", "Mr. John Doe"];
-  var types = ["Pre-test (ก่อนทำโครงการ)", "Post-test (หลังทำโครงการ)"];
+  var baseTime = Date.now();
   
-  // สุ่มข้อมูล
-  var rName = mockNames[Math.floor(Math.random() * mockNames.length)];
-  var rType = types[Math.floor(Math.random() * types.length)];
-  var s = {
-    C: Math.floor(Math.random()*9)+3,
-    Co: Math.floor(Math.random()*9)+3,
-    Cm: Math.floor(Math.random()*9)+3,
-    Av: Math.floor(Math.random()*9)+3,
-    Ac: Math.floor(Math.random()*9)+3
-  };
-  
-  h.push({
-    id_ref: Date.now(), 
-    n: rName, 
-    id: "66" + Math.floor(Math.random()*1000000000), 
-    w: rType, 
-    d: new Date().toLocaleString("th-TH"), 
-    s: s,
-    plan: {goal: "จำลองคำตอบเป้าหมาย", how: "จำลองแนวทางการฝึกฝน"}
-  });
+  for(var i = 1; i <= 10; i++) {
+    var numStr = (i < 10) ? "0" + i : i;
+    var rName = "test" + numStr;
+    var rType = (i <= 5) ? "Pre-test (ก่อนทำโครงการ)" : "Post-test (หลังทำโครงการ)";
+    
+    // สุ่มคะแนน 3-12 ในแต่ละหมวด
+    var s = {
+      C: Math.floor(Math.random()*10)+3,
+      Co: Math.floor(Math.random()*10)+3,
+      Cm: Math.floor(Math.random()*10)+3,
+      Av: Math.floor(Math.random()*10)+3,
+      Ac: Math.floor(Math.random()*10)+3
+    };
+    
+    h.push({
+      id_ref: baseTime + i, 
+      n: rName, 
+      id: "66000000" + numStr, 
+      w: rType, 
+      d: new Date().toLocaleString("th-TH"), 
+      s: s,
+      plan: {goal: "จำลองคำตอบเป้าหมาย", how: "จำลองแนวทางการฝึกฝน"}
+    });
+  }
   
   saveData(h);
   renderAdminList();
-  alert("สร้างข้อมูลจำลองสำเร็จ 1 รายการ!");
+  alert("✨ สร้างข้อมูลจำลอง test01 ถึง test10 สำเร็จ!");
 };
 </script>
 </body>
