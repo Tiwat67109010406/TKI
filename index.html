@@ -7,8 +7,8 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
 :root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
---bg:#f6f5fb;--card:#fff;--tx:#1f1d2b;--mut:#6b6880;--bd:#dedbed;--ac:#6d4fd6;--acs:#ece8fb;--ok:#1d9a6c;--warn:#e63946}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15141c;--card:#1f1e2a;--tx:#ecebf5;--mut:#a09db5;--bd:#34324a;--ac:#9a84f0;--acs:#2b2842;--ok:#4cc79a;--warn:#ff6b6b}}
+--bg:#f6f5fb;--card:#fff;--tx:#1f1d2b;--mut:#6b6880;--bd:#dedbed;--ac:#6d4fd6;--acs:#ece8fb;--ok:#1d9a6c;--warn:#e63946;--warn2:#f4a261}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15141c;--card:#1f1e2a;--tx:#ecebf5;--mut:#a09db5;--bd:#34324a;--ac:#9a84f0;--acs:#2b2842;--ok:#4cc79a;--warn:#ff6b6b;--warn2:#e76f51}}
 *{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
 body{margin:0;background:var(--bg);color:var(--tx);font-family:"Noto Sans Thai",system-ui,sans-serif;line-height:1.6}
 .w{max-width:720px;margin:0 auto;padding:20px 16px 48px}
@@ -28,6 +28,7 @@ button{font:inherit;font-weight:600;border:0;border-radius:10px;padding:12px 20p
 button:hover{opacity:0.9; transform:translateY(-1px);}
 button.s{background:var(--bd);color:var(--tx)}
 button.danger{background:var(--warn);color:#fff}
+button.warning{background:var(--warn2);color:#fff}
 button.success{background:var(--ok);color:#fff}
 button.del-btn{background:rgba(230,57,70,0.1);color:var(--warn);padding:4px 10px;font-size:0.8rem;border-radius:6px;}
 button.del-btn:hover{background:var(--warn);color:#fff;}
@@ -43,6 +44,7 @@ button.del-btn:hover{background:var(--warn);color:#fff;}
 .badge {display: inline-block;padding: 2px 8px;border-radius: 6px;font-size: 0.8rem;font-weight: bold;margin-right: 6px;}
 .badge-pre {background: #e1f0ff;color: #1d72b8;border: 1px solid #b3d7ff;}
 .badge-post {background: #e6f9f0;color: #1d9a6c;border: 1px solid #a3e6cb;}
+.desc-box li { margin-bottom: 10px; }
 @media (prefers-color-scheme:dark){
   .badge-pre { background: #1c334a; color: #72b6ff; border-color: #2b4c6f; }
   .badge-post { background: #1c3b30; color: #62e3b1; border-color: #285a48; }
@@ -106,7 +108,7 @@ button.del-btn:hover{background:var(--warn);color:#fff;}
     <div style="max-width:400px; margin:20px auto;"><canvas id="radarChart"></canvas></div>
     <div id="bars"></div>
     <div style="margin-top:16px;padding:12px;background:var(--acs);border-radius:8px;">
-      <p id="read" style="margin:0;font-size:1.1rem;"></p>
+      <p id="read" style="margin:0;font-size:1.1rem; text-align:center;"></p>
     </div>
     
     <div style="margin-top:20px;">
@@ -116,6 +118,19 @@ button.del-btn:hover{background:var(--warn);color:#fff;}
       <textarea id="devPlan" rows="3" placeholder="กรอกแนวทางการฝึกฝนของคุณ..."></textarea>
       <button class="success" id="savePlan" style="width:100%; margin-top:8px;">บันทึกแผนพัฒนาตนเอง</button>
     </div>
+  </div>
+
+  <!-- คำอธิบาย 5 รูปแบบ -->
+  <div class="card desc-box">
+    <h3 style="color:var(--ac); margin-top:0;">📖 คำอธิบายรูปแบบการจัดการความขัดแย้ง</h3>
+    <p style="font-size:0.95rem;">พึงระลึกไว้เสมอว่ารูปแบบการจัดการความขัดแย้งรูปแบบใดรูปแบบหนึ่งไม่ได้ดีไปกว่ารูปแบบอื่นเสมอไป แต่ละรูปแบบมีทั้งข้อดีและข้อเสีย และแต่ละรูปแบบอาจมีประโยชน์ขึ้นอยู่กับสถานการณ์ แบบประเมินนี้มีจุดประสงค์เพื่อช่วยให้คุณระบุการตอบสนองต่อความขัดแย้งตามปกติของคุณ โดยมีเป้าหมายว่าเมื่อคุณพบกับความขัดแย้งในอนาคต คุณจะไม่เพียงตระหนักถึงปฏิกิริยาตามสัญชาตญาณของคุณเท่านั้น แต่ยังตระหนักถึงข้อดีและข้อเสียของปฏิกิริยานั้นสำหรับสถานการณ์เฉพาะอีกด้วย นอกจากนี้ คุณยังจะตระหนักถึงรูปแบบการจัดการความขัดแย้งอื่นๆ ที่คุณสามารถดึงมาใช้แก้ไขสถานการณ์ได้ หากมีรูปแบบอื่นที่เหมาะสมกับสถานการณ์ปัจจุบันมากกว่า</p>
+    <ul style="padding-left:20px; font-size:0.95rem;">
+      <li><b>🦉 นกฮูก (การร่วมมือ - Collaborating):</b> นกฮูกให้ความสำคัญอย่างมากทั้งต่อเป้าหมายและความสัมพันธ์ พวกเขามองว่าความขัดแย้งคือปัญหาที่ต้องแก้ไข และแสวงหาทางออกที่บรรลุทั้งเป้าหมายของตนเองและเป้าหมายของอีกฝ่าย นกฮูกมองว่าความขัดแย้งเป็นวิธีหนึ่งในการปรับปรุงความสัมพันธ์โดยการลดความตึงเครียดระหว่างคนสองคน พวกเขาพยายามเริ่มการสนทนาที่ระบุว่าความขัดแย้งเป็นปัญหา และพยายามแก้ไขความตึงเครียดและรักษาความสัมพันธ์โดยแสวงหาทางออกที่ตอบสนองความต้องการทั้งของตนเองและอีกฝ่าย</li>
+      <li><b>🐢 เต่า (การหลีกเลี่ยง - Avoiding):</b> เต่ามักจะให้ความสำคัญกับการหลีกเลี่ยงการเผชิญหน้ามากกว่าเป้าหมายหรือความสัมพันธ์ พวกเขามักจะพบว่าง่ายกว่าที่จะถอนตัวจากความขัดแย้งมากกว่าที่จะเผชิญหน้ากับมัน สิ่งนี้อาจรวมถึงการยอมล้มเลิกความสัมพันธ์หรือเป้าหมายที่เกี่ยวข้องกับความขัดแย้งนั้นไปเลยอย่างสิ้นเชิง</li>
+      <li><b>🦈 ฉลาม (การแข่งขัน - Competing):</b> ฉลามมักจะให้ความสำคัญกับเป้าหมายของตนเหนือความสัมพันธ์ ซึ่งหมายความว่าหากถูกบังคับให้เลือก พวกเขาจะพยายามบรรลุเป้าหมายของตนแม้ว่าจะต้องสูญเสียความสัมพันธ์ที่เกี่ยวข้องไปก็ตาม โดยทั่วไปฉลามมักจะกังวลเรื่องการบรรลุเป้าหมายมากกว่าการเป็นที่ชื่นชอบของผู้อื่น พวกเขาอาจพยายามบังคับให้คู่กรณีโอนอ่อนยอมรับทางออกของความขัดแย้งโดยใช้อำนาจที่เหนือกว่า</li>
+      <li><b>🧸 หมีเท็ดดี้ (การโอนอ่อนผ่อนตาม - Accommodating):</b> หมีเท็ดดี้มักจะให้ความสำคัญกับความสัมพันธ์มากกว่าเป้าหมายของตนเอง หากถูกบังคับให้เลือก หมีเท็ดดี้มักจะยอมเสียสละเป้าหมายของตนเพื่อรักษาความสัมพันธ์ไว้ โดยทั่วไปหมีเท็ดดี้ต้องการให้ผู้อื่นชื่นชอบ และชอบที่จะหลีกเลี่ยงความขัดแย้งเพราะพวกเขาเชื่อว่าการพูดถึงเรื่องนี้จะทำลายความสัมพันธ์ หมีเท็ดดี้พยายามประนีประนอมไกล่เกลี่ยความขัดแย้งเพื่อป้องกันไม่ให้ความสัมพันธ์เสียหาย</li>
+      <li><b>🦊 สุนัขจิ้งจอก (การประนีประนอม - Compromising):</b> สุนัขจิ้งจอกมีความใส่ใจในระดับปานกลางทั้งต่อเป้าหมายของตนและต่อความสัมพันธ์กับผู้อื่น สุนัขจิ้งจอกมักจะแสวงหาการประนีประนอม พวกเขายอมสละเป้าหมายบางส่วนของตนและชักชวนให้อีกฝ่ายในความขัดแย้งยอมสละเป้าหมายบางส่วนของตนเช่นกัน พวกเขาแสวงหาทางออกของความขัดแย้งที่ทั้งสองฝ่ายได้อะไรบางอย่าง ซึ่งก็คือจุดกึ่งกลางระหว่างจุดยืนที่สุดโต่งสองฝั่ง พวกเขายินดีที่จะเสียสละเป้าหมายบางส่วนเพื่อหาข้อตกลงเพื่อผลประโยชน์ส่วนรวม</li>
+    </ul>
   </div>
 </div>
 
@@ -131,9 +146,10 @@ button.del-btn:hover{background:var(--warn);color:#fff;}
       <button class="s" id="closeAdmin" style="padding:6px 12px;">ปิด</button>
     </div>
     
-    <div style="display:flex; gap:10px; margin-bottom:16px;">
-      <button class="success" id="genMock" style="flex:1;">✨ สร้างข้อมูล Test 10 รายการ</button>
-      <button class="danger" id="clrAll" style="flex:1;">🗑️ ลบข้อมูลทั้งหมด</button>
+    <div style="display:flex; gap:10px; margin-bottom:10px;">
+      <button class="success" id="genMock" style="flex:1; padding:10px 5px;">✨ สร้าง Mock 10 รายการ</button>
+      <button class="warning" id="clrTest" style="flex:1; padding:10px 5px;">🧹 ลบเฉพาะ Test</button>
+      <button class="danger" id="clrAll" style="flex:1; padding:10px 5px;">🗑️ ลบทั้งหมด</button>
     </div>
 
     <div id="adminList"></div>
@@ -143,8 +159,10 @@ button.del-btn:hover{background:var(--warn);color:#fff;}
 </div>
 
 <script>
-// -- ข้อมูลแบบประเมิน --
+// -- ข้อมูลแบบประเมินและรูปสัตว์ --
 var N={C:"การแข่งขัน (Competing)",Co:"การร่วมมือ (Collaborating)",Cm:"การประนีประนอม (Compromising)",Av:"การหลีกเลี่ยง (Avoiding)",Ac:"การโอนอ่อนผ่อนตาม (Accommodating)"},K=["Co","C","Av","Ac","Cm"];
+var A={C:"🦈 ฉลาม", Co:"🦉 นกฮูก", Cm:"🦊 สุนัขจิ้งจอก", Av:"🐢 เต่า", Ac:"🧸 หมีเท็ดดี้"};
+
 var Q=[
   {q:"1. ฉันพูดคุยถึงปัญหากับผู้อื่นเพื่อพยายามหาทางออกที่ตอบสนองความต้องการของทุกคน", c:"Co"},
   {q:"2. ฉันพยายามเจรจาต่อรองและใช้วิธีการแบบถ้อยทีถ้อยอาศัย (ให้และรับ) เพื่อแก้ปัญหา", c:"Cm"},
@@ -173,15 +191,13 @@ var ans={}, KEY="tki_project_15q";
 var qs=document.getElementById("qs"), myRadarChart=null, adminCharts={};
 var currentStep = 0; // เก็บสเตจปัจจุบัน (0 - 14)
 
-// -- ระบบสร้างเสียง 8-bit ตือดือดื๊อ (Web Audio API) --
+// -- ระบบสร้างเสียง 8-bit ตือดือดื๊อ --
 var audioCtx;
 function playHappySound() {
   try {
     if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     if (audioCtx.state === 'suspended') audioCtx.resume();
-    
     var t = audioCtx.currentTime;
-    
     function playTone(freq, startTime, duration) {
       var osc = audioCtx.createOscillator();
       var gain = audioCtx.createGain();
@@ -193,89 +209,51 @@ function playHappySound() {
       osc.connect(gain); gain.connect(audioCtx.destination);
       osc.start(startTime); osc.stop(startTime + duration);
     }
-    
-    // คอร์ด C Major ไต่ระดับให้ฟีลดีใจ (C5, E5, G5)
-    playTone(523.25, t, 0.1);         // ตือ
-    playTone(659.25, t + 0.08, 0.1);  // ดือ
-    playTone(783.99, t + 0.16, 0.15); // ดื๊อ
+    playTone(523.25, t, 0.1); playTone(659.25, t + 0.08, 0.1); playTone(783.99, t + 0.16, 0.15);
   } catch(e) { console.log("Audio not supported"); }
 }
 
 // -- สร้าง DOM สำหรับข้อสอบทีละข้อ --
 Q.forEach(function(q,i){
- var d=document.createElement("div"); 
- d.className="card"; 
- d.id="q"+i;
- d.style.display = "none"; // ซ่อนไว้ก่อน
- 
+ var d=document.createElement("div"); d.className="card"; d.id="q"+i; d.style.display = "none";
  var html = '<div class="q">'+q.q+'</div><div class="scale-container">';
- scales.forEach(function(s){
-   html += '<label class="o"><input type="radio" name="q'+i+'" value="'+s.v+'" data-cat="'+q.c+'"><span>'+s.l+'</span></label>';
- });
+ scales.forEach(function(s){ html += '<label class="o"><input type="radio" name="q'+i+'" value="'+s.v+'" data-cat="'+q.c+'"><span>'+s.l+'</span></label>'; });
  html += '</div>'; d.innerHTML = html; qs.appendChild(d);
 });
 
 // -- ระบบ Pagination (เปลี่ยนหน้า) --
 function updateView() {
-  for(var i=0; i<15; i++) {
-    document.getElementById("q"+i).style.display = "none";
-  }
+  for(var i=0; i<15; i++) { document.getElementById("q"+i).style.display = "none"; }
   document.getElementById("q"+currentStep).style.display = "block";
   document.getElementById("infoCard").style.display = (currentStep === 0) ? "block" : "none";
   
   document.getElementById("btnPrev").style.display = (currentStep === 0) ? "none" : "inline-block";
-  if(currentStep === 14) {
-    document.getElementById("btnNext").style.display = "none";
-    document.getElementById("submitCard").style.display = "block";
-  } else {
-    document.getElementById("btnNext").style.display = "inline-block";
-    document.getElementById("submitCard").style.display = "none";
-  }
+  if(currentStep === 14) { document.getElementById("btnNext").style.display = "none"; document.getElementById("submitCard").style.display = "block"; } 
+  else { document.getElementById("btnNext").style.display = "inline-block"; document.getElementById("submitCard").style.display = "none"; }
 
   var answeredCount = Object.keys(ans).length;
   document.getElementById("cnt").textContent = "ข้อที่ " + (currentStep + 1) + " / 15";
   document.getElementById("pg").style.width = ((answeredCount / 15) * 100) + "%";
-
   window.scrollTo({top:0, behavior:"smooth"});
 }
 
-// บันทึกคำตอบเมื่อเลือก + เล่นเสียง
 qs.addEventListener("change",function(e){
   var m = e.target.name.slice(1);
   ans[m] = {val:parseInt(e.target.value), cat:e.target.dataset.cat};
-  playHappySound(); // เล่นเสียง "ตือดือดื๊อ"
-  
-  var answeredCount = Object.keys(ans).length;
-  document.getElementById("pg").style.width = ((answeredCount / 15) * 100) + "%";
+  playHappySound(); 
+  document.getElementById("pg").style.width = ((Object.keys(ans).length / 15) * 100) + "%";
 });
 
 document.getElementById("btnNext").onclick = function() {
   if (currentStep === 0) {
-    var uName = document.getElementById("uname").value.trim();
-    var uId = document.getElementById("uid").value.trim();
-    if (!uName || !uId) {
-      alert("⚠️ กรุณากรอกชื่อ-นามสกุล และรหัสนิสิตให้ครบถ้วนก่อน");
-      document.getElementById("infoCard").scrollIntoView({behavior:"smooth"});
-      return;
-    }
+    var uName = document.getElementById("uname").value.trim(), uId = document.getElementById("uid").value.trim();
+    if (!uName || !uId) { alert("⚠️ กรุณากรอกชื่อ-นามสกุล และรหัสนิสิตให้ครบถ้วนก่อน"); document.getElementById("infoCard").scrollIntoView({behavior:"smooth"}); return; }
   }
-  if (!ans[currentStep]) {
-    alert("⚠️ กรุณาเลือกคำตอบก่อนไปข้อถัดไป");
-    return;
-  }
-  if (currentStep < 14) {
-    currentStep++;
-    updateView();
-  }
+  if (!ans[currentStep]) { alert("⚠️ กรุณาเลือกคำตอบก่อนไปข้อถัดไป"); return; }
+  if (currentStep < 14) { currentStep++; updateView(); }
 };
 
-document.getElementById("btnPrev").onclick = function() {
-  if (currentStep > 0) {
-    currentStep--;
-    updateView();
-  }
-};
-
+document.getElementById("btnPrev").onclick = function() { if (currentStep > 0) { currentStep--; updateView(); } };
 updateView();
 
 // -- ระบบประมวลผล --
@@ -288,11 +266,7 @@ function createRadarChart(canvasId, scores) {
     type: 'radar',
     data: {
       labels: ['ร่วมมือ', 'แข่งขัน', 'หลีกเลี่ยง', 'โอนอ่อน', 'ประนีประนอม'],
-      datasets: [{
-        label: 'คะแนน TKI',
-        data: [scores.Co, scores.C, scores.Av, scores.Ac, scores.Cm],
-        backgroundColor: 'rgba(109, 79, 214, 0.2)', borderColor: '#6d4fd6', pointBackgroundColor: '#6d4fd6', borderWidth: 2
-      }]
+      datasets: [{ label: 'คะแนน', data: [scores.Co, scores.C, scores.Av, scores.Ac, scores.Cm], backgroundColor: 'rgba(109, 79, 214, 0.2)', borderColor: '#6d4fd6', pointBackgroundColor: '#6d4fd6', borderWidth: 2 }]
     },
     options: { responsive: true, maintainAspectRatio: true, scales: { r: { min: 0, max: 12, ticks: { stepSize: 3 } } } }
   });
@@ -305,7 +279,6 @@ document.getElementById("go").onclick=function(){
   var uName=document.getElementById("uname").value.trim(), uId=document.getElementById("uid").value.trim();
   var s={C:0,Co:0,Cm:0,Av:0,Ac:0};
   for(var k in ans){ s[ans[k].cat] += ans[k].val; }
-  
   var w=document.getElementById("when").value, mx=Math.max.apply(null,K.map(function(k){return s[k]})), nowStr=new Date().toLocaleString("th-TH");
   
   document.getElementById("testArea").style.display = "none";
@@ -313,10 +286,12 @@ document.getElementById("go").onclick=function(){
   document.getElementById("res").style.display = "block";
   
   document.getElementById("rName").textContent="("+uName+")"; document.getElementById("rUid").textContent=uId; document.getElementById("rWhen").textContent=w; document.getElementById("rDate").textContent=nowStr;
-  document.getElementById("bars").innerHTML=K.map(function(k){return '<div class="r'+(s[k]===mx?" top":"")+'"><b><span>'+N[k]+'</span><span>'+s[k]+'/12</span></b><div class="t"><i style="width:'+(s[k]/12*100)+'%"></i></div></div>'}).join("");
   
-  var tops=K.filter(function(k){return s[k]===mx}).map(function(k){return N[k]});
-  document.getElementById("read").innerHTML="รูปแบบการจัดการความขัดแย้งที่คุณชอบใช้คือ:<br><b style='color:var(--ac)'>"+tops.join(" และ ")+"</b>";
+  // สร้าง Bar พร้อมสัญลักษณ์สัตว์
+  document.getElementById("bars").innerHTML=K.map(function(k){return '<div class="r'+(s[k]===mx?" top":"")+'"><b><span>'+A[k]+' - '+N[k]+'</span><span>'+s[k]+'/12</span></b><div class="t"><i style="width:'+(s[k]/12*100)+'%"></i></div></div>'}).join("");
+  
+  var tops=K.filter(function(k){return s[k]===mx}).map(function(k){return A[k] + " " + N[k]});
+  document.getElementById("read").innerHTML="รูปแบบการจัดการความขัดแย้งที่คุณชอบใช้คือ:<br><b style='color:var(--ac); font-size:1.2rem; display:block; margin-top:8px;'>"+tops.join("<br>")+"</b>";
 
   if(myRadarChart) myRadarChart.destroy(); myRadarChart = createRadarChart('radarChart', s);
   
@@ -328,19 +303,11 @@ document.getElementById("go").onclick=function(){
 document.getElementById("savePlan").onclick=function(){
   var goal = document.getElementById("devGoal").value.trim(), plan = document.getElementById("devPlan").value.trim();
   if(!goal || !plan) { alert("กรุณากรอกข้อมูลแผนพัฒนาตนเองให้ครบ"); return; }
-  var h=loadData();
-  var idx = h.findIndex(function(x){return x.id_ref === currentUserId});
-  if(idx > -1) { 
-    h[idx].plan = {goal: goal, how: plan}; saveData(h); 
-    this.textContent = "✅ บันทึกเรียบร้อย!";
-    this.style.opacity = 0.7;
-    renderAdminList(); 
-  }
+  var h=loadData(), idx = h.findIndex(function(x){return x.id_ref === currentUserId});
+  if(idx > -1) { h[idx].plan = {goal: goal, how: plan}; saveData(h); this.textContent = "✅ บันทึกเรียบร้อย!"; this.style.opacity = 0.7; renderAdminList(); }
 };
 
-document.getElementById("rs").onclick=function(){
-  if(confirm("ต้องการเริ่มทำใหม่ทั้งหมดใช่หรือไม่?")) location.reload(); 
-};
+document.getElementById("rs").onclick=function(){ if(confirm("ต้องการเริ่มทำใหม่ทั้งหมดใช่หรือไม่?")) location.reload(); };
 
 // -- ระบบหลังบ้าน (Admin) --
 function renderAdminList(){
@@ -351,9 +318,7 @@ function renderAdminList(){
    var mx = Math.max.apply(null, K.map(function(k){return r.s[k]}));
    var card = document.createElement("div"); card.className = "card"; card.style.margin = "10px 0"; card.style.padding = "10px";
    var canvasId = "adminChart_" + idx;
-   var barsHtml = K.map(function(k){
-     return '<div class="r'+(r.s[k]===mx?" top":"")+'"><b><span>'+N[k]+'</span><span>'+r.s[k]+'/12</span></b><div class="t"><i style="width:'+(r.s[k]/12*100)+'%"></i></div></div>';
-   }).join("");
+   var barsHtml = K.map(function(k){ return '<div class="r'+(r.s[k]===mx?" top":"")+'"><b><span>'+A[k]+'</span><span>'+r.s[k]+'/12</span></b><div class="t"><i style="width:'+(r.s[k]/12*100)+'%"></i></div></div>'; }).join("");
    
    var isPre = r.w && r.w.indexOf("Pre") !== -1;
    card.innerHTML = 
@@ -365,7 +330,7 @@ function renderAdminList(){
      '<div class="acc-body" id="accBody_'+idx+'">'+
        '<div style="max-width:320px; margin:10px auto;"><canvas id="'+canvasId+'"></canvas></div>'+
        '<div>'+barsHtml+'</div>'+
-       (r.plan?'<div style="margin-top:10px;padding:8px;background:#fff9e6;border-radius:6px;font-size:0.9rem;"><b>เป้าหมาย:</b> '+r.plan.goal+'<br><b>วิธีฝึก:</b> '+r.plan.how+'</div>':'')+
+       (r.plan && r.plan.goal ?'<div style="margin-top:10px;padding:8px;background:#fff9e6;border-radius:6px;font-size:0.9rem;"><b>เป้าหมาย:</b> '+r.plan.goal+'<br><b>วิธีฝึก:</b> '+r.plan.how+'</div>':'')+
      '</div>';
    el.appendChild(card); adminCharts[idx] = { canvasId: canvasId, scores: r.s, instance: null };
  });
@@ -375,10 +340,7 @@ function toggleAcc(idx, e){
   if(e && e.target.tagName === "BUTTON") return;
   var body = document.getElementById("accBody_" + idx), icon = document.getElementById("accIcon_" + idx);
   if(body.classList.contains("open")){ body.classList.remove("open"); icon.textContent = "▼"; } 
-  else {
-    body.classList.add("open"); icon.textContent = "▲";
-    if(!adminCharts[idx].instance) adminCharts[idx].instance = createRadarChart(adminCharts[idx].canvasId, adminCharts[idx].scores);
-  }
+  else { body.classList.add("open"); icon.textContent = "▲"; if(!adminCharts[idx].instance) adminCharts[idx].instance = createRadarChart(adminCharts[idx].canvasId, adminCharts[idx].scores); }
 }
 
 function deleteSingle(idx, e){
@@ -395,39 +357,28 @@ document.getElementById("toggleAdmin").onclick=function(){
 document.getElementById("closeAdmin").onclick=function(){ adm.style.display="none"; };
 document.getElementById("clrAll").onclick=function(){ if(confirm("⚠️ ต้องการลบข้อมูลทั้งหมดจริงๆ ใช่หรือไม่? (กู้คืนไม่ได้)")){ saveData([]); renderAdminList(); } };
 
-// ปุ่มสร้าง Mock Data 10 ชุด (Pre-test 5, Post-test 5)
+// ปุ่มลบเฉพาะ Test
+document.getElementById("clrTest").onclick=function(){ 
+  if(confirm("⚠️ ต้องการลบเฉพาะข้อมูลที่ชื่อขึ้นต้นด้วย 'test' ใช่หรือไม่?")){ 
+    var h = loadData();
+    h = h.filter(function(item) { return !item.n.toLowerCase().startsWith("test"); });
+    saveData(h); renderAdminList(); alert("🧹 ลบข้อมูล test ออกเรียบร้อยแล้ว");
+  } 
+};
+
+// ปุ่มสร้าง Mock Data 10 ชุด (เอา Plan ออก)
 document.getElementById("genMock").onclick=function(){
-  var h = loadData();
-  var baseTime = Date.now();
-  
+  var h = loadData(), baseTime = Date.now();
   for(var i = 1; i <= 10; i++) {
     var numStr = (i < 10) ? "0" + i : i;
-    var rName = "test" + numStr;
-    var rType = (i <= 5) ? "Pre-test (ก่อนทำโครงการ)" : "Post-test (หลังทำโครงการ)";
-    
-    // สุ่มคะแนน 3-12 ในแต่ละหมวด
-    var s = {
-      C: Math.floor(Math.random()*10)+3,
-      Co: Math.floor(Math.random()*10)+3,
-      Cm: Math.floor(Math.random()*10)+3,
-      Av: Math.floor(Math.random()*10)+3,
-      Ac: Math.floor(Math.random()*10)+3
-    };
-    
+    var s = { C: Math.floor(Math.random()*10)+3, Co: Math.floor(Math.random()*10)+3, Cm: Math.floor(Math.random()*10)+3, Av: Math.floor(Math.random()*10)+3, Ac: Math.floor(Math.random()*10)+3 };
     h.push({
-      id_ref: baseTime + i, 
-      n: rName, 
-      id: "66000000" + numStr, 
-      w: rType, 
-      d: new Date().toLocaleString("th-TH"), 
-      s: s,
-      plan: {goal: "จำลองคำตอบเป้าหมาย", how: "จำลองแนวทางการฝึกฝน"}
+      id_ref: baseTime + i, n: "test" + numStr, id: "66000000" + numStr, 
+      w: (i <= 5) ? "Pre-test (ก่อนทำโครงการ)" : "Post-test (หลังทำโครงการ)", 
+      d: new Date().toLocaleString("th-TH"), s: s
     });
   }
-  
-  saveData(h);
-  renderAdminList();
-  alert("✨ สร้างข้อมูลจำลอง test01 ถึง test10 สำเร็จ!");
+  saveData(h); renderAdminList(); alert("✨ สร้างข้อมูลจำลอง test01 ถึง test10 สำเร็จ!");
 };
 </script>
 </body>
