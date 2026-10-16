@@ -142,7 +142,6 @@ button.del-btn:hover{background:var(--warn);color:#fff;}
     
     <div style="display:flex; gap:10px; margin-bottom:10px;">
       <button class="success" id="genMock" style="flex:1; padding:10px 5px;">✨ สร้าง Test 10 รายการ</button>
-      <button class="warning" id="clrTest" style="flex:1; padding:10px 5px;">🧹 ลบเฉพาะ Test</button>
       <button class="danger" id="clrAll" style="flex:1; padding:10px 5px;">🗑️ ลบทั้งหมด</button>
     </div>
 
@@ -164,10 +163,7 @@ function saveData(a){try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){}}
   var originalLength = h.length;
   // ลบข้อมูลที่ชื่อขึ้นต้นด้วย "test" ออก
   h = h.filter(function(item) { return !item.n.toLowerCase().startsWith("test"); });
-  // หากมีการลบข้อมูลเกิดขึ้น ให้เซฟทับใหม่
-  if (h.length !== originalLength) {
-    saveData(h);
-  }
+  if (h.length !== originalLength) { saveData(h); }
 })();
 
 // -- ข้อมูลแบบประเมิน รูปสัตว์ และคำอธิบาย --
@@ -175,12 +171,13 @@ var N = {C:"การแข่งขัน (Competing)", Co:"การร่ว�
 var AnimalName = {C:"ฉลาม", Co:"นกฮูก", Cm:"สุนัขจิ้งจอก", Av:"เต่า", Ac:"หมีเท็ดดี้"};
 var K = ["Co","C","Av","Ac","Cm"];
 
+// อัปเดตชื่อไฟล์รูปภาพให้ตรงกับที่อัปโหลด
 var ImgPath = {
-  C: 'image_5307e0.png', 
-  Co: 'image_5307d8.png', 
-  Cm: 'image_5307db.png', 
-  Av: 'image_5307f9.png', 
-  Ac: 'image_5307dd.png'
+  C: 'Shark.png', 
+  Co: 'OWL.png', 
+  Cm: 'Fox.png', 
+  Av: 'Turtle.png', 
+  Ac: 'Teddy.png'
 };
 
 var Desc = {
@@ -308,7 +305,6 @@ document.getElementById("go").onclick=function(){
   for(var k in ans){ s[ans[k].cat] += ans[k].val; }
   var w=document.getElementById("when").value, mx=Math.max.apply(null,K.map(function(k){return s[k]})), nowStr=new Date().toLocaleString("th-TH");
   
-  // หาค่าที่โดดเด่น
   var tops = K.filter(function(k){return s[k]===mx});
   var domAnimalNames = tops.map(function(k){ return AnimalName[k] }).join(", ");
 
@@ -316,18 +312,15 @@ document.getElementById("go").onclick=function(){
   document.getElementById("topBar").style.display = "none";
   document.getElementById("res").style.display = "block";
   
-  // ใส่ชื่อสัตว์ในวงเล็บต่อท้ายชื่อ
   document.getElementById("rName").textContent = uName + " (" + domAnimalNames + ")"; 
   document.getElementById("rUid").textContent=uId; 
   document.getElementById("rWhen").textContent=w; 
   document.getElementById("rDate").textContent=nowStr;
   
-  // Render Progress Bars (แสดงชื่อประเภทแทนรูป)
   document.getElementById("bars").innerHTML=K.map(function(k){
     return '<div class="r'+(s[k]===mx?" top":"")+'"><b><span>'+N[k]+'</span><span>'+s[k]+'/12</span></b><div class="t"><i style="width:'+(s[k]/12*100)+'%"></i></div></div>'
   }).join("");
   
-  // แสดงผลใต้กราฟเรดาร์
   var domHtml = tops.map(function(k){
     return '<div class="dom-card" style="text-align:center;">' +
            '<img src="'+ImgPath[k]+'" class="dom-img" alt="'+AnimalName[k]+'">' +
@@ -357,8 +350,9 @@ document.getElementById("rs").onclick=function(){ if(confirm("ต้องกา
 function renderAdminList(){
  var h=loadData(), el=document.getElementById("adminList"); el.innerHTML = ""; adminCharts = {};
  if(!h.length){ el.innerHTML='<p class="mut" style="text-align:center;padding:20px;">ยังไม่มีข้อมูลในระบบ</p>'; return; }
- h.slice().reverse().forEach(function(r, loopIdx){
-   var idx = h.length - 1 - loopIdx; 
+ 
+ // จัดเรียงข้อมูลจากหน้าไปหลัง (Test 1 ขึ้นก่อน)
+ h.forEach(function(r, idx){
    var mx = Math.max.apply(null, K.map(function(k){return r.s[k]}));
    var tops = K.filter(function(k){return r.s[k]===mx});
    var domAnimalNames = tops.map(function(k){ return AnimalName[k] }).join(", ");
@@ -403,12 +397,6 @@ document.getElementById("toggleAdmin").onclick=function(){
 };
 document.getElementById("closeAdmin").onclick=function(){ adm.style.display="none"; };
 document.getElementById("clrAll").onclick=function(){ if(confirm("⚠️ ต้องการลบข้อมูลทั้งหมดจริงๆ ใช่หรือไม่? (กู้คืนไม่ได้)")){ saveData([]); renderAdminList(); } };
-document.getElementById("clrTest").onclick=function(){ 
-  if(confirm("⚠️ ต้องการลบเฉพาะข้อมูลที่ชื่อขึ้นต้นด้วย 'test' ใช่หรือไม่?")){ 
-    var h = loadData(); h = h.filter(function(item) { return !item.n.toLowerCase().startsWith("test"); });
-    saveData(h); renderAdminList(); alert("🧹 ลบข้อมูล test ออกเรียบร้อยแล้ว");
-  } 
-};
 
 // ปุ่มสร้าง Mock Data 10 รายการ
 document.getElementById("genMock").onclick=function(){
@@ -416,21 +404,22 @@ document.getElementById("genMock").onclick=function(){
   var startIdx = h.filter(function(x){ return x.n.toLowerCase().startsWith("test"); }).length + 1;
   
   for(var i = 0; i < 10; i++) {
-    var numStr = ((startIdx + i) < 10) ? "0" + (startIdx + i) : (startIdx + i);
+    var num = i + 1;
+    var numStr = (num < 10) ? "0" + num : num;
     
     // สุ่มคะแนนพื้นฐาน
     var s = { C: Math.floor(Math.random()*5)+3, Co: Math.floor(Math.random()*5)+3, Cm: Math.floor(Math.random()*5)+3, Av: Math.floor(Math.random()*5)+3, Ac: Math.floor(Math.random()*5)+3 };
     
     // บังคับให้ได้สัตว์โดดเด่นสลับกันให้ครบทั้ง 5 ประเภท
     var targetTrait = K[i % 5];
-    s[targetTrait] = Math.floor(Math.random()*3) + 10; // ให้คะแนนตัวนี้สูงที่สุด (10-12)
+    s[targetTrait] = Math.floor(Math.random()*3) + 10;
     
-    // จัดให้คนที่ 1-5 เป็น Pre-test และ 6-10 เป็น Post-test
-    var w = (i < 5) ? "Pre-test (ก่อนทำโครงการ)" : "Post-test (หลังทำโครงการ)";
+    // จัดให้ Test 1-5 เป็น Pre-test และ Test 6-10 เป็น Post-test
+    var w = (num <= 5) ? "Pre-test (ก่อนทำโครงการ)" : "Post-test (หลังทำโครงการ)";
     
     h.push({
       id_ref: Date.now() + i, 
-      n: "test " + numStr, 
+      n: "Test " + num, 
       id: "67000000" + numStr.toString().padStart(3, '0'), 
       w: w, 
       d: new Date().toLocaleString("th-TH"), 
@@ -439,7 +428,7 @@ document.getElementById("genMock").onclick=function(){
   }
   
   saveData(h); renderAdminList(); 
-  alert("✨ สร้างข้อมูล Test สำเร็จ 10 รายการ (คนที่ 1-5 = Pre-test, คนที่ 6-10 = Post-test)");
+  alert("✨ สร้างข้อมูล Test สำเร็จ 10 รายการ (1-5 = Pre-test, 6-10 = Post-test)");
 };
 </script>
 </body>
