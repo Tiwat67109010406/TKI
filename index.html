@@ -161,7 +161,7 @@ function saveData(a){try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){}}
 (function autoClearTestOnLoad() {
   var h = loadData();
   var originalLength = h.length;
-  // ลบข้อมูลที่ชื่อขึ้นต้นด้วย "test" ออก
+  // ลบข้อมูลที่ชื่อขึ้นต้นด้วย "test" หรือ "Test" ออก
   h = h.filter(function(item) { return !item.n.toLowerCase().startsWith("test"); });
   if (h.length !== originalLength) { saveData(h); }
 })();
@@ -171,7 +171,6 @@ var N = {C:"การแข่งขัน (Competing)", Co:"การร่ว�
 var AnimalName = {C:"ฉลาม", Co:"นกฮูก", Cm:"สุนัขจิ้งจอก", Av:"เต่า", Ac:"หมีเท็ดดี้"};
 var K = ["Co","C","Av","Ac","Cm"];
 
-// อัปเดตชื่อไฟล์รูปภาพให้ตรงกับที่อัปโหลด
 var ImgPath = {
   C: 'Shark.png', 
   Co: 'OWL.png', 
@@ -351,7 +350,7 @@ function renderAdminList(){
  var h=loadData(), el=document.getElementById("adminList"); el.innerHTML = ""; adminCharts = {};
  if(!h.length){ el.innerHTML='<p class="mut" style="text-align:center;padding:20px;">ยังไม่มีข้อมูลในระบบ</p>'; return; }
  
- // จัดเรียงข้อมูลจากหน้าไปหลัง (Test 1 ขึ้นก่อน)
+ // จัดเรียงข้อมูลจากหน้าไปหลัง (แสดงผลตามลำดับ)
  h.forEach(function(r, idx){
    var mx = Math.max.apply(null, K.map(function(k){return r.s[k]}));
    var tops = K.filter(function(k){return r.s[k]===mx});
@@ -401,7 +400,7 @@ document.getElementById("clrAll").onclick=function(){ if(confirm("⚠️ ต้�
 // ปุ่มสร้าง Mock Data 10 รายการ
 document.getElementById("genMock").onclick=function(){
   var h = loadData();
-  var startIdx = h.filter(function(x){ return x.n.toLowerCase().startsWith("test"); }).length + 1;
+  var startIdx = h.length + 1; // นับต่อจากข้อมูลจริงที่มีอยู่
   
   for(var i = 0; i < 10; i++) {
     var num = i + 1;
@@ -412,7 +411,7 @@ document.getElementById("genMock").onclick=function(){
     
     // บังคับให้ได้สัตว์โดดเด่นสลับกันให้ครบทั้ง 5 ประเภท
     var targetTrait = K[i % 5];
-    s[targetTrait] = Math.floor(Math.random()*3) + 10;
+    s[targetTrait] = Math.floor(Math.random()*3) + 10; // ให้คะแนนสูงสุด
     
     // จัดให้ Test 1-5 เป็น Pre-test และ Test 6-10 เป็น Post-test
     var w = (num <= 5) ? "Pre-test (ก่อนทำโครงการ)" : "Post-test (หลังทำโครงการ)";
