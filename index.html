@@ -211,10 +211,10 @@ var scales = [
   {v:4, l:"4 = เสมอ (Always)"}
 ];
 
-// โหลดเสียงล่วงหน้าสำหรับบางเบราว์เซอร์ (เช่น Chrome)
+// โหลดเสียงล่วงหน้าสำหรับบางเบราว์เซอร์
 if ('speechSynthesis' in window) { window.speechSynthesis.onvoiceschanged = function() { window.speechSynthesis.getVoices(); }; }
 
-// ฟังก์ชันอ่านข้อความ
+// ฟังก์ชันอ่านข้อความที่ปรับปรุงใหม่ (ค้นหาเสียง Online / Natural ก่อน)
 function speakText(idx) {
   if (!('speechSynthesis' in window)) {
     alert("เบราว์เซอร์ของคุณไม่รองรับการอ่านออกเสียง");
@@ -224,7 +224,7 @@ function speakText(idx) {
   // ยกเลิกเสียงที่กำลังเล่นอยู่
   window.speechSynthesis.cancel();
   
-  // ตัดตัวเลขข้อด้านหน้าออก (เช่น "1. ") เพื่อให้อ่านแค่โจทย์
+  // ตัดตัวเลขข้อด้านหน้าออก
   var textToRead = Q[idx].q.replace(/^\d+\.\s*/, '');
   var msg = new SpeechSynthesisUtterance(textToRead);
   msg.lang = 'th-TH'; // กำหนดภาษาไทย
@@ -233,16 +233,25 @@ function speakText(idx) {
   var voices = window.speechSynthesis.getVoices();
   var thaiVoices = voices.filter(function(v) { return v.lang.indexOf('th') !== -1; });
   
-  // พยายามหาเสียงผู้ชาย (มักจะมีคำว่า male ในชื่อเสียงของระบบปฏิบัติการ)
-  var maleVoice = thaiVoices.find(function(v) { return v.name.toLowerCase().indexOf('male') !== -1; });
+  // 1. พยายามหาเสียง Neural หรือเสียง Online ที่สมจริงที่สุดก่อน (เช่น Edge Natural หรือ Google)
+  var premiumVoice = thaiVoices.find(function(v) { 
+    return v.name.includes('Natural') || v.name.includes('Online') || v.name.includes('Google'); 
+  });
+
+  // 2. ถ้าหาไม่เจอ ให้ลองหาเสียงผู้ชาย
+  var maleVoice = thaiVoices.find(function(v) { 
+    return v.name.toLowerCase().indexOf('male') !== -1; 
+  });
   
-  if (maleVoice) {
+  if (premiumVoice) {
+    msg.voice = premiumVoice;
+    msg.pitch = 1.0; // เสียงธรรมชาติดีอยู่แล้ว ไม่ต้องปรับคีย์ลดลง
+  } else if (maleVoice) {
     msg.voice = maleVoice;
   } else if (thaiVoices.length > 0) {
-    // ถ้าหาเสียงผู้ชายไม่เจอ ให้ใช้เสียงภาษาไทยที่มี (มักเป็นผู้หญิง)
+    // ถ้าหาอะไรไม่เจอเลย ให้ใช้เสียงภาษาไทยที่มีอันแรก
     msg.voice = thaiVoices[0];
-    // ปรับคีย์เสียงให้ทุ้มต่ำลง เพื่อจำลองให้คล้ายเสียงผู้ชายมากขึ้น
-    msg.pitch = 0.6; 
+    msg.pitch = 0.9; // ปรับโทนเสียงเล็กน้อยให้ไม่แหลมเกินไป
   }
 
   // ปรับความเร็วการอ่าน
@@ -277,7 +286,6 @@ function playHappySound() {
 Q.forEach(function(q,i){
  var d=document.createElement("div"); d.className="card"; d.id="q"+i; d.style.display = "none";
  
- // ส่วน Header ของข้อคำถาม แบ่งฝั่งข้อความ และ ปุ่มลำโพง
  var html = '<div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">';
  html += '<div class="q" style="margin-bottom:0;">'+q.q+'</div>';
  html += '<button type="button" class="speak-btn" onclick="speakText('+i+')" title="ฟังเสียงอ่านโจทย์">🔊</button>';
