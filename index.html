@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>แบบประเมินรูปแบบการจัดการความขัดแย้ง (TKI) - ให้คะแนน 1-4</title>
+<title>แบบประเมินรูปแบบการจัดการความขัดแย้ง (TKI)</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
 :root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
@@ -29,8 +29,6 @@ button{font:inherit;font-weight:600;border:0;border-radius:10px;padding:12px 20p
 button:hover{opacity:0.9}
 button.s{background:var(--bd);color:var(--tx)}
 button.danger{background:var(--warn);color:#fff}
-button.warning{background:#f39c12;color:#fff}
-button.test-del{background:#e67e22;color:#fff}
 button.del-btn{background:rgba(230,57,70,0.1);color:var(--warn);padding:4px 10px;font-size:0.8rem;border-radius:6px;}
 button.del-btn:hover{background:var(--warn);color:#fff;}
 .r{margin:10px 0}.r b{display:flex;justify-content:space-between}.r .t{height:14px;background:var(--bd);border-radius:7px;overflow:hidden}.r .t i{display:block;height:100%;background:var(--ac)}
@@ -54,7 +52,7 @@ button.del-btn:hover{background:var(--warn);color:#fff;}
 </head>
 <body>
 <div class="w">
-<h1>แบบประเมิน TKI: การจัดการความขัดแย้ง</h1>
+<h1>แบบประเมินรูปแบบการจัดการความขัดแย้ง (TKI)</h1>
 <p class="mut">ระดับคะแนน: 1 = แทบจะไม่ | 2 = บางครั้ง | 3 = บ่อยครั้ง | 4 = เสมอ</p>
 
 <!-- 1. ข้อมูลผู้ประเมิน -->
@@ -62,8 +60,8 @@ button.del-btn:hover{background:var(--warn);color:#fff;}
   <h2>📋 ข้อมูลผู้ประเมิน</h2>
   <label style="display:block;margin-bottom:6px;font-weight:600;margin-top:10px;">ชื่อ-นามสกุล <span style="color:var(--warn)">*</span></label>
   <input type="text" id="uname" placeholder="เช่น นายสมชาย ใจดี" required>
-  <label style="display:block;margin-bottom:6px;font-weight:600;">รหัสนิสิต (11 หลัก) <span style="color:var(--warn)">*</span></label>
-  <input type="text" id="uid" placeholder="กรอกตัวเลข 11 หลัก" maxlength="11" required>
+  <label style="display:block;margin-bottom:6px;font-weight:600;">รหัสนิสิต <span style="color:var(--warn)">*</span></label>
+  <input type="text" id="uid" placeholder="กรอกรหัสนิสิต" required>
   <label style="display:block;margin-bottom:6px;font-weight:600;">ระยะเวลาการทำประเมิน <span style="color:var(--warn)">*</span></label>
   <select id="when">
     <option value="Pre-test (ก่อนทำโครงการ)">Pre-test (ก่อนทำโครงการ)</option>
@@ -157,7 +155,6 @@ var scales = [
 var ans={}, KEY="tki_project_15q";
 var qs=document.getElementById("qs"), myRadarChart=null, adminCharts={};
 
-// สร้างข้อสอบ
 Q.forEach(function(q,i){
  var d=document.createElement("div");d.className="card";d.id="q"+i;
  var html = '<div class="q">'+q.q+'</div><div class="scale-container">';
@@ -194,7 +191,6 @@ function renderAdminList(){
  if(!h.length){ el.innerHTML='<p class="mut" style="text-align:center;padding:20px;">ยังไม่มีข้อมูลผู้ประเมินในระบบ</p>'; return; }
  h.forEach(function(r, idx){
    var mx = Math.max.apply(null, K.map(function(k){return r.s[k]}));
-   var tops = K.filter(function(k){return r.s[k]===mx}).map(function(k){return N[k]});
    var card = document.createElement("div"); card.className = "card"; card.style.margin = "10px 0"; card.style.padding = "10px";
    var canvasId = "adminChart_" + idx;
    var barsHtml = K.map(function(k){
