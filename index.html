@@ -32,7 +32,7 @@ button.warning{background:var(--warn2);color:#fff}
 button.success{background:var(--ok);color:#fff}
 button.del-btn{background:rgba(230,57,70,0.1);color:var(--warn);padding:4px 10px;font-size:0.8rem;border-radius:6px;}
 button.del-btn:hover{background:var(--warn);color:#fff;}
-.r{margin:10px 0}.r b{display:flex;justify-content:space-between;align-items:center}.r .t{height:14px;background:var(--bd);border-radius:7px;overflow:hidden}.r .t i{display:block;height:100%;background:var(--ac)}
+.r{margin:10px 0}.r b{display:flex;justify-content:space-between;align-items:center;font-size:0.95rem;}.r .t{height:14px;background:var(--bd);border-radius:7px;overflow:hidden}.r .t i{display:block;height:100%;background:var(--ac)}
 .r.top .t i{background:var(--ok)}
 #res, #adminPanel, #submitCard{display:none}
 .nav-buttons{display:flex; justify-content:space-between; margin-top:20px;}
@@ -44,10 +44,8 @@ button.del-btn:hover{background:var(--warn);color:#fff;}
 .badge {display: inline-block;padding: 2px 8px;border-radius: 6px;font-size: 0.8rem;font-weight: bold;margin-right: 6px;}
 .badge-pre {background: #e1f0ff;color: #1d72b8;border: 1px solid #b3d7ff;}
 .badge-post {background: #e6f9f0;color: #1d9a6c;border: 1px solid #a3e6cb;}
-.desc-box ul { padding-left: 0; list-style: none; }
-.desc-box li { margin-bottom: 16px; display: flex; gap: 12px; align-items: flex-start; }
-.anim-icon { width: 35px; height: 35px; object-fit: contain; vertical-align: middle; margin-right: 6px; }
-.desc-icon { width: 45px; height: 45px; object-fit: contain; flex-shrink: 0; margin-top: 4px; }
+.dom-card {background: var(--acs); border-radius: 12px; padding: 16px; margin: 20px 0;}
+.dom-img {width: 60px; height: 60px; object-fit: contain; margin-bottom: 10px;}
 @media (prefers-color-scheme:dark){
   .badge-pre { background: #1c334a; color: #72b6ff; border-color: #2b4c6f; }
   .badge-post { background: #1c3b30; color: #62e3b1; border-color: #285a48; }
@@ -75,7 +73,7 @@ button.del-btn:hover{background:var(--warn);color:#fff;}
     <label style="display:block;margin-bottom:6px;font-weight:600;margin-top:10px;">ชื่อ-นามสกุล <span style="color:var(--warn)">*</span></label>
     <input type="text" id="uname" placeholder="เช่น นายสมชาย ใจดี" required>
     <label style="display:block;margin-bottom:6px;font-weight:600;">รหัสนิสิต (11 หลัก) <span style="color:var(--warn)">*</span></label>
-    <input type="text" id="uid" placeholder="เช่น 67XXXXXXXXX" maxlength="11" required>
+    <input type="text" id="uid" placeholder="เช่น 67XXXXXXXXX" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
     <label style="display:block;margin-bottom:6px;font-weight:600;">ระยะเวลาการทำประเมิน <span style="color:var(--warn)">*</span></label>
     <select id="when">
       <option value="Pre-test (ก่อนทำโครงการ)">Pre-test (ก่อนทำโครงการ)</option>
@@ -108,47 +106,25 @@ button.del-btn:hover{background:var(--warn);color:#fff;}
     ช่วงเวลา: <span id="rWhen" style="font-weight:600"></span><br>
     วันที่และเวลา: <span id="rDate" style="font-weight:600"></span></p>
     
+    <!-- กราฟเรดาร์ (5 เหลี่ยม) -->
     <div style="max-width:400px; margin:20px auto;"><canvas id="radarChart"></canvas></div>
-    <div id="bars"></div>
-    <div style="margin-top:16px;padding:12px;background:var(--acs);border-radius:8px;">
-      <p id="read" style="margin:0;font-size:1.1rem; text-align:center;"></p>
-    </div>
     
-    <div style="margin-top:20px;">
+    <!-- ตัวที่โดดเด่นพร้อมคำอธิบาย -->
+    <div id="domResult"></div>
+
+    <hr style="border:0; border-top:1px dashed var(--bd); margin:20px 0;">
+
+    <h3 style="color:var(--ac);">คะแนนของคุณในแต่ละด้าน</h3>
+    <!-- หลอดคะแนน -->
+    <div id="bars"></div>
+    
+    <div style="margin-top:30px;">
       <label style="display:block;margin-bottom:6px;font-weight:600;">รูปแบบการจัดการความขัดแย้งที่ฉันอยากจะพัฒนาคือ:</label>
       <input type="text" id="devGoal" placeholder="เช่น การร่วมมือ (Collaborating)">
       <label style="display:block;margin-bottom:6px;font-weight:600;">ฉันจะฝึกฝนรูปแบบการจัดการความขัดแย้งนี้ได้อย่างไร?:</label>
       <textarea id="devPlan" rows="3" placeholder="กรอกแนวทางการฝึกฝนของคุณ..."></textarea>
       <button class="success" id="savePlan" style="width:100%; margin-top:8px;">บันทึกแผนพัฒนาตนเอง</button>
     </div>
-  </div>
-
-  <!-- คำอธิบาย 5 รูปแบบ -->
-  <div class="card desc-box">
-    <h3 style="color:var(--ac); margin-top:0;">📖 คำอธิบายรูปแบบการจัดการความขัดแย้ง</h3>
-    <p style="font-size:0.95rem;">พึงระลึกไว้เสมอว่ารูปแบบการจัดการความขัดแย้งรูปแบบใดรูปแบบหนึ่งไม่ได้ดีไปกว่ารูปแบบอื่นเสมอไป แต่ละรูปแบบมีทั้งข้อดีและข้อเสีย และแต่ละรูปแบบอาจมีประโยชน์ขึ้นอยู่กับสถานการณ์ แบบประเมินนี้มีจุดประสงค์เพื่อช่วยให้คุณระบุการตอบสนองต่อความขัดแย้งตามปกติของคุณ</p>
-    <ul style="font-size:0.95rem;">
-      <li>
-        <img src="image_5307d8.png" class="desc-icon">
-        <div><b>นกฮูก (การร่วมมือ - Collaborating):</b> นกฮูกให้ความสำคัญอย่างมากทั้งต่อเป้าหมายและความสัมพันธ์ พวกเขามองว่าความขัดแย้งคือปัญหาที่ต้องแก้ไข และแสวงหาทางออกที่บรรลุทั้งเป้าหมายของตนเองและเป้าหมายของอีกฝ่าย นกฮูกพยายามเริ่มการสนทนาและแก้ไขความตึงเครียดเพื่อรักษาความสัมพันธ์โดยตอบสนองความต้องการทั้งสองฝ่าย</div>
-      </li>
-      <li>
-        <img src="image_5307f9.png" class="desc-icon">
-        <div><b>เต่า (การหลีกเลี่ยง - Avoiding):</b> เต่ามักจะให้ความสำคัญกับการหลีกเลี่ยงการเผชิญหน้ามากกว่าเป้าหมายหรือความสัมพันธ์ พวกเขามักจะพบว่าง่ายกว่าที่จะถอนตัวจากความขัดแย้งมากกว่าที่จะเผชิญหน้ากับมัน สิ่งนี้อาจรวมถึงการยอมล้มเลิกความสัมพันธ์หรือเป้าหมายที่เกี่ยวข้องไปเลยอย่างสิ้นเชิง</div>
-      </li>
-      <li>
-        <img src="image_5307e0.png" class="desc-icon">
-        <div><b>ฉลาม (การแข่งขัน - Competing):</b> ฉลามมักจะให้ความสำคัญกับเป้าหมายของตนเหนือความสัมพันธ์ หากถูกบังคับให้เลือก พวกเขาจะพยายามบรรลุเป้าหมายแม้ว่าจะต้องสูญเสียความสัมพันธ์ไปก็ตาม พวกเขาอาจพยายามบังคับให้คู่กรณีโอนอ่อนยอมรับทางออกของตนโดยใช้อำนาจที่เหนือกว่า</div>
-      </li>
-      <li>
-        <img src="image_5307dd.png" class="desc-icon">
-        <div><b>หมีเท็ดดี้ (การโอนอ่อนผ่อนตาม - Accommodating):</b> หมีเท็ดดี้มักจะให้ความสำคัญกับความสัมพันธ์มากกว่าเป้าหมาย หากถูกบังคับให้เลือก พวกเขามักจะยอมเสียสละเป้าหมายเพื่อรักษาความสัมพันธ์ หมีเท็ดดี้ต้องการให้ผู้อื่นชื่นชอบ และชอบประนีประนอมไกล่เกลี่ยความขัดแย้งเพื่อป้องกันไม่ให้ความสัมพันธ์เสียหาย</div>
-      </li>
-      <li>
-        <img src="image_5307db.png" class="desc-icon">
-        <div><b>สุนัขจิ้งจอก (การประนีประนอม - Compromising):</b> สุนัขจิ้งจอกใส่ใจในระดับปานกลางทั้งต่อเป้าหมายและความสัมพันธ์ พวกเขามักจะแสวงหาการประนีประนอม โดยยอมสละเป้าหมายบางส่วนและชักชวนให้อีกฝ่ายยอมสละเป้าหมายบางส่วนเช่นกัน เพื่อหาจุดกึ่งกลางและข้อตกลงเพื่อผลประโยชน์ส่วนรวม</div>
-      </li>
-    </ul>
   </div>
 </div>
 
@@ -177,16 +153,25 @@ button.del-btn:hover{background:var(--warn);color:#fff;}
 </div>
 
 <script>
-// -- ข้อมูลแบบประเมินและรูปสัตว์ --
-var N={C:"การแข่งขัน",Co:"การร่วมมือ",Cm:"การประนีประนอม",Av:"การหลีกเลี่ยง",Ac:"การโอนอ่อน"};
-var K=["Co","C","Av","Ac","Cm"];
-// ใช้แท็ก img พร้อม class
-var A={
-  C:'<img src="image_5307e0.png" class="anim-icon"> ฉลาม', 
-  Co:'<img src="image_5307d8.png" class="anim-icon"> นกฮูก', 
-  Cm:'<img src="image_5307db.png" class="anim-icon"> สุนัขจิ้งจอก', 
-  Av:'<img src="image_5307f9.png" class="anim-icon"> เต่า', 
-  Ac:'<img src="image_5307dd.png" class="anim-icon"> หมีเท็ดดี้'
+// -- ข้อมูลแบบประเมิน รูปสัตว์ และคำอธิบาย --
+var N = {C:"การแข่งขัน (Competing)", Co:"การร่วมมือ (Collaborating)", Cm:"การประนีประนอม (Compromising)", Av:"การหลีกเลี่ยง (Avoiding)", Ac:"การโอนอ่อนผ่อนตาม (Accommodating)"};
+var AnimalName = {C:"ฉลาม", Co:"นกฮูก", Cm:"สุนัขจิ้งจอก", Av:"เต่า", Ac:"หมีเท็ดดี้"};
+var K = ["Co","C","Av","Ac","Cm"];
+
+var ImgPath = {
+  C: 'image_5307e0.png', 
+  Co: 'image_5307d8.png', 
+  Cm: 'image_5307db.png', 
+  Av: 'image_5307f9.png', 
+  Ac: 'image_5307dd.png'
+};
+
+var Desc = {
+  Co: "นกฮูกให้ความสำคัญอย่างมากทั้งต่อเป้าหมายและความสัมพันธ์ พวกเขามองว่าความขัดแย้งคือปัญหาที่ต้องแก้ไข และแสวงหาทางออกที่บรรลุทั้งเป้าหมายของตนเองและเป้าหมายของอีกฝ่าย นกฮูกมองว่าความขัดแย้งเป็นวิธีหนึ่งในการปรับปรุงความสัมพันธ์โดยการลดความตึงเครียดระหว่างคนสองคน พวกเขาพยายามเริ่มการสนทนาที่ระบุว่าความขัดแย้งเป็นปัญหา และพยายามแก้ไขความตึงเครียดและรักษาความสัมพันธ์โดยแสวงหาทางออกที่ตอบสนองความต้องการทั้งของตนเองและอีกฝ่าย",
+  Av: "เต่ามักจะให้ความสำคัญกับการหลีกเลี่ยงการเผชิญหน้ามากกว่าเป้าหมายหรือความสัมพันธ์ พวกเขามักจะพบว่าง่ายกว่าที่จะถอนตัวจากความขัดแย้งมากกว่าที่จะเผชิญหน้ากับมัน สิ่งนี้อาจรวมถึงการยอมล้มเลิกความสัมพันธ์หรือเป้าหมายที่เกี่ยวข้องกับความขัดแย้งนั้นไปเลยอย่างสิ้นเชิง",
+  C: "ฉลามมักจะให้ความสำคัญกับเป้าหมายของตนเหนือความสัมพันธ์ ซึ่งหมายความว่าหากถูกบังคับให้เลือก พวกเขาจะพยายามบรรลุเป้าหมายของตนแม้ว่าจะต้องสูญเสียความสัมพันธ์ที่เกี่ยวข้องไปก็ตาม โดยทั่วไปฉลามมักจะกังวลเรื่องการบรรลุเป้าหมายมากกว่าการเป็นที่ชื่นชอบของผู้อื่น พวกเขาอาจพยายามบังคับให้คู่กรณีโอนอ่อนยอมรับทางออกของความขัดแย้งโดยใช้อำนาจที่เหนือกว่า",
+  Ac: "หมีเท็ดดี้มักจะให้ความสำคัญกับความสัมพันธ์มากกว่าเป้าหมายของตนเอง หากถูกบังคับให้เลือก หมีเท็ดดี้มักจะยอมเสียสละเป้าหมายของตนเพื่อรักษาความสัมพันธ์ไว้ โดยทั่วไปหมีเท็ดดี้ต้องการให้ผู้อื่นชื่นชอบ และชอบที่จะหลีกเลี่ยงความขัดแย้งเพราะพวกเขาเชื่อว่าการพูดถึงเรื่องนี้จะทำลายความสัมพันธ์ หมีเท็ดดี้พยายามประนีประนอมไกล่เกลี่ยความขัดแย้งเพื่อป้องกันไม่ให้ความสัมพันธ์เสียหาย",
+  Cm: "สุนัขจิ้งจอกมีความใส่ใจในระดับปานกลางทั้งต่อเป้าหมายของตนและต่อความสัมพันธ์กับผู้อื่น สุนัขจิ้งจอกมักจะแสวงหาการประนีประนอม พวกเขายอมสละเป้าหมายบางส่วนของตนและชักชวนให้อีกฝ่ายในความขัดแย้งยอมสละเป้าหมายบางส่วนของตนเช่นกัน พวกเขาแสวงหาทางออกของความขัดแย้งที่ทั้งสองฝ่ายได้อะไรบางอย่าง ซึ่งก็คือจุดกึ่งกลางระหว่างจุดยืนที่สุดโต่งสองฝั่ง พวกเขายินดีที่จะเสียสละเป้าหมายบางส่วนเพื่อหาข้อตกลงเพื่อผลประโยชน์ส่วนรวม"
 };
 
 var Q=[
@@ -274,7 +259,7 @@ document.getElementById("btnNext").onclick = function() {
     var uName = document.getElementById("uname").value.trim(), uId = document.getElementById("uid").value.trim();
     if (!uName || !uId) { alert("⚠️ กรุณากรอกชื่อ-นามสกุล และรหัสนิสิตให้ครบถ้วนก่อน"); document.getElementById("infoCard").scrollIntoView({behavior:"smooth"}); return; }
     if (uId.length !== 11 || !/^\d{11}$/.test(uId)) {
-      alert("⚠️ กรุณากรอกรหัสนิสิตเป็นตัวเลข 11 หลักให้ถูกต้อง (เช่น 67XXXXXXXXX)");
+      alert("⚠️ กรุณากรอกรหัสนิสิตเป็นตัวเลข 11 หลักให้ถูกต้อง");
       document.getElementById("uid").focus(); return;
     }
   }
@@ -316,10 +301,21 @@ document.getElementById("go").onclick=function(){
   
   document.getElementById("rName").textContent="("+uName+")"; document.getElementById("rUid").textContent=uId; document.getElementById("rWhen").textContent=w; document.getElementById("rDate").textContent=nowStr;
   
-  document.getElementById("bars").innerHTML=K.map(function(k){return '<div class="r'+(s[k]===mx?" top":"")+'"><b><span style="display:flex;align-items:center;">'+A[k]+'</span><span>'+s[k]+'/12</span></b><div class="t"><i style="width:'+(s[k]/12*100)+'%"></i></div></div>'}).join("");
+  // Render Progress Bars (แสดงชื่อประภทแทนรูป)
+  document.getElementById("bars").innerHTML=K.map(function(k){
+    return '<div class="r'+(s[k]===mx?" top":"")+'"><b><span>'+N[k]+'</span><span>'+s[k]+'/12</span></b><div class="t"><i style="width:'+(s[k]/12*100)+'%"></i></div></div>'
+  }).join("");
   
-  var tops=K.filter(function(k){return s[k]===mx}).map(function(k){return A[k]});
-  document.getElementById("read").innerHTML="รูปแบบการจัดการความขัดแย้งที่คุณชอบใช้คือ:<br><b style='color:var(--ac); font-size:1.2rem; display:flex; flex-direction:column; align-items:center; gap:8px; margin-top:12px;'>"+tops.join("")+"</b>";
+  // หาค่าที่โดดเด่นและแสดงผลใต้กราฟ
+  var tops = K.filter(function(k){return s[k]===mx});
+  var domHtml = tops.map(function(k){
+    return '<div class="dom-card" style="text-align:center;">' +
+           '<img src="'+ImgPath[k]+'" class="dom-img" alt="'+AnimalName[k]+'">' +
+           '<h3 style="color:var(--ac); margin:0 0 10px 0;">' + AnimalName[k] + ' - ' + N[k] + '</h3>' +
+           '<p style="text-align:left; font-size:0.95rem; margin:0;">' + Desc[k] + '</p>' +
+           '</div>';
+  }).join("");
+  document.getElementById("domResult").innerHTML = domHtml;
 
   if(myRadarChart) myRadarChart.destroy(); myRadarChart = createRadarChart('radarChart', s);
   
@@ -346,7 +342,7 @@ function renderAdminList(){
    var mx = Math.max.apply(null, K.map(function(k){return r.s[k]}));
    var card = document.createElement("div"); card.className = "card"; card.style.margin = "10px 0"; card.style.padding = "10px";
    var canvasId = "adminChart_" + idx;
-   var barsHtml = K.map(function(k){ return '<div class="r'+(r.s[k]===mx?" top":"")+'"><b><span style="display:flex;align-items:center;">'+A[k]+'</span><span>'+r.s[k]+'/12</span></b><div class="t"><i style="width:'+(r.s[k]/12*100)+'%"></i></div></div>'; }).join("");
+   var barsHtml = K.map(function(k){ return '<div class="r'+(r.s[k]===mx?" top":"")+'"><b><span>'+N[k]+'</span><span>'+r.s[k]+'/12</span></b><div class="t"><i style="width:'+(r.s[k]/12*100)+'%"></i></div></div>'; }).join("");
    
    var isPre = r.w && r.w.indexOf("Pre") !== -1;
    card.innerHTML = 
