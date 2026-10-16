@@ -46,6 +46,7 @@ button.del-btn:hover{background:var(--warn);color:#fff;}
 .badge-post {background: #e6f9f0;color: #1d9a6c;border: 1px solid #a3e6cb;}
 .dom-card {background: var(--acs); border-radius: 12px; padding: 16px; margin: 16px 0;}
 .dom-img {width: 100px; height: 100px; object-fit: contain; margin-bottom: 10px;}
+.finish-banner {background: var(--ok); color: #fff; padding: 16px; border-radius: 12px; text-align: center; margin-bottom: 20px;}
 @media (prefers-color-scheme:dark){
   .badge-pre { background: #1c334a; color: #72b6ff; border-color: #2b4c6f; }
   .badge-post { background: #1c3b30; color: #62e3b1; border-color: #285a48; }
@@ -98,8 +99,13 @@ button.del-btn:hover{background:var(--warn);color:#fff;}
   </div>
 </div>
 
-<!-- 4. สรุปผล -->
+<!-- 4. หน้าแสดงผลการประเมินเมื่อเสร็จสิ้น -->
 <div id="res">
+  <div class="finish-banner">
+    <h2 style="margin:0; color:#fff;">🎉 การทำแบบทดสอบเสร็จสิ้น!</h2>
+    <p style="margin:4px 0 0 0; font-size:0.95rem; opacity:0.9;">ระบบได้บันทึกข้อมูลของคุณเรียบร้อยแล้ว</p>
+  </div>
+
   <div class="card" style="border:2px solid var(--ac)">
     <h2>สรุปผลการประเมินของคุณ<br><span id="rName" style="color:var(--ac); display:inline-block; margin-top:8px;"></span></h2>
     <p class="mut">รหัสนิสิต: <span id="rUid" style="font-weight:600"></span><br>
@@ -125,6 +131,9 @@ button.del-btn:hover{background:var(--warn);color:#fff;}
       <textarea id="devPlan" rows="3" placeholder="กรอกแนวทางการฝึกฝนของคุณ..."></textarea>
       <button class="success" id="savePlan" style="width:100%; margin-top:8px;">บันทึกแผนพัฒนาตนเอง</button>
     </div>
+
+    <!-- ปุ่มวนกลับมาหน้าแรก -->
+    <button class="s" id="btnRestartHome" style="width:100%; margin-top:20px; padding:14px; font-size:1rem; border:2px solid var(--ac); color:var(--ac); background:transparent;">🔄 กลับสู่หน้าแรก (เริ่มทำแบบทดสอบใหม่)</button>
   </div>
 </div>
 
@@ -161,7 +170,6 @@ var N = {C:"การแข่งขัน (Competing)", Co:"การร่ว�
 var AnimalName = {C:"ฉลาม", Co:"นกฮูก", Cm:"สุนัขจิ้งจอก", Av:"เต่า", Ac:"หมีเท็ดดี้"};
 var K = ["Co","C","Av","Ac","Cm"];
 
-// รายการชื่อไฟล์ที่เป็นไปได้ทั้งหมด (รองรับรูปไฟล์หลักและไฟล์สำรอง)
 var ImgCandidates = {
   C: ['Shark_2.png', 'Shark.png', 'image_5307e0.png'], 
   Co: ['OWL_2.png', 'OWL.png', 'image_5307d8.png'], 
@@ -178,15 +186,12 @@ var Desc = {
   Cm: "สุนัขจิ้งจอกมีความใส่ใจในระดับปานกลางทั้งต่อเป้าหมายของตนและต่อความสัมพันธ์กับผู้อื่น สุนัขจิ้งจอกมักจะแสวงหาการประนีประนอม พวกเขายอมสละเป้าหมายบางส่วนของตนและชักชวนให้อีกฝ่ายในความขัดแย้งยอมสละเป้าหมายบางส่วนของตนเช่นกัน พวกเขาแสวงหาทางออกของความขัดแย้งที่ทั้งสองฝ่ายได้อะไรบางอย่าง ซึ่งก็คือจุดกึ่งกลางระหว่างจุดยืนที่สุดโต่งสองฝั่ง พวกเขายินดีที่จะเสียสละเป้าหมายบางส่วนเพื่อหาข้อตกลงเพื่อผลประโยชน์ส่วนรวม"
 };
 
-// ฟังก์ชันดักจับรูปภาพถ้าโหลดรูปหลักไม่ผ่าน
+// ฟังก์ชันสร้างรูปภาพ หากหาไฟล์ภาพไม่เจอจะซ่อนอิลิเมนต์ทันที ไม่แสดงกรอบรูปเสีย
 function getImgHtml(cat, extraStyle) {
   var list = ImgCandidates[cat];
   var altText = AnimalName[cat];
   var style = extraStyle || "width:90px; height:90px; object-fit:contain; margin-bottom:10px;";
-  var fallbackCode = "";
-  for (var i = 1; i < list.length; i++) {
-    fallbackCode += "this.onerror=null;this.src='" + list[i] + "';";
-  }
+  var fallbackCode = "this.onerror=null; this.style.display='none';";
   return '<img src="' + list[0] + '" onerror="' + fallbackCode + '" style="' + style + '" alt="' + altText + '">';
 }
 
@@ -344,6 +349,8 @@ document.getElementById("savePlan").onclick=function(){
   if(idx > -1) { h[idx].plan = {goal: goal, how: plan}; saveData(h); this.textContent = "✅ บันทึกเรียบร้อย!"; this.style.opacity = 0.7; renderAdminList(); }
 };
 
+// ปุ่มวนกลับสู่หน้าแรก
+document.getElementById("btnRestartHome").onclick=function(){ location.reload(); };
 document.getElementById("rs").onclick=function(){ if(confirm("ต้องการเริ่มทำใหม่ทั้งหมดใช่หรือไม่?")) location.reload(); };
 
 function renderAdminList(){
