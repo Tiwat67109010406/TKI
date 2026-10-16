@@ -45,7 +45,7 @@ button.del-btn:hover{background:var(--warn);color:#fff;}
 .badge-pre {background: #e1f0ff;color: #1d72b8;border: 1px solid #b3d7ff;}
 .badge-post {background: #e6f9f0;color: #1d9a6c;border: 1px solid #a3e6cb;}
 .dom-card {background: var(--acs); border-radius: 12px; padding: 16px; margin: 16px 0;}
-.dom-img {width: 100px; height: 100px; object-fit: contain; margin-bottom: 10px;}
+.dom-img {width: 180px; height: 180px; object-fit: contain; margin-bottom: 10px;}
 .finish-banner {background: var(--ok); color: #fff; padding: 18px; border-radius: 12px; text-align: center; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(29, 154, 108, 0.2);}
 @media (prefers-color-scheme:dark){
   .badge-pre { background: #1c334a; color: #72b6ff; border-color: #2b4c6f; }
@@ -169,7 +169,6 @@ var N = {C:"การแข่งขัน (Competing)", Co:"การร่ว�
 var AnimalName = {C:"ฉลาม", Co:"นกฮูก", Cm:"สุนัขจิ้งจอก", Av:"เต่า", Ac:"หมีเท็ดดี้"};
 var K = ["Co","C","Av","Ac","Cm"];
 
-// อัปเดตชื่อไฟล์รูปภาพให้ตรงกับโฟลเดอร์ใน GitHub
 var PrimaryImg = {
   C: 'Shark.png', 
   Co: 'OWL.png', 
@@ -182,14 +181,14 @@ var SvgFallback = {
   Co: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJz48Y2lyY2xlIGN4PSc1MCcgY3k9JzUwJyByPSc0NScgZmlsbD0nIzZkNGZkNicvPjxjaXJjbGUgY3g9JzM4JyBjeT0nNDInIHI9JzE0JyBmaWxsPScjZmZmJy8+PGNpcmNsZSBjeD0nNjInIGN5PSc0Micgcj0nMTQnIGZpbGw9JyNmZmYnLz48Y2lyY2xlIGN4PSczOCcgY3k9JzQyJyByPSc2JyBmaWxsPScjMWYxZDJiJy8+PGNpcmNsZSBjeD0nNjInIGN5PSc0Micgcj0nNicgZmlsbD0nIzFmMWQyYicvPjxwb2x5Z29uIHBvaW50cz0nNTAsNDggNDQsNTggNTYsNTgnIGZpbGw9JyNmNGExNjEnLz48cGF0aCBkPSdNMzAsNzAgUTUwLDg1IDcwLDcwJyBzdHJva2U9JyNmZmYnIHN0cm9rZS13aWR0aD0nNCcgZmlsbD0nbm9uZScvPjx0ZXh0IHg9JzUwJyB5PSc5MicgZm9udC1zaXplPScxMScgdGV4dC1hbmNob3I9J21pZGRsZScgZmlsbD0nI2ZmZicgZm9udC13ZWlnaHQ9J2JvbGQnPk9XTCAt นกฮูกPC90ZXh0Pjwvc3ZnPg==",
   C: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJz48Y2lyY2xlIGN4PSc1MCcgY3k9JzUwJyByPSc0NScgZmlsbD0nIzFmMWQyYicvPjxwb2x5Z29uIHBvaW50cz0nMjAsNTAgODAsNTAgNTAsMjAnIGZpbGw9JyNhMDlkYjUnLz48Y2lyY2xlIGN4PSc2MCcgY3k9JzQ1JyByPSc1JyBmaWxsPScjZmZmJy8+PGNpcmNsZSBjeD0nNjAnIGN5PSc0NScgcj0nMicgZmlsbD0nIzFmMWQyYicvPjxwb2x5Z29uIHBvaW50cz0nNDAsNTAgNDUsNjAgNTAsNTAgNTUsNjAgNjAsNTAnIGZpbGw9JyNmZmYnLz48dGV4dCB4PSc1MCcgeT0nOTInIGZvbnQtc2l6ZT0nMTEnIHRleHQtYW5jaG9yPSdtaWRkbGUnIGZpbGw9JyNmZmYnIGZvbnQtd2VpZ2h0PSdib2xkJz5TaGFyayAt ฉลามPC90ZXh0Pjwvc3ZnPg==",
   Cm: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJz48Y2lyY2xlIGN4PSc1MCcgY3k9JzUwJyByPSc0NScgZmlsbD0nI2U3NmY1MScvPjxwb2x5Z29uIHBvaW50cz0nMjUsMjUgNDAsNDAgMjAsNDUnIGZpbGw9JyNmZmYnLz48cG9seWdvbiBwb2ludHM9Jzc1LDI1IDYwLDQwIDgwLDQ1JyBmaWxsPScjZmZmJy8+PHBvbHlnb24gcG9pbnRzPSc1MCw3MCAzNSw1MCA2NSw1MCcgZmlsbD0nI2ZmZicvPjxjaXJjbGUgY3g9JzUwJyBjeT0nNjUnIHI9JzQnIGZpbGw9JyMxZjFkMmInLz48Y2lyY2xlIGN4PSczOCcgY3k9JzQ1JyByPSc0JyBmaWxsPScjMWYxZDJiJy8+PGNpcmNsZSBjeD0nNjInIGN5PSc0NScgcj0nNCcgZmlsbD0nIzFmMWQyYicvPjx0ZXh0IHg9JzUwJyB5PSc5MicgZm9udC1zaXplPScxMScgdGV4dC1hbmNob3I9J21pZGRsZScgZmlsbD0nI2ZmZicgZm9udC13ZWlnaHQ9J2JvbGQnPkZveCAt สุนัขจิ้งจอกPC90ZXh0Pjwvc3ZnPg==",
-  Av: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJz48Y2lyY2xlIGN4PSc1MCcgY3k9JzUwJyByPSc0NScgZmlsbD0nIzI4NWE0OCcvPjxlbGxpcHNlIGN4PSc1MCcgY3k9JzUyJyByeD0nMzAnIHJ5PScyMicgZmlsbD0nIzRjYzc5YScvPjxjaXJjbGUgY3g9Jzc2JyBjeT0nNDUnIHI9JzEwJyBmaWxsPScjNjJlM2IxJy8+PGNpcmNsZSBjeD0nNzgnIGN5PSc0Mycgcj0nMicgZmlsbD0nIzFmMWQyYicvPjx0ZXh0IHg9JzUwJyB5PSc5MicgZm9udC1zaXplPScxMScgdGV4dC1hbmNob3I9J21pZGRsZScgZmlsbD0nI2ZmZicgZm9udC13ZWlnaHQ9J2JvbGQnPlR1cnRsZSAt เต่าPC90ZXh0Pjwvc3ZnPg==",
+  Av: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJz48Y2lyY2xlIGN4PSc1MCcgY3k9JzUwJyByPSc0NScgZmlsbD0nIzI4NWE0OCcvPjxlbGxpcHNlIGN4PSc1MCcgY3k9JzUyJyByeD0nMzAnIHJ5PScyMicgZmlsbD0nIzRjYzc5YScvPjxjaXJjbGUgY3g9Jzc2JyBjeT0nNDUnIHI9JzE0JyBmaWxsPScjNjJlM2IxJy8+PGNpcmNsZSBjeD0nNzgnIGN5PSc0Mycgcj0nMicgZmlsbD0nIzFmMWQyYicvPjx0ZXh0IHg9JzUwJyB5PSc5MicgZm9udC1zaXplPScxMScgdGV4dC1hbmNob3I9J21pZGRsZScgZmlsbD0nI2ZmZicgZm9udC13ZWlnaHQ9J2JvbGQnPlR1cnRsZSAt เต่าPC90ZXh0Pjwvc3ZnPg==",
   Ac: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJz48Y2lyY2xlIGN4PSc1MCcgY3k9JzUwJyByPSc0NScgZmlsbD0nI2Y0YTI2MScvPjxjaXJjbGUgY3g9JzMwJyBjeT0nMzAnIHI9JzEyJyBmaWxsPScjZTc2ZjUxJy8+PGNpcmNsZSBjeD0nNzBhIGN5PSczMCcgcj0nMTInIGZpbGw9JyNlNzZmNTEnLz48Y2lyY2xlIGN4PSc1MCcgY3k9JzUyJyByPScyMicgZmlsbD0nI2ZmZTU5OScvPjxjaXJjbGUgY3g9JzQyJyBjeT0nNDYnIHI9JzMnIGZpbGw9JyMxZjFkMmInLz48Y2lyY2xlIGN4PSc1OCcgY3k9JzQ2JyByPSczJyBmaWxsPScjMWYxZDJiJy8+PGVsbGlwc2UgY3g9JzUwJyBjeT0nNTQnIHJ4PSc1JyByeT0nMycgZmlsbD0nIzFmMWQyYicvPjx0ZXh0IHg9JzUwJyB5PSc5MicgZm9udC1zaXplPScxMScgdGV4dC1hbmNob3I9J21pZGRsZScgZmlsbD0nI2ZmZicgZm9udC13ZWlnaHQ9J2JvbGQnPlRlZGR5IC0 หมีเท็ดดี้PC90ZXh0Pjwvc3ZnPg=="
 };
 
 var Desc = {
   Co: "นกฮูกให้ความสำคัญอย่างมากทั้งต่อเป้าหมายและความสัมพันธ์ พวกเขามองว่าความขัดแย้งคือปัญหาที่ต้องแก้ไข และแสวงหาทางออกที่บรรลุทั้งเป้าหมายของตนเองและเป้าหมายของอีกฝ่าย นกฮูกมองว่าความขัดแย้งเป็นวิธีหนึ่งในการปรับปรุงความสัมพันธ์โดยการลดความตึงเครียดระหว่างคนสองคน พวกเขาพยายามเริ่มการสนทนาที่ระบุว่าความขัดแย้งเป็นปัญหา และพยายามแก้ไขความตึงเครียดและรักษาความสัมพันธ์โดยแสวงหาทางออกที่ตอบสนองความต้องการทั้งของตนเองและอีกฝ่าย",
   Av: "เต่ามักจะให้ความสำคัญกับการหลีกเลี่ยงการเผชิญหน้ามากกว่าเป้าหมายหรือความสัมพันธ์ พวกเขามักจะพบว่าง่ายกว่าที่จะถอนตัวจากความขัดแย้งมากกว่าที่จะเผชิญหน้ากับมัน สิ่งนี้อาจรวมถึงการยอมล้มเลิกความสัมพันธ์หรือเป้าหมายที่เกี่ยวข้องกับความขัดแย้งนั้นไปเลยอย่างสิ้นเชิง",
-  C: "ฉลามมักจะให้ความสำคัญกับเป้าหมายของตนเหนือความสัมพันธ์ ซึ่งหมายความว่าหากถูกบังคับให้เลือก พวกเขาจะพยายามบรรลุเป้าหมายของตนแม้ว่าจะต้องสูญเสียความสัมพันธ์ที่เกี่ยวข้องไปก็ตาม โดยทั่วไปฉลามมักจะกังวลเรื่องการบรรลุเป้าหมายมากกว่าการเป็นที่ชื่นชอบของผู้อื่น พวกเขาอาจพยายามบังคับให้คู่กรณีโอนอ่อนยอมรับทางออกของความขัดแย้งโดยใช้อำนาจที่เหนือกว่า",
+  C: "ฉลามมักจะให้ความสำคัญกับเป้าหมายของตนเหนือความสัมพันธ์ ซึ่งหมายความว่าหากถูกบังคับให้เลือก พวกเขาจะพยายามบรรลุเป้าหมายของตนแม้ว่าจะต้องสูญเสียความสัมพันธ์ที่เกี่ยวข้องไปก็ตาม โดยทั่วไปฉลามมักจะกังวลเรื่องการบรรลุเป้าหมายมากกว่าการเป็นที่ชื่นชอบของผู้อื่น พวกเขาอาจพยายามบังคับให้คู่กรณีโอนอ่อนยอมรับทางออกของความขัดแย้งโดยใชำนาจที่เหนือกว่า",
   Ac: "หมีเท็ดดี้มักจะให้ความสำคัญกับความสัมพันธ์มากกว่าเป้าหมายของตนเอง หากถูกบังคับให้เลือก หมีเท็ดดี้มักจะยอมเสียสละเป้าหมายของตนเพื่อรักษาความสัมพันธ์ไว้ โดยทั่วไปหมีเท็ดดี้ต้องการให้ผู้อื่นชื่นชอบ และชอบที่จะหลีกเลี่ยงความขัดแย้งเพราะพวกเขาเชื่อว่าการพูดถึงเรื่องนี้จะทำลายความสัมพันธ์ หมีเท็ดดี้พยายามประนีประนอมไกล่เกลี่ยความขัดแย้งเพื่อป้องกันไม่ให้ความสัมพันธ์เสียหาย",
   Cm: "สุนัขจิ้งจอกมีความใส่ใจในระดับปานกลางทั้งต่อเป้าหมายของตนและต่อความสัมพันธ์กับผู้อื่น สุนัขจิ้งจอกมักจะแสวงหาการประนีประนอม พวกเขายอมสละเป้าหมายบางส่วนของตนและชักชวนให้อีกฝ่ายในความขัดแย้งยอมสละเป้าหมายบางส่วนของตนเช่นกัน พวกเขาแสวงหาทางออกของความขัดแย้งที่ทั้งสองฝ่ายได้อะไรบางอย่าง ซึ่งก็คือจุดกึ่งกลางระหว่างจุดยืนที่สุดโต่งสองฝั่ง พวกเขายินดีที่จะเสียสละเป้าหมายบางส่วนเพื่อหาข้อตกลงเพื่อผลประโยชน์ส่วนรวม"
 };
@@ -201,7 +200,7 @@ function handleImgError(imgElement, catKey) {
 
 function getImgHtml(cat, extraStyle) {
   var altText = AnimalName[cat];
-  var style = extraStyle || "width:100px; height:100px; object-fit:contain; margin-bottom:10px;";
+  var style = extraStyle || "width:180px; height:180px; object-fit:contain; margin-bottom:10px;";
   return '<img src="' + PrimaryImg[cat] + '" onerror="handleImgError(this, \'' + cat + '\')" style="' + style + '" alt="' + altText + '">';
 }
 
@@ -354,9 +353,10 @@ document.getElementById("go").onclick=function(){
     return '<div class="r'+(s[k]===mx?" top":"")+'"><b><span>'+N[k]+'</span><span>'+s[k]+'/12</span></b><div class="t"><i style="width:'+(s[k]/12*100)+'%"></i></div></div>'
   }).join("");
   
+  // ปรับขนาดรูปในหน้าแสดงผลเป็น 180px
   var domHtml = tops.map(function(k){
     return '<div class="dom-card" style="text-align:center;">' +
-           getImgHtml(k, "width:100px; height:100px; object-fit:contain; margin-bottom:10px;") +
+           getImgHtml(k, "width:180px; height:180px; object-fit:contain; margin-bottom:10px;") +
            '<h3 style="color:var(--ac); margin:0 0 10px 0;">' + AnimalName[k] + ' - ' + N[k] + '</h3>' +
            '<p style="text-align:left; font-size:0.95rem; margin:0;">' + Desc[k] + '</p>' +
            '</div>';
@@ -392,9 +392,10 @@ function renderAdminList(){
    var canvasId = "adminChart_" + idx;
    var barsHtml = K.map(function(k){ return '<div class="r'+(r.s[k]===mx?" top":"")+'"><b><span>'+N[k]+'</span><span>'+r.s[k]+'/12</span></b><div class="t"><i style="width:'+(r.s[k]/12*100)+'%"></i></div></div>'; }).join("");
    
+   // ปรับขนาดรูปในระบบหลังบ้านเป็น 100px
    var adminDomHtml = tops.map(function(k){
      return '<div class="dom-card" style="text-align:center; padding:12px; margin:12px 0;">' +
-            getImgHtml(k, "width:70px; height:70px; object-fit:contain; margin-bottom:6px;") +
+            getImgHtml(k, "width:100px; height:100px; object-fit:contain; margin-bottom:6px;") +
             '<h4 style="color:var(--ac); margin:0 0 6px 0;">' + AnimalName[k] + ' - ' + N[k] + '</h4>' +
             '<p style="text-align:left; font-size:0.88rem; margin:0; line-height:1.5;">' + Desc[k] + '</p>' +
             '</div>';
