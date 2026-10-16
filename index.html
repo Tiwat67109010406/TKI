@@ -101,7 +101,7 @@ button.del-btn:hover{background:var(--warn);color:#fff;}
 <!-- 4. สรุปผล -->
 <div id="res">
   <div class="card" style="border:2px solid var(--ac)">
-    <h2>สรุปผลการประเมินของคุณ <span id="rName" style="color:var(--ac)"></span></h2>
+    <h2>สรุปผลการประเมินของคุณ<br><span id="rName" style="color:var(--ac); display:inline-block; margin-top:8px;"></span></h2>
     <p class="mut">รหัสนิสิต: <span id="rUid" style="font-weight:600"></span><br>
     ช่วงเวลา: <span id="rWhen" style="font-weight:600"></span><br>
     วันที่และเวลา: <span id="rDate" style="font-weight:600"></span></p>
@@ -141,7 +141,7 @@ button.del-btn:hover{background:var(--warn);color:#fff;}
     </div>
     
     <div style="display:flex; gap:10px; margin-bottom:10px;">
-      <button class="success" id="genMock" style="flex:1; padding:10px 5px;">✨ สร้าง Test 1 รายการ</button>
+      <button class="success" id="genMock" style="flex:1; padding:10px 5px;">✨ สร้าง Test 10 รายการ</button>
       <button class="warning" id="clrTest" style="flex:1; padding:10px 5px;">🧹 ลบเฉพาะ Test</button>
       <button class="danger" id="clrAll" style="flex:1; padding:10px 5px;">🗑️ ลบทั้งหมด</button>
     </div>
@@ -295,19 +295,26 @@ document.getElementById("go").onclick=function(){
   for(var k in ans){ s[ans[k].cat] += ans[k].val; }
   var w=document.getElementById("when").value, mx=Math.max.apply(null,K.map(function(k){return s[k]})), nowStr=new Date().toLocaleString("th-TH");
   
+  // หาค่าที่โดดเด่น
+  var tops = K.filter(function(k){return s[k]===mx});
+  var domAnimalNames = tops.map(function(k){ return AnimalName[k] }).join(", ");
+
   document.getElementById("testArea").style.display = "none";
   document.getElementById("topBar").style.display = "none";
   document.getElementById("res").style.display = "block";
   
-  document.getElementById("rName").textContent="("+uName+")"; document.getElementById("rUid").textContent=uId; document.getElementById("rWhen").textContent=w; document.getElementById("rDate").textContent=nowStr;
+  // ใส่ชื่อสัตว์ในวงเล็บต่อท้ายชื่อ
+  document.getElementById("rName").textContent = uName + " (" + domAnimalNames + ")"; 
+  document.getElementById("rUid").textContent=uId; 
+  document.getElementById("rWhen").textContent=w; 
+  document.getElementById("rDate").textContent=nowStr;
   
-  // Render Progress Bars (แสดงชื่อประภทแทนรูป)
+  // Render Progress Bars (แสดงชื่อประเภทแทนรูป)
   document.getElementById("bars").innerHTML=K.map(function(k){
     return '<div class="r'+(s[k]===mx?" top":"")+'"><b><span>'+N[k]+'</span><span>'+s[k]+'/12</span></b><div class="t"><i style="width:'+(s[k]/12*100)+'%"></i></div></div>'
   }).join("");
   
-  // หาค่าที่โดดเด่นและแสดงผลใต้กราฟ
-  var tops = K.filter(function(k){return s[k]===mx});
+  // แสดงผลใต้กราฟเรดาร์
   var domHtml = tops.map(function(k){
     return '<div class="dom-card" style="text-align:center;">' +
            '<img src="'+ImgPath[k]+'" class="dom-img" alt="'+AnimalName[k]+'">' +
@@ -340,6 +347,9 @@ function renderAdminList(){
  h.slice().reverse().forEach(function(r, loopIdx){
    var idx = h.length - 1 - loopIdx; 
    var mx = Math.max.apply(null, K.map(function(k){return r.s[k]}));
+   var tops = K.filter(function(k){return r.s[k]===mx});
+   var domAnimalNames = tops.map(function(k){ return AnimalName[k] }).join(", ");
+
    var card = document.createElement("div"); card.className = "card"; card.style.margin = "10px 0"; card.style.padding = "10px";
    var canvasId = "adminChart_" + idx;
    var barsHtml = K.map(function(k){ return '<div class="r'+(r.s[k]===mx?" top":"")+'"><b><span>'+N[k]+'</span><span>'+r.s[k]+'/12</span></b><div class="t"><i style="width:'+(r.s[k]/12*100)+'%"></i></div></div>'; }).join("");
@@ -347,7 +357,7 @@ function renderAdminList(){
    var isPre = r.w && r.w.indexOf("Pre") !== -1;
    card.innerHTML = 
      '<div class="acc-header" onclick="toggleAcc('+idx+', event)">'+
-       '<div style="flex:1;"><div><span class="badge '+(isPre?"badge-pre":"badge-post")+'">'+(isPre?"Pre-test":"Post-test")+'</span><b style="color:var(--ac); font-size:1.05rem;">'+r.n+'</b></div>'+
+       '<div style="flex:1;"><div><span class="badge '+(isPre?"badge-pre":"badge-post")+'">'+(isPre?"Pre-test":"Post-test")+'</span><b style="color:var(--ac); font-size:1.05rem;">'+r.n+' ('+domAnimalNames+')</b></div>'+
        '<div class="mut" style="font-size:0.85rem;margin-top:2px;">รหัส: '+r.id+' | <span>'+r.d+'</span></div></div>'+
        '<div style="display:flex;align-items:center;gap:10px;"><button class="del-btn" onclick="deleteSingle('+idx+', event)">🗑️ ลบ</button><span id="accIcon_'+idx+'">▼</span></div>'+
      '</div>'+
@@ -387,25 +397,36 @@ document.getElementById("clrTest").onclick=function(){
   } 
 };
 
-// ปุ่มสร้าง Mock Data 1 รายการ
+// ปุ่มสร้าง Mock Data 10 รายการ
 document.getElementById("genMock").onclick=function(){
   var h = loadData();
-  var testCount = h.filter(function(x){ return x.n.toLowerCase().startsWith("test"); }).length + 1;
-  var numStr = (testCount < 10) ? "0" + testCount : testCount;
+  var startIdx = h.filter(function(x){ return x.n.toLowerCase().startsWith("test"); }).length + 1;
   
-  var s = { C: Math.floor(Math.random()*10)+3, Co: Math.floor(Math.random()*10)+3, Cm: Math.floor(Math.random()*10)+3, Av: Math.floor(Math.random()*10)+3, Ac: Math.floor(Math.random()*10)+3 };
-  
-  h.push({
-    id_ref: Date.now(), 
-    n: "test " + numStr, 
-    id: "67000000" + numStr.toString().padStart(3, '0'), 
-    w: "Pre-test (ก่อนทำโครงการ)", 
-    d: new Date().toLocaleString("th-TH"), 
-    s: s
-  });
+  for(var i = 0; i < 10; i++) {
+    var numStr = ((startIdx + i) < 10) ? "0" + (startIdx + i) : (startIdx + i);
+    
+    // สุ่มคะแนนพื้นฐาน
+    var s = { C: Math.floor(Math.random()*5)+3, Co: Math.floor(Math.random()*5)+3, Cm: Math.floor(Math.random()*5)+3, Av: Math.floor(Math.random()*5)+3, Ac: Math.floor(Math.random()*5)+3 };
+    
+    // บังคับให้ได้สัตว์โดดเด่นสลับกันให้ครบทั้ง 5 ประเภท
+    var targetTrait = K[i % 5];
+    s[targetTrait] = Math.floor(Math.random()*3) + 10; // ให้คะแนนตัวนี้สูงที่สุด (10-12)
+    
+    // สลับเป็น Pre-test และ Post-test อย่างละ 5 รายการ
+    var w = (i % 2 === 0) ? "Pre-test (ก่อนทำโครงการ)" : "Post-test (หลังทำโครงการ)";
+    
+    h.push({
+      id_ref: Date.now() + i, 
+      n: "test " + numStr, 
+      id: "67000000" + numStr.toString().padStart(3, '0'), 
+      w: w, 
+      d: new Date().toLocaleString("th-TH"), 
+      s: s
+    });
+  }
   
   saveData(h); renderAdminList(); 
-  alert("✨ สร้างข้อมูล Test สำเร็จ 1 รายการ (ชื่อ: test " + numStr + ")");
+  alert("✨ สร้างข้อมูล Test สำเร็จ 10 รายการ (มีครบทั้ง 5 ประเภท, สลับ Pre/Post อย่างละ 5)");
 };
 </script>
 </body>
